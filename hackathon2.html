@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeoSharX SharXathon</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+            },
+            fontFamily: {
+              display: ["Space Grotesk"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-gray-200/50 dark:border-gray-700/50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-gray-900 dark:text-white">
+<img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain">
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Xact Episodes</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Neo Stories</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Neo Projects</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">RoboSharX</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors">
+<span class="truncate">Join NeoSharX</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 sm:px-10 md:px-20 lg:px-40 py-12">
+<div class="mx-auto max-w-5xl">
+<div class="mb-8">
+<h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900 dark:text-white">SharXathon: Future Forward</h1>
+<p class="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
+              Join us for a 48-hour sprint of innovation and creativity, where you'll build the future of technology. Compete for prizes, network with industry leaders, and showcase your skills.
+            </p>
+</div>
+<div class="sticky top-[65px] z-40 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm -mx-4 sm:-mx-6 px-4 sm:px-6 mb-8">
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon.html">Overview</a>
+<a class="whitespace-nowrap border-b-2 border-primary px-1 py-4 text-sm font-medium text-primary" href="hackathon2.html">Rules</a>
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon5.html">Judges</a>
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon4.html">Winners</a>
+</nav>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 space-y-10">
+<section id="overview">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Rules</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p>1. Teams can have up to 4 members.</p>
+<p>2. Projects must be original and not submitted to other SharXathons.</p>
+<p>3. Use of third-party APIs and libraries is allowed.</p>
+<p>4. Submissions must include a project demo and source code.</p>
+<p>5. Projects must align with the theme: 'Innovating for a Sustainable Future'.</p>
+</div>
+</section>
+<section id="criteria">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Judging Criteria</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p>Projects will be evaluated based on:</p>
+<ul class="list-disc pl-5">
+<li>Innovation (30%)</li>
+<li>Technical Implementation (30%)</li>
+<li>Impact and Relevance (20%)</li>
+<li>Presentation and Demo (20%)</li>
+</ul>
+</div>
+</section>
+<section id="prizes">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Prizes</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p><b>1st Place:</b> $5,000 + Mentorship from Industry Experts</p>
+<p><b>2nd Place:</b> $3,000 + Access to Premium Resources</p>
+<p><b>3rd Place:</b> $2,000 + Networking Opportunities</p>
+</div>
+</section>
+</div>
+<aside class="lg:col-span-1 space-y-8">
+<section id="judges">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Judges</h2>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<img alt="Dr. Alex Turner" class="size-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSUvQkKO957vFND3eUqOWjHs4HQQCtTAURxM0AGAuZF9d5H43ARvW88I4-chN4U0gMBQHMKUctE0xV4PmOdqYd86VqzZ49R-GwuaiTj5eQjd3xT4OJMi3S0v-tqUP08INsOPYQIBGxh1Ih_nyhUY4HRLhs19NtGtOp9dWLH_N76YSZsecLch8w_p9ad23Z-XTjdsaqFDLn8rzC8EDWqmmyinwGW9Rxf1vvSSxpzh5v9yaX4yL3kbhpltNbM81yfrbmzd48diuvAGA"/>
+<div>
+<p class="font-semibold text-gray-900 dark:text-white">Dr. Alex Turner</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">AI &amp; ML Expert</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Dr. Evelyn Reed" class="size-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTi5xjfonGtWCbPU9_KMZwuZr7jcLWazVvAsXG2MVhMuYPn9yyWWzqhGKJTLmlgRQ5BUeUPgBSbENanLy09EsZOJNYxcim1_yK-JoyK1VrHqX6zj4Ek4Iz5AgCtHIj3eQfpEbmYAhSu39pnAr7JHMEpf7ohUZ2_weV1NrKn35FbhcBy-7E9ewuXcyLzcybboFwWSS-9BG5EYg0spWxyE2Mnoq_hS2_xC7YtzLtGoESHk0wj_xPqwzVuE3UuwP34KNc1ONQC2S6rVM"/>
+<div>
+<p class="font-semibold text-gray-900 dark:text-white">Dr. Evelyn Reed</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Cybersecurity Specialist</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<img alt="Dr. Samuel Hayes" class="size-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFilVqwCqdWMgAl00PJbMK3f15dT4agGEoZ_jq_7L_pH9H6tzHvgBc8yc0Uj_pwpxfO6iy7IwM_ZmlFunWvQorxClE4MdMHPOkmzo2RA3Jjrzln7Hi8YoqxGVLr4sUiveoVgC-ReAirtwsdLqMuYMaDD-nf4oUiXDuUoX89dlcDRbRL0coJHnzvI6lUkunECqwYO72oDe1k3I1S3Efkt1UNCxGdarfxHpHKeBSGnBqhuZD-XcRKCuhsZLDp_6TI-kb_r1v5mHIWpU"/>
+<div>
+<p class="font-semibold text-gray-900 dark:text-white">Dr. Samuel Hayes</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Software Architecture Guru</p>
+</div>
+</div>
+</div>
+</section>
+</aside>
+</div>
+<section class="mt-16" id="winners">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Winners</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdtHBnFzVzANK1yIFHiqZ1-oQ4oF-9uhoVQbmjN61a4qx9OPZ2KmoZ8Ku7ARBE6aDDjGRoc_RuHH5BRyYOjENHZtLRDEgxghhqmxiqHSjuj9QI0CaGy3xgeyOxx7JDRv5kNhZuCuWkofwBjOQLH_AYgzAvciC2UuSRF10-XYXs6jZ_OZRFB64y3wLH6pKOVuW01KMlk-q04353OC7wZL-mkJMLHiF8y2GHvhD0bISRyHu8I12fC0OFmByqTh6XxLsHXMZQb-VzcjY");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">AquaSmart</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team EcoTech</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">A smart irrigation system using AI to optimize water usage in agriculture.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5jpRADoccXUWsZuqhRew3crp7qRuE6W-73fGpQfLDG9FKEttprkgmk_AwExauYhbmsbWY2l3F88lul4MHY1qBM6E9A4l-LZIPWMiiIydQ0pa0U6Hm1qpoBk6WyZCNj4jEKNPKWMd2iD7-L3oaNZFpqXZbAzvB33AE9VolxBP5B_R0ntznUGvGqoIlkvvrqLfsHPxJDfwdEmDPIa3qqp1eDE-q9Mxpmjwg5EvRpI2aBjAVfFlcAp7Bz_ZMmcIH4AWvjen2rX_xok8");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">GreenChain</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team BlockEarth</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">A platform connecting volunteers with environmental projects using blockchain for transparency.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAS0iyzptPTMFX5sO0clz2yL2u2xPyXSF0mw4jM6jy-dKR0s_dq0C1B7llaT4R6LajqcKg80bBRy64LdxiQULqanQ7rFKVj-apIEZf7Rs3T2MIIKipBHRm4h0szsQC4p6_ghf7nenY9BegJYEQrojEQpflHBeYiY06lCDryyNnF0FS7qv7GEzlkO7iQl8cE_vMbf1Mabee0owHMJRHmiOyYnxt7MvlCwx9-xyRxoN-0OPVbkLeloMJLNge0skhMMT8h-D7dKKr__qk");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">CarbonZero</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team ZeroEmissions</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">An app that tracks and reduces carbon footprint through gamified challenges.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

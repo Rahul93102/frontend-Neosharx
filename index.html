@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeoSharX</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#007fff",
+            "background-light": "#f5f7f8",
+            "background-dark": "#0f1923",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          animation: {
+            'scroll': 'scroll 25s linear infinite',
+          },
+          keyframes: {
+            scroll: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          }
+        },
+      },
+    }
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-stone-800 dark:text-stone-200">
+<div class="relative min-h-screen w-full">
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-stone-200 dark:border-stone-800">
+<div class="container mx-auto flex items-center justify-between px-6 py-4">
+<div class="flex items-center">
+<img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain">
+</div>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="talks.html">NeoSharX Talks</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="neo.html">Neo Stories</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Neo Projects</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="robosharx.html">RoboSharX</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">Join NeoSharX</button>
+<button class="lg:hidden text-stone-800 dark:text-stone-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<div class="w-full bg-primary/10 dark:bg-primary/20 py-2 overflow-hidden">
+<div class="flex space-x-16 animate-scroll whitespace-nowrap">
+<p class="inline-block text-sm font-bold text-primary">Important updates regarding NeoSharX events</p>
+<p class="inline-block text-sm font-bold text-primary">SharXathon registration opens next week</p>
+<p class="inline-block text-sm font-bold text-primary">New episodes of Xact coming soon</p>
+<p class="inline-block text-sm font-bold text-primary">RoboSharX competition deadline extended</p>
+<p class="inline-block text-sm font-bold text-primary">Important updates regarding NeoSharX events</p>
+</div>
+</div>
+<main class="container mx-auto px-6 py-12">
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+<div class="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200/20 h-full">
+                <div class="h-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0LkY1kf1PjlVfHD4lu3K7WybzZ6nWC5pu5KCSWsT4ASbYrR75K_HBzsEk2d5WUMXj_nV-_xsuuKjEe1ZW6Hk3nsemU6t3rEyQMqiPLQ0--Ww__AQdD-RpS4wMKUmytAZFZu_nYEc8PQK3WZ0OKXX8P47RhuOVvJoyzzjGrmLmTSzTYH7e_oPHwEAk6hIuOusHMkfvCup3qgjWhAaJHf_nm23tPWi5locIp0Rc5pPqeWnmg83fx7heaz9YnsKmJ8wKaKWHyb8BxPM");'></div>
+                <div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-8 text-white">
+                    <div class="mb-auto"></div>
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Xactly? Ep01</h1>
+                    <button class="bg-primary text-white font-bold p-4 rounded-full flex items-center justify-center w-16 h-16 hover:bg-primary/90 transition-transform hover:scale-105 shadow-lg mb-6">
+                        <span class="material-symbols-outlined text-4xl">play_arrow</span>
+                    </button>
+                    <div class="w-full">
+                        <div class="flex overflow-x-auto space-x-4 pb-4">
+                            <div class="flex-shrink-0 w-48 group">
+                                <div class="h-28 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0LkY1kf1PjlVfHD4lu3K7WybzZ6nWC5pu5KCSWsT4ASbYrR75K_HBzsEk2d5WUMXj_nV-_xsuuKjEe1ZW6Hk3nsemU6t3rEyQMqiPLQ0--Ww__AQdD-RpS4wMKUmytAZFZu_nYEc8PQK3WZ0OKXX8P47RhuOVvJoyzzjGrmLmTSzTYH7e_oPHwEAk6hIuOusHMkfvCup3qgjWhAaJHf_nm23tPWi5locIp0Rc5pPqeWnmg83fx7heaz9YnsKmJ8wKaKWHyb8BxPM");'></div>
+                                <p class="mt-2 text-sm font-semibold">Xactly? Ep02</p>
+                            </div>
+                            <div class="flex-shrink-0 w-48 group">
+                                <div class="h-28 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0LkY1kf1PjlVfHD4lu3K7WybzZ6nWC5pu5KCSWsT4ASbYrR75K_HBzsEk2d5WUMXj_nV-_xsuuKjEe1ZW6Hk3nsemU6t3rEyQMqiPLQ0--Ww__AQdD-RpS4wMKUmytAZFZu_nYEc8PQK3WZ0OKXX8P47RhuOVvJoyzzjGrmLmTSzTYH7e_oPHwEAk6hIuOusHMkfvCup3qgjWhAaJHf_nm23tPWi5locIp0Rc5pPqeWnmg83fx7heaz9YnsKmJ8wKaKWHyb8BxPM");'></div>
+                                <p class="mt-2 text-sm font-semibold">Xactly? Ep03</p>
+                            </div>
+                            <div class="flex-shrink-0 w-48 group">
+                                <div class="h-28 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0LkY1kf1PjlVfHD4lu3K7WybzZ6nWC5pu5KCSWsT4ASbYrR75K_HBzsEk2d5WUMXj_nV-_xsuuKjEe1ZW6Hk3nsemU6t3rEyQMqiPLQ0--Ww__AQdD-RpS4wMKUmytAZFZu_nYEc8PQK3WZ0OKXX8P47RhuOVvJoyzzjGrmLmTSzTYH7e_oPHwEAk6hIuOusHMkfvCup3qgjWhAaJHf_nm23tPWi5locIp0Rc5pPqeWnmg83fx7heaz9YnsKmJ8wKaKWHyb8BxPM");'></div>
+                                <p class="mt-2 text-sm font-semibold">Xactly? Ep04</p>
+                            </div>
+                            <div class="flex-shrink-0 w-48 group">
+                                <div class="h-28 bg-cover bg-center rounded-lg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA0LkY1kf1PjlVfHD4lu3K7WybzZ6nWC5pu5KCSWsT4ASbYrR75K_HBzsEk2d5WUMXj_nV-_xsuuKjEe1ZW6Hk3nsemU6t3rEyQMqiPLQ0--Ww__AQdD-RpS4wMKUmytAZFZu_nYEc8PQK3WZ0OKXX8P47RhuOVvJoyzzjGrmLmTSzTYH7e_oPHwEAk6hIuOusHMkfvCup3qgjWhAaJHf_nm23tPWi5locIp0Rc5pPqeWnmg83fx7heaz9YnsKmJ8wKaKWHyb8BxPM");'></div>
+                                <p class="mt-2 text-sm font-semibold">Xactly? Ep05</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="talks.html" class="absolute inset-0 z-10" aria-label="NeoSharX Talks"></a>
+            </div>
+<div class="grid grid-cols-1 gap-4 lg:gap-6">
+<div class="relative rounded-xl overflow-hidden group shadow-lg border border-gray-100/20 hover:shadow-2xl transition-all duration-300">
+<div class="bg-cover bg-center h-20 md:h-24 transition-transform duration-300 group-hover:scale-110" style='background-image: linear-gradient(to right, rgba(0, 127, 255, 0.7), rgba(0, 127, 255, 0.1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDJpy33G2iMY_eRsTCOYVpYIBH8mZXLl8MlDeWJF3Jc7Vj18gHh5khdcKvRMf5PoIItdxXtQj0KpAw380_FBMjzqQ7gaGerF_WpnI43NTOZBbb_4PgCbHxhWhUaZ6L_q2a_aXBW6Uvg76XEqbq4NwCoPKMGJ0L2c9cWcbYqLA8rrcnXGrpLcpenpaXkPExn0M1b2sm_Swo99teqU0fSYnLt3CUBjucmWqOAr691xXwOMO3kYNIFujgCFyvTBtcWF9qkIS9MfjXwp3Q");'></div>
+<div class="absolute inset-0 flex items-center p-4 md:p-6 bg-primary/20 group-hover:bg-primary/40 transition-colors rounded-xl">
+<h3 class="text-white text-lg md:text-xl font-bold">Startup Stories</h3>
+</div>
+<a href="startup.html" class="absolute inset-0 z-10" aria-label="Startup Stories"></a>
+</div>
+<div class="relative rounded-xl overflow-hidden group shadow-lg border border-gray-100/20 hover:shadow-2xl transition-all duration-300">
+<div class="bg-cover bg-center h-20 md:h-24 transition-transform duration-300 group-hover:scale-110" style='background-image: linear-gradient(to right, rgba(0, 127, 255, 0.7), rgba(0, 127, 255, 0.1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDiUTBZu7T7N_PzYovuUEYipmKswGKePwN5nk9gSx8r7o5yyTIG3UZVcPL8CGTb33XuD_SeDR3X2-mzZiydD3TY1q5A0v8QjfssnWNiSUTKWYXlRCFJgYL0Q5tYWRTB8kt1-RCtZGm8krJag6CbJsF29CN6QEIUXpsDxhbCmxkfo1f02bqx95Ea0g_QiOaGuos0PxL_45WcquOal_p__E2JKrtfAh8qgTmOSBe0lGaVvgiUEVkH_PQTqC-YJgEQkEXOKNm2XUp65uY");'></div>
+<div class="absolute inset-0 flex items-center justify-end p-4 md:p-6 bg-primary/20 group-hover:bg-primary/40 transition-colors rounded-xl">
+<h3 class="text-white text-lg md:text-xl font-bold text-right">Neo Stories</h3>
+</div>
+<a href="neo.html" class="absolute inset-0 z-10" aria-label="Neo Stories"></a>
+</div>
+<div class="relative rounded-xl overflow-hidden group shadow-lg border border-gray-100/20 hover:shadow-2xl transition-all duration-300">
+<div class="bg-cover bg-center h-20 md:h-24 transition-transform duration-300 group-hover:scale-110" style='background-image: linear-gradient(to right, rgba(0, 127, 255, 0.7), rgba(0, 127, 255, 0.1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAggEo6uKr0ALo6BRQR0GgHUqXj2lV3PzkB_CQWqnefOx9NNJGHaH-TytFtb3-m6OQ5t6hkd6AmHt2SbRa3G_O6UpsTtDQlm-wbByigp_rdliCRH9n-TQ-g46_oWQamRXz_t2CoFW6mlfd_MsBc4X-yZyI8i9DYf-fIqctCPolzqoOn_Ro0cyMBWSE-fkJgqKYBD86PgRNMSaZTvq1qqg5sDDOUz12_FWHPvlZp9cL3A8o_47dUjI1qp2nJ9Qhj1ob425V2Lvnvit8");'></div>
+<div class="absolute inset-0 flex items-center p-4 md:p-6 bg-primary/20 group-hover:bg-primary/40 transition-colors rounded-xl">
+<h3 class="text-white text-lg md:text-xl font-bold">SharXathon</h3>
+</div>
+<a href="hackathon.html" class="absolute inset-0 z-10" aria-label="SharXathon"></a>
+</div>
+<div class="relative rounded-xl overflow-hidden group shadow-lg border border-gray-100/20 hover:shadow-2xl transition-all duration-300">
+<div class="bg-cover bg-center h-20 md:h-24 transition-transform duration-300 group-hover:scale-110" style='background-image: linear-gradient(to right, rgba(0, 127, 255, 0.7), rgba(0, 127, 255, 0.1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDK14NEbx9X1f049fB3Yh5Fcdq3i2Mtuf_w62pG00w9McDp0zkqdFZhei_oaKPZlKIba4XoNTY88zuKDl8WXav_7xY5mVBG-LQGZwtaJQUxax-RFduv4p52udjc4CwJaQt8cmPxf6zx3CFQFg664XqEyqwy7tVTia9LsO4TDjZB9G-RwQOWDoGMwZfy_ERyTkaZ6rV84pQjXf_nKCAW297fmbUl3hjxHC0KzpUK6qKbr7iopUDUogbSwv_M543VSnUrxXWuPeERXBU");'></div>
+<div class="absolute inset-0 flex items-center justify-end p-4 md:p-6 bg-primary/20 group-hover:bg-primary/40 transition-colors rounded-xl">
+<h3 class="text-white text-lg md:text-xl font-bold text-right">RoboSharX</h3>
+</div>
+</div>
+<div class="relative rounded-xl overflow-hidden group shadow-lg border border-gray-100/20 hover:shadow-2xl transition-all duration-300">
+<div class="bg-cover bg-center h-20 md:h-24 transition-transform duration-300 group-hover:scale-110" style='background-image: linear-gradient(to right, rgba(0, 127, 255, 0.7), rgba(0, 127, 255, 0.1)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkwo1U5wC_9Pf8dzD3jFjeH9QytYTddIiHS220x4OnKftjN1j3_VNDPndYkYNXW8FNSMCwnja_sKH-pPwtLstqPsUG5MvtW4Eh-6SKReud2QoPRMljIQelXlkin1OWOW3udVrfTgHvM7BAk2oQJiJT07R9Jpsonp8djGrpmyi2weYkJdSFDj385cl6JGPejsAA4-uG2GuM8fnFQUa-SEJtSU0XzT9FJWwS2bvpCgv39ZxDCmj0A-0b7L1kp-mODdOZDxJxN6FMDPc");'></div>
+<div class="absolute inset-0 flex items-center p-4 md:p-6 bg-primary/20 group-hover:bg-primary/40 transition-colors rounded-xl">
+<h3 class="text-white text-lg md:text-xl font-bold">What's Up Tech</h3>
+</div>
+<a href="tech.html" class="absolute inset-0 z-10" aria-label="What's Up Tech"></a>
+</div>
+</div>
+</section>
+<section class="py-16">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+<div class="flex flex-col items-center gap-4 bg-background-light dark:bg-background-dark p-6 rounded-xl shadow-md border border-stone-200 dark:border-stone-800">
+<span class="material-symbols-outlined text-primary text-5xl">groups</span>
+<p class="text-4xl font-bold"><span class="counter" data-target="100000">0</span>+</p>
+<p class="text-stone-600 dark:text-stone-400">Community Members</p>
+</div>
+<div class="flex flex-col items-center gap-4 bg-background-light dark:bg-background-dark p-6 rounded-xl shadow-md border border-stone-200 dark:border-stone-800">
+<span class="material-symbols-outlined text-primary text-5xl">event</span>
+<p class="text-4xl font-bold"><span class="counter" data-target="100">0</span>+</p>
+<p class="text-stone-600 dark:text-stone-400">Events Hosted</p>
+</div>
+<div class="flex flex-col items-center gap-4 bg-background-light dark:bg-background-dark p-6 rounded-xl shadow-md border border-stone-200 dark:border-stone-800">
+<span class="material-symbols-outlined text-primary text-5xl">rocket_launch</span>
+<p class="text-4xl font-bold"><span class="counter" data-target="10">0</span>+</p>
+<p class="text-stone-600 dark:text-stone-400">Startups Incubated</p>
+</div>
+</div>
+</section>
+<section class="py-16 overflow-hidden">
+<h2 class="text-4xl font-bold text-center mb-4 text-primary">Our Partners</h2>
+<p class="text-center text-lg text-stone-600 dark:text-stone-400 mb-12">Trusted collaborations powering NeoSharX innovation</p>
+<style type="text/tailwindcss">
+    @keyframes marquee {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-100%); }
+    }
+    .animate-marquee {
+        animation: marquee 40s linear infinite;
+    }
+</style>
+<div class="relative w-full overflow-hidden">
+<div class="flex animate-marquee">
+<div class="flex-shrink-0 flex items-center space-x-12 px-6">
+
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Intel Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Microsoft Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Google Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Amazon Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"/>
+</div>
+</div>
+<div aria-hidden="true" class="flex-shrink-0 flex items-center space-x-12 px-6">
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Nokia Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/0/02/Nokia_wordmark.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Nvidia Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Intel Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Microsoft Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Google Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"/>
+</div>
+<div class="p-6 bg-white dark:bg-stone-800/50 rounded-xl shadow-md group">
+<img alt="Amazon Logo" class="h-4 w-auto filter grayscale transition-all duration-300 group-hover:filter-none" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16">
+<h2 class="text-4xl font-bold text-center mb-12 text-primary">NeoSharX Events</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col space-y-4">
+<h3 class="text-2xl font-bold text-center mb-4">Past Events</h3>
+<div class="relative">
+<div class="scroll-container flex overflow-x-auto snap-x snap-mandatory space-x-6 pb-4">
+<div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative">
+<img alt="Event Image" class="w-full h-80 object-cover filter grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNabpX5uN918OH6aZaX6KNKdl4zpMJCdjpKv1TaZ01JABvvSH8dhIrRBM6BHgZo2MyL_1E2-h3PEvWDuFSE1P1pngQ7RMKczvJuvfuwKtfGFY7Ws7vxyvDsjg5dZK-YSiJ9AnCk-nHk4zhaqf1FoIJbwfBfdhRS4lVT7CiMDcieZJLnZR_65sQGkoFFWBiPH3D79tRWFgob2FNmKlqfyi2mPm5m1U0IYeDSxZOZrMFMh0iOT2BTdejE5x0drzsXiafC_MXHzcL9Ws"/>
+<div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4 text-white">
+<h4 class="font-bold text-lg">Tech Conference 2023</h4>
+<p class="text-sm">Oct 15, 2023</p>
+<button class="absolute inset-0 w-full h-full bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold text-lg">Watch Highlights</button>
+</div>
+</div>
+<div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative">
+<img alt="Event Image" class="w-full h-80 object-cover filter grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK_nH2wUwbdpCm05fJEjiGUYMH1Em-LgHdtHYmSPCQZyNUErArND8QXERR9fdBlEmkqdyJlFPluUUr_5LgURHqIveLm2k77BwYBPW5wOzqrAMqnUTYc_nq_U3eHWJxuMxTG1YUsph6yVKUfuq0fYmCmfy3PANoABg_t_CvBag7OTr6tEQNUZfPJpuVeX_IGkdXotaAKlZmdqnkssTWa0IRQxA5yw4ihQMKdkcRyHuS_RAtMN66suiROkWYO_7QBTxNWPinDRJP7gE"/>
+<div class="absolute inset-0 bg-black/50 flex flex-col justify-end p-4 text-white">
+<h4 class="font-bold text-lg">Startup Pitch Night</h4>
+<p class="text-sm">Sep 01, 2023</p>
+<button class="absolute inset-0 w-full h-full bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold text-lg">Watch Highlights</button>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2">
+<button class="bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex justify-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700"></div>
+<div class="w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700"></div>
+</div>
+</div>
+<div class="flex flex-col space-y-4">
+<h3 class="text-2xl font-bold text-center mb-4">Recent Events</h3>
+<div class="relative">
+<div class="scroll-container flex overflow-x-auto snap-x snap-mandatory space-x-6 pb-4">
+<div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative shadow-lg">
+<img alt="Event Image" class="w-full h-80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdAbRrIDbXUB3aijIyHKfI4H5EXNEgw0qu9Fjy9KajUbK2jSjZbSQET3HjzDOW6WnhyNsbmm19emwZN0PvNsKEvRVFcA6LRoqkBHSJU8hl6flFSJq-pAlnhMsGswTuxCVeiAgmaCZd4d6JGbA-mrTrRhbnQ2hjnwqIf3OIxWoE-kgeMiiJ9_zf0ussGGR6m-GT5RhI1q8BYAA1KSSiH_ddGQFf7Y4ROeIchupmnXutMH1zOGzw_Tkoao0GwoYYlQx8wD1hNIaiHeY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 text-white">
+<h4 class="font-bold text-lg">NeoSharX Annual Summit</h4>
+<p class="text-sm">Dec 5, 2023</p>
+<button class="absolute inset-0 w-full h-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold text-lg">View Photos / Replay</button>
+</div>
+</div>
+<div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative shadow-lg">
+<img alt="Event Image" class="w-full h-80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB42G1_oGvyH-OnfxpSC9EkNTfOvckZWoSAYmrHseudx6n4mNsDWMbw4yMXvT-dccQZyaenu7jx8VqkQ8uVvDn-sJ7QMijhAlQ-w2HEXq3y2LU4r4KKDq4t4pVzFjpTkTzb7s9VXQbeicB13HGRvXGWDPa7o8OrnfCfMrgObouw5nZ6avXekbSYY3VXFpJzxgClFRNdGRv2Dw1PyubYeOE1nY_HQYdCoae89ejL83vn-loKmrrkDB-M7FnK670XuFOJCNaOmuWFxLo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 text-white">
+<h4 class="font-bold text-lg">Robotics Expo</h4>
+<p class="text-sm">Nov 28, 2023</p>
+<button class="absolute inset-0 w-full h-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold text-lg">View Photos / Replay</button>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2">
+<button class="bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex justify-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700"></div>
+</div>
+</div>
+<div class="flex flex-col space-y-4">
+<h3 class="text-2xl font-bold text-center mb-4">Upcoming Events</h3>
+<div class="relative">
+<div class="scroll-container flex overflow-x-auto snap-x snap-mandatory space-x-6 pb-4">
+<div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative border-2 border-primary shadow-glow-blue">
+<img alt="Event Image" class="w-full h-80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqyACTbzPH8bKcn5OO_VSUfyROZkPte4FuCjVsjVbMJJgKdZeA8wMK7a48uzIiDgPFQ3oFcnXrRCVEeiZjwg14va8cl619JeWHMtmV3DaaognU2ScCZ-2LwyIBMcQDFcI24cec1tmI33kYwBKvsJu81Y8YfqZKEXUp7aPrg-v7JJHbV8jS7hk1rH19EOYxOSU_7cGP1EqFDEq1ByTTwAyk51zuZVJOoJE8R5_-XtRVFVu54VxdTo6Xkmlb_pwKNEaGdBjp_0ip2mU"/>
+<div class="absolute top-2 right-2 bg-primary/80 text-white text-xs font-bold px-2 py-1 rounded-full">Coming Soon</div>
+<div class="absolute inset-0 bg-black/60 flex flex-col justify-end p-4 text-white">
+<h4 class="font-bold text-lg">Cyber Security Conclave</h4>
+<p class="text-sm mb-4">Jan 15, 2024</p>
+<button class="bg-primary text-white font-bold py-2 px-4 rounded-lg w-full hover:bg-primary/90 transition-colors">Register Now</button>
+</div>
+</div>
+<div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative border-2 border-primary shadow-glow-blue">
+<img alt="Event Image" class="w-full h-80 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9vr7ANz6SkltC55rzD0SNS5ipeEXB0FH-nmayDHmhDG6E2VIRd3tTgTIwnJ02VWjOgPq57R_2HK7a5MYFoIEDTcAlWQGCrx75Bik8Lc0m8V9KbhGPtFgS5mW9Kwqjvi231CiXapxjrPssU6SYKdXw00D0-8EvyQFZRT2DewgUp18ACqF6GwigLP_zs7byPS3scTzjuDl_ccHivSQZmkt5Q8GQxUg3eMxQ4yxUSAudztXndyi-f3z5s-YHUneRNZjcyMLg2R-W2W4"/>
+<div class="absolute top-2 right-2 bg-primary/80 text-white text-xs font-bold px-2 py-1 rounded-full">Coming Soon</div>
+<div class="absolute inset-0 bg-black/60 flex flex-col justify-end p-4 text-white">
+<h4 class="font-bold text-lg">Future of Work Summit</h4>
+<p class="text-sm mb-4">Feb 20, 2024</p>
+<button class="bg-primary text-white font-bold py-2 px-4 rounded-lg w-full hover:bg-primary/90 transition-colors">Register Now</button>
+</div>
+</div>
+</div>
+<div class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2">
+<button class="bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex justify-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-stone-300 dark:bg-stone-700"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 text-center">
+<h2 class="text-3xl font-bold text-center mb-8">About NeoSharX!</h2>
+<div class="relative aspect-video max-w-4xl mx-auto rounded-xl overflow-hidden shadow-2xl">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_8q8N9yvCX-pWOtptZ8eeI7xRIsggoLSthaSyA3d8wrkyZoHeBR-VH5IzBuBzHfLs0KMLQ_rO5bMhpuauB5LRw0Dt2ql5Va5y8ac_52zKVO-Cx7QLNOU1MN0Xg56t_Lfmss1jr5fN0N7nUVv5RTkAb8VfWyy0dOjokoP5Kd3DHBGWINzAHLrCXTftRyrt9CQN2JnXL9rtnxqdPDplIcHMkBi5k3o-UkYByCgZb6vHXOQBicmxNro7GK2YuCKEe35pi3eooosYwQU");'></div>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+<button class="bg-white/20 text-white rounded-full p-4 hover:bg-white/30 backdrop-blur-sm transition-colors">
+<span class="material-symbols-outlined text-5xl">play_arrow</span>
+</button>
+</div>
+</div>
+<p class="mt-6 text-stone-600 dark:text-stone-400">Building the next-gen startup and tech community with NeoSharX</p>
+</section>
+<section class="py-16">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+<div>
+<h2 class="text-3xl font-bold mb-6">Contact Us</h2>
+<form class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2" for="name">Name</label>
+<input class="form-input w-full bg-background-light dark:bg-background-dark border-stone-300 dark:border-stone-700 rounded-lg focus:ring-primary focus:border-primary" id="name" placeholder="Your Name" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2" for="email">Email</label>
+<input class="form-input w-full bg-background-light dark:bg-background-dark border-stone-300 dark:border-stone-700 rounded-lg focus:ring-primary focus:border-primary" id="email" placeholder="Your Email" type="email"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-2" for="message">Message</label>
+<textarea class="form-textarea w-full bg-background-light dark:bg-background-dark border-stone-300 dark:border-stone-700 rounded-lg focus:ring-primary focus:border-primary" id="message" placeholder="Your Message" rows="4"></textarea>
+</div>
+<button class="bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors w-full" type="submit">Submit</button>
+</form>
+</div>
+<div class="space-y-6">
+<h3 class="text-2xl font-bold">Get in Touch</h3>
+<p class="text-stone-600 dark:text-stone-400">
+<span class="font-bold">Email:</span> <a class="hover:text-primary" href="mailto:contact@neosharx.com">contact@neosharx.com</a><br/>
+<span class="font-bold">Phone:</span> +1-555-123-4567
+                    </p>
+<div class="flex space-x-4">
+<a class="text-stone-500 dark:text-stone-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46,6.56 C21.87,6.32 21.23,6.13 20.55,6 C21.28,5.55 21.9,4.92 22.36,4.16 C21.69,4.56 20.96,4.85 20.19,5.02 C19.56,4.35 18.66,3.92 17.66,3.92 C15.72,3.92 14.13,5.51 14.13,7.45 C14.13,7.72 14.16,7.99 14.22,8.25 C11.23,8.1 8.59,6.73 6.66,4.64 C6.36,5.16 6.19,5.76 6.19,6.41 C6.19,7.56 6.78,8.58 7.69,9.18 C7.13,9.16 6.6,9.01 6.13,8.76 L6.13,8.81 C6.13,10.45 7.28,11.82 8.81,12.12 C8.54,12.19 8.25,12.23 7.95,12.23 C7.73,12.23 7.5,12.21 7.28,12.17 C7.71,13.51 8.97,14.51 10.51,14.54 C9.37,15.42 7.96,15.96 6.41,15.96 C6.12,15.96 5.83,15.94 5.55,15.9 C7.1,16.89 8.96,17.47 10.99,17.47 C17.65,17.47 21.2,12.01 21.2,7.8 C21.2,7.67 21.2,7.54 21.19,7.42 C21.89,6.93 22.49,6.3 22.95,5.56 C22.37,5.82 21.75,6.01 21.09,6.1 C21.78,5.68 22.33,5.04 22.58,4.28 C22.46,6.56 22.46,6.56 22.46,6.56 Z"></path></svg></a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10c5.52,0,10-4.48,10-10S17.52,2,12,2z M13,19h-2v-6h-2v-2h2V9.5C11,7.57,12.57,6,14.5,6H16v2h-1.5C13.67,8,13,8.67,13,9.5V11h2.5l-0.5,2H13V19z"></path></svg></a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C8.7,2,8.28,2.02,7.18,2.07C6.09,2.12,5.27,2.3,4.58,2.58C3.88,2.86,3.29,3.26,2.71,3.84S2.86,4.88,2.58,5.58C2.3,6.27,2.12,7.09,2.07,8.18C2.02,9.28,2,9.7,2,13s0.02,3.72,0.07,4.82c0.05,1.09,0.23,1.91,0.51,2.6c0.28,0.7,0.68,1.29,1.26,1.87s1.17,0.98,1.87,1.26c0.69,0.28,1.51,0.46,2.6,0.51C9.28,21.98,9.7,22,12,22s3.72-0.02,4.82-0.07c1.09-0.05,1.91-0.23,2.6-0.51c0.7-0.28,1.29-0.68,1.87-1.26s0.98-1.17,1.26-1.87c0.28-0.69,0.46-1.51,0.51-2.6C21.98,15.72,22,15.3,22,12s-0.02-3.72-0.07-4.82c-0.05-1.09-0.23-1.91-0.51-2.6c-0.28-0.7-0.68-1.29-1.26-1.87s-1.17-0.98-1.87-1.26c-0.69-0.28-1.51-0.46-2.6-0.51C15.72,2.02,15.3,2,12,2z M12,7c2.76,0,5,2.24,5,5s-2.24,5-5,5s-5-2.24-5-5S9.24,7,12,7z M12,15c1.66,0,3-1.34,3-3s-1.34-3-3-3s-3,1.34-3,3S10.34,15,12,15z M16.5,7.5c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S17.33,7.5,16.5,7.5z"></path></svg></a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19,3a2,2 0 0,1 2,2v14a2,2 0 0,1 -2,2H5a2,2 0 0,1 -2,-2V5A2,2 0 0,1 5,3h14m-12,3v11h3V8H7m4,0v11h3V8h-3m4,0v11h3V8h-3z"></path></svg></a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-background-dark text-white">
+<div class="container mx-auto px-6 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+<div>
+<h4 class="font-bold mb-4">About</h4>
+<ul class="space-y-2">
+<li><a class="text-sm text-stone-300 hover:text-primary" href="#">About NeoSharX</a></li>
+<li><a class="text-sm text-stone-300 hover:text-primary" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4">Community</h4>
+<ul class="space-y-2">
+<li><a class="text-sm text-stone-300 hover:text-primary" href="#">Events</a></li>
+<li><a class="text-sm text-stone-300 hover:text-primary" href="#">Startups</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4">Resources</h4>
+<ul class="space-y-2">
+<li><a class="text-sm text-stone-300 hover:text-primary" href="#">News</a></li>
+<li><a class="text-sm text-stone-300 hover:text-primary" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4">Newsletter</h4>
+<form class="flex">
+<input class="form-input w-full bg-background-dark border-stone-600 rounded-l-lg focus:ring-primary focus:border-primary" placeholder="Your email" type="email"/>
+<button class="bg-primary text-white font-bold px-4 py-2 rounded-r-lg hover:bg-primary/90" type="submit">-&gt;</button>
+</form>
+</div>
+</div>
+<div class="border-t border-stone-800 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm">
+<p class="text-stone-400">© 2025 NeoSharX. All rights reserved.</p>
+<div class="flex space-x-4 mt-4 sm:mt-0">
+<a class="text-stone-400 hover:text-primary" href="#"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46,6.56 C21.87,6.32 21.23,6.13 20.55,6 C21.28,5.55 21.9,4.92 22.36,4.16 C21.69,4.56 20.96,4.85 20.19,5.02 C19.56,4.35 18.66,3.92 17.66,3.92 C15.72,3.92 14.13,5.51 14.13,7.45 C14.13,7.72 14.16,7.99 14.22,8.25 C11.23,8.1 8.59,6.73 6.66,4.64 C6.36,5.16 6.19,5.76 6.19,6.41 C6.19,7.56 6.78,8.58 7.69,9.18 C7.13,9.16 6.6,9.01 6.13,8.76 L6.13,8.81 C6.13,10.45 7.28,11.82 8.81,12.12 C8.54,12.19 8.25,12.23 7.95,12.23 C7.73,12.23 7.5,12.21 7.28,12.17 C7.71,13.51 8.97,14.51 10.51,14.54 C9.37,15.42 7.96,15.96 6.41,15.96 C6.12,15.96 5.83,15.94 5.55,15.9 C7.1,16.89 8.96,17.47 10.99,17.47 C17.65,17.47 21.2,12.01 21.2,7.8 C21.2,7.67 21.2,7.54 21.19,7.42 C21.89,6.93 22.49,6.3 22.95,5.56 C22.37,5.82 21.75,6.01 21.09,6.1 C21.78,5.68 22.33,5.04 22.58,4.28 C22.46,6.56 22.46,6.56 22.46,6.56 Z"></path></svg></a>
+<a class="text-stone-400 hover:text-primary" href="#"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10c5.52,0,10-4.48,10-10S17.52,2,12,2z M13,19h-2v-6h-2v-2h2V9.5C11,7.57,12.57,6,14.5,6H16v2h-1.5C13.67,8,13,8.67,13,9.5V11h2.5l-0.5,2H13V19z"></path></svg></a>
+<a class="text-stone-400 hover:text-primary" href="#"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C8.7,2,8.28,2.02,7.18,2.07C6.09,2.12,5.27,2.3,4.58,2.58C3.88,2.86,3.29,3.26,2.71,3.84S2.86,4.88,2.58,5.58C2.3,6.27,2.12,7.09,2.07,8.18C2.02,9.28,2,9.7,2,13s0.02,3.72,0.07,4.82c0.05,1.09,0.23,1.91,0.51,2.6c0.28,0.7,0.68,1.29,1.26,1.87s1.17,0.98,1.87,1.26c0.69,0.28,1.51,0.46,2.6,0.51C9.28,21.98,9.7,22,12,22s3.72-0.02,4.82-0.07c1.09-0.05,1.91-0.23,2.6-0.51c0.7-0.28,1.29-0.68,1.87-1.26s0.98-1.17,1.26-1.87c0.28-0.69,0.46-1.51,0.51-2.6C21.98,15.72,22,15.3,22,12s-0.02-3.72-0.07-4.82c-0.05-1.09-0.23-1.91-0.51-2.6c-0.28-0.7-0.68-1.29-1.26-1.87s-1.17-0.98-1.87-1.26c-0.69-0.28-1.51-0.46-2.6-0.51C15.72,2.02,15.3,2,12,2z M12,7c2.76,0,5,2.24,5,5s-2.24,5-5,5s-5-2.24-5-5S9.24,7,12,7z M12,15c1.66,0,3-1.34,3-3s-1.34-3-3-3s-3,1.34-3,3S10.34,15,12,15z M16.5,7.5c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S17.33,7.5,16.5,7.5z"></path></svg></a>
+<a class="text-stone-400 hover:text-primary" href="#"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19,3a2,2 0 0,1 2,2v14a2,2 0 0,1 -2,2H5a2,2 0 0,1 -2,-2V5A2,2 0 0,1 5,3h14m-12,3v11h3V8H7m4,0v11h3V8h-3m4,0v11h3V8h-3z"></path></svg></a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+<script>
+// Counter animation function
+function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            // Format the number (add 'k' for thousands)
+            if (target >= 1000) {
+                counter.textContent = Math.floor(current / 1000) + 'k';
+            } else {
+                counter.textContent = Math.floor(current);
+            }
+        }, 16);
+    });
+}
+
+// Intersection Observer to trigger animation when section is visible
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounters();
+            observer.unobserve(entry.target); // Only animate once
+        }
+    });
+}, { threshold: 0.5 });
+
+// Start observing the statistics section
+document.addEventListener('DOMContentLoaded', () => {
+    const statsSection = document.querySelector('.counter').closest('section');
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+});
+</script>
+
+</body></html>

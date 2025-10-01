@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Robustonix - Robotics News &amp; Insights</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+            },
+            fontFamily: {
+              display: ["Space Grotesk"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      .group:hover .group-hover-item {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#4a5568] dark:text-[#a0aec0]">
+<div class="flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-50 w-full border-b border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="container mx-auto px-4">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3" href="index.html">
+<img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain">
+</a>
+<nav class="hidden items-center gap-6 md:flex">
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="index.html">Home</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="talks.html">NeoSharX Talks</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="#">Neo Stories</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="#">Neo Projects</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="robosharx.html">RoboSharX</a>
+<a class="text-sm font-medium text-black dark:text-white hover:text-primary" href="tech.html">What's up Tech</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="rounded-full p-2 text-black dark:text-white hover:bg-white/10">
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+</svg>
+</button>
+<div class="h-10 w-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCe6PI9rRu5KPUs5dK7vsEZ0fet02T2ZQrqk0QoC1q5vS8EgljBODVTVsO-HNbcD_VMI6_3_iTvV2h77q1l6L4U1XS1MEiNNo7t3lZhdgmhZVC6RezWFgh2zmR8NChM3x7lM7fczES2-HiurLD8Tj6YWnVsYeq3BWV3td1fXb94782j1FPir5Y5stE9CiTXdlpCFI18zaRzd_wSsm6oMVURw1RoDKlGS-1F9TXwttQV3VqYDZPk2jvsecnvbY4nDEFL6JlS3P2_s5M");'></div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="container mx-auto flex-1 px-4 py-8">
+<div class="mx-auto max-w-5xl">
+<div class="mb-8 text-center">
+<h1 class="text-4xl font-bold tracking-tighter text-black dark:text-white sm:text-5xl">Robotics News &amp; Insights</h1>
+<p class="mt-4 text-lg text-slate-500 dark:text-slate-400">Your daily dose of AI, automation, and the future of robotics.</p>
+</div>
+<div class="relative mb-12">
+<input class="w-full rounded-lg border border-white/10 bg-white/5 py-3 pl-12 pr-4 text-black dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50" placeholder="Search for articles, videos, and more..." type="search"/>
+<div class="absolute inset-y-0 left-0 flex items-center pl-4">
+<svg class="text-slate-500 dark:text-slate-400" fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+</svg>
+</div>
+</div>
+<section class="mb-12">
+<h2 class="mb-6 text-2xl font-bold text-black dark:text-white">Latest Robotics News</h2>
+<div class="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 shadow-lg transition-all duration-300 hover:shadow-primary/20">
+<a href="robosharx2.html" class="absolute inset-0 z-10" aria-label="Latest Robotics News"></a>
+<div class="grid @container md:grid-cols-2">
+<div class="relative">
+<div class="h-full w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJYsiHutUkDH6R6shO-La2IvuTIvk21iZIIhkqlJm0EwVudyixwYYtmrgUe7TpEuEnvccHN-vliCqYYxXYAF1idZeDg3gjfSVmadDmKUnQLjdfGbLFKCRzpGnBT_spb-H99XfchvHbzgT5p8xkfMwuvbKTxdtCjOkb9W1CCO6OuZFkTWWx3Auz8vgjZXbE3sItSRllfsp2yS-Vd1z3tGb7gr3z2NMMkpajWTnIL4DQA_m95qrzLuobJPNcnPC9GWj_qLBUx4QFZjk");'>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-xl font-bold text-white">Revolutionary Robotics: New Developments in AI-Driven Automation</h3>
+</div>
+</div>
+<div class="flex flex-col p-6">
+<p class="mb-4 flex-grow text-slate-500 dark:text-slate-400">Explore the latest breakthroughs in robotics, focusing on AI integration and its impact on various industries. From autonomous drones to sentient manufacturing arms, we cover the tech that's reshaping our world.</p>
+<p class="text-sm text-slate-600 dark:text-slate-500">By TechPulse | Published 2 days ago</p>
+</div>
+</div>
+</div>
+</section>
+<section class="mb-12">
+<h2 class="mb-6 text-2xl font-bold text-black dark:text-white">Robotics YouTube Shorts</h2>
+<div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+<a class="group block space-y-2" href="robosharx2.html">
+<div class="overflow-hidden rounded-lg relative">
+<div class="aspect-w-9 aspect-h-16 w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBT86DWElMZD7lIAdqEGA1XkZ2LsvyisbykKg_rGQTStYbK14t7TeFYM8IREI_UmreCpFnl5Z-ZpgOmccT8Dv9I-2puvo8K2RJuaMwp822rGRnSqVoj4kRIljw5W39ux-SpYXlra8zw5QtElwwbO5L2n-AxmSL6ycH3aJY5PqaYffSrKIJnGRX_fZ_h1CuX-NJRUtLxq5y-ZGFM_A9-D9GsDqHCQ8_I3NbzHmhtLSxs4hgQCNEXbVHWqFEiV4E99-2teUUP9XaDAig");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-2">
+<img alt="Doctor avatar" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzW1J19e8y0W55vjeo0TJTi7HHkI4KYn2eYTODBSRnO1apSsl9D9LRHYbrW-P8MDF8J3VvAwNP-ABJxAdbHaGTfpEki6Y6enEBxL83-S5vIq8wkTU7V_mIk4rdJGNpgFPEyOK7_zVDh2JIXwnKS-UOlHklouxmbamZb5EfkyFMZnK2AmFjOdB07ptF3RiXyWpzGjeXVXLuJdBuHPLSE_3OUpQOkJ-ro5jbBSlfS-_DAYKUy-N7Etnuu_d4XkmdjaSaMU0izIn4XBg"/>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-black dark:text-white">Robotic Surgery Breakthrough</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">A new era in medical robotics</p>
+</div>
+</a>
+<a class="group block space-y-2" href="robosharx2.html">
+<div class="overflow-hidden rounded-lg relative">
+<div class="aspect-w-9 aspect-h-16 w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBUM3GVyRdfrYZqC8P4bCjTEY3WUuS3jLs4X0P_lsTM8Liw8yb8t9Ze06S1W2DD-dIZFOEsf3gJjxBKKMB2QQuIeglJvRMJb_OO4fIR67r1P5HGtZLwWpVYmgC4XQEHF5mloa0IDbPH-O6hPBtzYB1umGvIUJCo62qnwtTZnhTPInWeBZC0caCuSIf3Up2FQZYouKWWPjXs214LIZ7CTMrsubDXholkiD9TVNWNbEXaRjrxbMOM8mq4jbIPVaOR4llXHcHP0L3vwJQ");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-2">
+<img alt="Entertainer avatar" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp26oPZkd5PFeWzOJ2EpVwouDfWGyB4eokkma2GuZcjSvnyzBajFiwNvXTFHYskeDtrf25xXtxxpjiwLyzyUaRNmTZ-ugMQNJlalf2dw7SaOhw4yxffZFSS9CiVRaayNqIiQM9k_zePP7jihgSPDEjtZdW9y4j9gCyYWH1JcuDKdvOszxHg9hCw5SAc4JE2K7R3LYPLm2_lG9b6EcNkfqYwcWGq_UkB1bZTiWH3Se5TBnf21lmhg8PxqaRb_DDLLgxeyDM-7lrA60"/>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-black dark:text-white">Robotics in Entertainment</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Robots are taking the stage</p>
+</div>
+</a>
+<a class="group block space-y-2" href="robosharx2.html">
+<div class="overflow-hidden rounded-lg relative">
+<div class="aspect-w-9 aspect-h-16 w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUGp2wq-SoO9zTGXvzl3m35u1im9w6vMqUZRdDXyux2Otdkz0mnFDD_l_GNRAuXHV-2gmC6REnTWFYe8RYgfJPKwTWv60DHEzTl_rjzcCGLanFVoDVRtcIrP878nArPs6gT4Moi5EzKLF9Gv5gczwKl-on3F3QiZemvV6H-f3B4PK5-Oan2sPB20rwxG0rqudSOYbfUQpfCIslmznpBh6xIvkl_d-fPUDF41WIkFvsJfN26z1wjtAouSB4LqIlYR2MRA6T3BgoNVs");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-2">
+<img alt="Astronaut avatar" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbV9MukikzcqFTe2o7gN2Gx_gIkHH5sagnRK_mdKq-4RlFgR2XBee_J_pJagm2PYpS13IZN0THQolk1t56_SGd332Ixnpbl_ve41DzoVP8pjWbKozD9mK_9PsU0rQvKdHoCTGInfCDaLVQwf-XNiRmzGx5fqF3Ax1LBZoqfMhQZ56GLVoUnmLQ1eqW0kGTo72_JICk3Bp7b4hKZwPnj6yBzfapiOJq0menbKJQ_mfS3RuC0cWPL7vdr1p2_2DQRT0cfl5R2JevHTI"/>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-black dark:text-white">Robots on Mars</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Exploring the red planet with robots</p>
+</div>
+</a>
+<a class="group block space-y-2" href="robosharx2.html">
+<div class="overflow-hidden rounded-lg relative">
+<div class="aspect-w-9 aspect-h-16 w-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB_59Y65gcJPlb4oKIZtOhEbG3GyLeB671WwFCbJbvB4umScKLd-knjX0kO1J9YyM8MtNNeDlG4RcK4unv6pf60EJfBpKmMvqhi3VOGCBI9ojk9MLkry8m0StUrxrLjqcD-NWEBusLw9dODhq_wLi5kQ49-uzqsYmu2cL6grVYWfmzwAFh6ZAIBxe7npmUbbv8KdViCp7vzmVqmtMrFB__xj6XCvINP1dPqCiIsnaFk14n3zk1N7SKA1xoXMXFSOF7pw-1UW_ljQuY");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-2">
+<img alt="AI avatar" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdc4bArLNJXz_HueEf0NtKKzB31X91410cSlr1ocmR8_huhmIFSlASRN4YUgPWUFfUDjv3jNjcWtJu1FswCC7mTMGZoOS-zKv7SPMG-DC9vqERHbwAWkf4TBoydXJzkVhn7kI4VDsSMfCmsivrub-W4ow6U6iSbLld0utzKGsM6HO8w4NN_qV_5iLIB58nTZmQMLrLjg4ZEL_q9bgUWL2prWAiSpPtuwkF2whbOyQzf_881Pwoy_ySTNBPiFJVJ-5iAdnvlkvg-ho"/>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-black dark:text-white">The AI Revolution</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">How AI is changing everything</p>
+</div>
+</a>
+</div>
+</section>
+<section>
+<h2 class="mb-6 text-2xl font-bold text-black dark:text-white">From the Blog</h2>
+<div class="space-y-6">
+<a class="group block rounded-lg border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5" href="robosharx2.html">
+<div class="flex flex-col items-center gap-6 sm:flex-row">
+<div class="h-40 w-full flex-shrink-0 rounded bg-cover bg-center sm:h-24 sm:w-32" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCSVb-zAp66VOHiaJplTKrrH530HiLAj3v32ip_PztYxM5MNg3PxQKiKUSvPWsJIAHc6eMRCbKmmX-is1ADsWdDAZvJH8TRYYWNxvD2uqFlxy_KU6spWlWhF4UaREDH5uM4DV0H-m67NNDcfBb9yGvsQfFAnfslXm8U5UKXag4ZZIY8yu0lKDUkSjRF2JHwjUF8IhwDX4I049lC6StmyvQZz7pdp70NLY6pVAkb4FUSnfDxt-nIsxOAaNhyM2CeM5FYUZNjhaEiaA8");'></div>
+<div class="flex-grow">
+<h3 class="font-bold text-black dark:text-white">The Future of Robotics in Manufacturing</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">An in-depth look at how robotics is transforming manufacturing processes, from assembly lines to quality control.</p>
+</div>
+<div class="ml-auto flex-shrink-0 self-center">
+<svg class="text-slate-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.49a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"></path>
+</svg>
+</div>
+</div>
+</a>
+<a class="group block rounded-lg border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5" href="robosharx2.html">
+<div class="flex flex-col items-center gap-6 sm:flex-row">
+<div class="h-40 w-full flex-shrink-0 rounded bg-cover bg-center sm:h-24 sm:w-32" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBu3vIUwkNAzyCpOaivhmbGh__UeJe_5ItPp2vV9nWNPALOrlTbNHc9QHtVNwr-kZMJTjz80UlivJ_7oHHXS2ma85prGtvNnSbuTY3dmswdmYlaagJj8XTwsbqAxPUo_4S8VyjUTb0H0hS8hkqfwALCalgYmPHCDgRdWOd1Ilz4DTQSY7YKysTkY5BbnFV7q6cI0_nT5jUjFVT_OZGe4peP6Ii7d0NmOd8ad4DOlnD-Jq2s2_ac3iC3d92FiQJxsIaHho6OqANCQJw");'></div>
+<div class="flex-grow">
+<h3 class="font-bold text-black dark:text-white">Ethical Considerations in Robotics</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Exploring the ethical implications of advanced robotics and AI. How do we ensure a future that is both technologically advanced and humane?</p>
+</div>
+<div class="ml-auto flex-shrink-0 self-center">
+<svg class="text-slate-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.49a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"></path>
+</svg>
+</div>
+</div>
+</a>
+<a class="group block rounded-lg border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:border-primary/50 hover:bg-primary/5" href="robosharx2.html">
+<div class="flex flex-col items-center gap-6 sm:flex-row">
+<div class="h-40 w-full flex-shrink-0 rounded bg-cover bg-center sm:h-24 sm:w-32" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAulMQP3wYMHGs2BIjektUjXnKk397C3DuE5lrYCOb7AiVXSNcFYm9LxA0dDcpee5t1rLlA5xkXQ7Dro6iZklpppLr44a_19RcRvcce5WwxEeUOz5RGnIRZYl97OjPBputt-zWzVtqIWZ769g6emZPfmNjSU4I1AlFjoOR3LJVTrhbOX-Hn72DrnHQTYhj7XcIOGeu09Wfm__pFvA60WKsxh1UrooHBFWLzSl5TZjcuHMYPCaeNHrXIHjjgijSSDEi6yPUicO_03MY");'></div>
+<div class="flex-grow">
+<h3 class="font-bold text-black dark:text-white">Robotics in Healthcare: Innovations and Challenges</h3>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">A comprehensive overview of robotics applications in healthcare, from surgical assistance to patient care and rehabilitation.</p>
+</div>
+<div class="ml-auto flex-shrink-0 self-center">
+<svg class="text-slate-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.49a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"></path>
+</svg>
+</div>
+</div>
+</a>
+</div>
+</section>
+</div>
+</main>
+<footer class="border-t border-white/10 bg-background-light dark:bg-background-dark">
+<div class="container mx-auto px-4 py-6 text-center text-sm text-slate-500 dark:text-slate-400">
+<p>© 2024 Robustonix. All Rights Reserved.</p>
+</div>
+</footer>
+</div>
+</body></html>
