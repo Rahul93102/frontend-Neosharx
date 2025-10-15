@@ -319,6 +319,39 @@
           font-size: 1.5rem;
         }
       }
+
+      /* Filter tabs */
+      .filter-tabs {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding: 0.25rem;
+      }
+
+      .filter-tab {
+        padding: 0.875rem 1.75rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.2s;
+        white-space: nowrap;
+        border: 2px solid #e5e7eb;
+        background: white;
+        color: #374151;
+        font-size: 0.9375rem;
+      }
+
+      .filter-tab:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
+
+      .filter-tab.active {
+        background: #000000;
+        color: white;
+        border-color: #000000;
+      }
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
@@ -336,7 +369,10 @@
         <div class="max-w-6xl mx-auto">
           <!-- Simple Header - NO BLACK BACKGROUND -->
           <div class="text-center mb-8 mt-12">
-            <h1 class="text-5xl font-bold tracking-tight mb-4 text-black">
+            <h1
+              class="text-5xl font-bold tracking-tight mb-4"
+              style="color: #007fff"
+            >
               RoboSharX
             </h1>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
@@ -372,7 +408,7 @@
                     font-size: 0.875rem;
                   "
                 >
-                  Use arrows to navigate
+                  
                 </div>
               </div>
 
@@ -390,26 +426,14 @@
             </div>
           </div>
 
-          <!-- Filters -->
-          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
-            <select
-              id="categoryFilter"
-              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-            >
-              <option value="">All Categories</option>
-              <option value="ai_robotics">AI Robotics</option>
-              <option value="MEDICAL">Medical Robotics</option>
-              <option value="INDUSTRIAL">Industrial</option>
-              <option value="CONSUMER">Consumer</option>
-              <option value="RESEARCH">Research</option>
-            </select>
-            <select
-              id="sortFilter"
-              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-            >
-              <option value="recent">Sort by: Recent</option>
-              <option value="oldest">Oldest First</option>
-            </select>
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">
+              All Articles
+            </button>
+            <button class="filter-tab" data-filter="breaking">Breaking</button>
+            <button class="filter-tab" data-filter="featured">Featured</button>
+            <button class="filter-tab" data-filter="latest">Latest</button>
           </div>
 
           <!-- Loading State -->
@@ -424,7 +448,9 @@
             <button
               onclick="location.reload()"
               class="text-white font-medium px-6 py-3 rounded-lg transition-colors"
-              style="background: var(--black); border-radius: 8px"
+              style="background: #007fff; border-radius: 8px"
+              onmouseover="this.style.background='#0056b3'"
+              onmouseout="this.style.background='#007fff'"
             >
               Retry
             </button>
@@ -441,10 +467,11 @@
 
     <script>
       // API configuration
-      const API_URL = "http://127.0.0.1:8000/robotics-news/";
+      const API_URL = "http://localhost:8001/api/auth/robotics-news/";
       let allArticles = [];
       let filteredArticles = [];
       let featuredArticles = [];
+      let currentFilter = "all";
       let currentFeaturedIndex = 0;
       let sliderInterval = null;
 
@@ -482,7 +509,11 @@
               startSliderAutoRotation();
             }
 
-            renderArticles();
+            // Apply initial filter and show articles
+            applyFilters();
+
+            // Setup filter event listeners
+            setupFilters();
           } else {
             showError();
           }
@@ -653,7 +684,7 @@
               }</p>
               <div class="article-card-meta">
                 <span>📅 ${formatDate(
-                  article.published_date || article.created_at
+                  article.published_at || article.published_date || article.created_at
                 )}</span>
                 <span>👤 ${article.author || "NeoSharX"}</span>
               </div>
@@ -673,6 +704,44 @@
           day: "numeric",
           year: "numeric",
         });
+      }
+
+      function setupFilters() {
+        document.querySelectorAll(".filter-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-tab")
+              .forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            currentFilter = tab.dataset.filter;
+            applyFilters();
+          });
+        });
+      }
+
+      function applyFilters() {
+        switch (currentFilter) {
+          case "breaking":
+            filteredArticles = allArticles.filter(
+              (article) => article.is_breaking || article.priority === "breaking"
+            );
+            break;
+          case "featured":
+            filteredArticles = allArticles.filter(
+              (article) => article.is_featured || article.featured
+            );
+            break;
+          case "latest":
+            filteredArticles = [...allArticles].sort(
+              (a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at)
+            );
+            break;
+          case "all":
+          default:
+            filteredArticles = [...allArticles];
+            break;
+        }
+        renderArticles();
       }
 
       // Show error

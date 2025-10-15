@@ -63,9 +63,7 @@
             );
             localStorage.removeItem("google_state");
 
-            console.log(
-              "Google authentication successful, redirecting..."
-            );
+            console.log("Google authentication successful, redirecting...");
 
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");

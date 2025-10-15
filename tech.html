@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
-<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Newsreader%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
-<title>Stitch Design</title>
-<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      as="style"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Newsreader%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      onload="this.rel='stylesheet'"
+      rel="stylesheet"
+    />
+    <title>Stitch Design</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
       tailwind.config = {
         darkMode: "class",
         theme: {
@@ -19,112 +25,283 @@
             fontFamily: {
               display: ["Newsreader"],
             },
-            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
           },
         },
       };
     </script>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
-<div class="min-h-screen">
-<header class="bg-background-light/80 dark:bg-background-dark/80 sticky top-0 z-10 w-full backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-<div class="container mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex h-16 items-center justify-between">
-<div class="flex items-center gap-8">
-<a class="flex items-center gap-2 text-gray-900 dark:text-white" href="index.html">
-<img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain">
-</a>
-<nav class="hidden lg:flex items-center gap-6">
-<a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Xact Episodes</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Neo Stories</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Neo Projects</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">RoboSharX</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3siAJGh-d3w-MgfGxvXN0j5eJUIMfTm5kkb5oUIRZ4GWr59WdMl044WU6qPNx45bZDfT_mngqiVTPKJFU20_buOIVNWlJC0LtcFfwMmJVqWmWqRQ_Ro87D_p4ZJqie0eID_xHsrPULyAefktmvXg_2RKCNkDzG132J-9GRsLyeyveh5-Xk1ZifQ0I-qjr7mlz7icbiF8x14uPT0YpvG7slLhnFP-3CNZz5AdHzv3W9y6ivO3tq0S0_faz40t7gWXPCEA6xT65Mkk");'></div>
-</div>
-</div>
-</div>
-</header>
-<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-<div class="mb-8">
-<h2 class="text-4xl font-bold text-gray-900 dark:text-white">What's Up Tech</h2>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<div class="lg:col-span-2">
-<div class="mb-6 space-y-4">
-<div class="relative">
-<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-<svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<input class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary" placeholder="Search articles..." type="search"/>
-</div>
-<div class="flex flex-wrap gap-2">
-<button class="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-white">All</button>
-<button class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30">Startups</button>
-<button class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30">AI</button>
-<button class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30">Cybersecurity</button>
-<button class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30">Web Development</button>
-</div>
-</div>
-<div class="group overflow-hidden rounded-xl bg-background-light dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl">
-<a class="block" href="tech2.html">
-<div class="w-full bg-center bg-no-repeat aspect-[16/9] bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8Cxq8hW3xg2zoNV1iJTExCCuHU-W8qsCrJJ4_-uwllLScDNV3LuzUerM-QJXCGhI4bFX-YCLqVKT1btdBEtNr9oTqsNVHRpTF2AjKmsHvSiCPp6th2z1CWlG8d_sKf5ZTZ9-ilcF7F-RD3PNY0KoBiicVyuum0ihFk85TLXuKC5IMf4KhbJzUAXETDHCcfUZ7wo-xwLHOdYcmRczrqnP8XF9rPD7YI69bzaUwVZSrGkD3nfSwN6yX4aWoZ5szHoajrAYjNEyzee0");'></div>
-<div class="p-6">
-<h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">The Future of AI in Business</h3>
-<p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                    Explore how artificial intelligence is reshaping industries, from automating tasks to driving innovation. This article delves into real-world applications and future
-                    trends.
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200"
+  >
+    <header
+      style="
+        background: #007fff;
+        color: #fff;
+        text-align: center;
+        padding: 2rem 0;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        border-radius: 0 0 1.5rem 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+      "
+    >
+      Tech News
+    </header>
+    <div class="min-h-screen">
+      <header
+        class="bg-background-light/80 dark:bg-background-dark/80 sticky top-0 z-10 w-full backdrop-blur-sm border-b border-gray-200 dark:border-gray-800"
+      >
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center gap-8">
+              <a
+                class="flex items-center gap-2 text-gray-900 dark:text-white"
+                href="index.html"
+              >
+                <img
+                  src="logo27.png"
+                  alt="NeoSharX Logo"
+                  class="h-6 object-contain"
+                />
+              </a>
+              <nav class="hidden lg:flex items-center gap-6">
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="index.html"
+                  >Home</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="#"
+                  >Xact Episodes</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="startup.html"
+                  >Startup Stories</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="#"
+                  >Neo Stories</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="#"
+                  >Neo Projects</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="hackathon.html"
+                  >SharXathon</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="#"
+                  >RoboSharX</a
+                >
+                <a
+                  class="text-sm font-medium hover:text-primary transition-colors"
+                  href="tech.html"
+                  >What's up Tech</a
+                >
+              </nav>
+            </div>
+            <div class="flex items-center gap-4">
+              <div
+                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                style="
+                  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3siAJGh-d3w-MgfGxvXN0j5eJUIMfTm5kkb5oUIRZ4GWr59WdMl044WU6qPNx45bZDfT_mngqiVTPKJFU20_buOIVNWlJC0LtcFfwMmJVqWmWqRQ_Ro87D_p4ZJqie0eID_xHsrPULyAefktmvXg_2RKCNkDzG132J-9GRsLyeyveh5-Xk1ZifQ0I-qjr7mlz7icbiF8x14uPT0YpvG7slLhnFP-3CNZz5AdHzv3W9y6ivO3tq0S0_faz40t7gWXPCEA6xT65Mkk');
+                "
+              ></div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+          <h2 class="text-4xl font-bold text-gray-900 dark:text-white">
+            What's Up Tech
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2">
+            <div class="mb-6 space-y-4">
+              <div class="relative">
+                <div
+                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                >
+                  <svg
+                    class="h-5 w-5 text-gray-400 dark:text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  class="w-full pl-10 pr-4 py-3 rounded-lg border-gray-300 dark:border-gray-700 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary"
+                  placeholder="Search articles..."
+                  type="search"
+                />
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  class="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-white"
+                >
+                  All
+                </button>
+                <button
+                  class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30"
+                >
+                  Startups
+                </button>
+                <button
+                  class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30"
+                >
+                  AI
+                </button>
+                <button
+                  class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30"
+                >
+                  Cybersecurity
+                </button>
+                <button
+                  class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-primary/20 dark:hover:bg-primary/30"
+                >
+                  Web Development
+                </button>
+              </div>
+            </div>
+            <div
+              class="group overflow-hidden rounded-xl bg-background-light dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"
+            >
+              <a class="block" href="tech2.html">
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-[16/9] bg-cover"
+                  style="
+                    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8Cxq8hW3xg2zoNV1iJTExCCuHU-W8qsCrJJ4_-uwllLScDNV3LuzUerM-QJXCGhI4bFX-YCLqVKT1btdBEtNr9oTqsNVHRpTF2AjKmsHvSiCPp6th2z1CWlG8d_sKf5ZTZ9-ilcF7F-RD3PNY0KoBiicVyuum0ihFk85TLXuKC5IMf4KhbJzUAXETDHCcfUZ7wo-xwLHOdYcmRczrqnP8XF9rPD7YI69bzaUwVZSrGkD3nfSwN6yX4aWoZ5szHoajrAYjNEyzee0');
+                  "
+                ></div>
+                <div class="p-6">
+                  <h3
+                    class="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors"
+                  >
+                    The Future of AI in Business
+                  </h3>
+                  <p
+                    class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed"
+                  >
+                    Explore how artificial intelligence is reshaping industries,
+                    from automating tasks to driving innovation. This article
+                    delves into real-world applications and future trends.
                   </p>
-<p class="text-sm text-gray-500 dark:text-gray-500">By Sarah Chen · 2 days ago</p>
-</div>
-</a>
-</div>
-</div>
-<div class="lg:col-span-1">
-<div class="bg-background-light dark:bg-background-dark/50 p-6 rounded-xl shadow-md">
-<h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Recent Articles</h3>
-<div class="space-y-4">
-<a class="group flex items-center gap-4" href="tech2.html">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbF77TXsVFo3IIkUdINyjGM6vL0p9AUJldsWIIRDpySUiOPKCScnUlbc09-M3yxH4t76hKmf6rDWTmYg-WyRGIcgbi-SIvXtMwF2r8ZPtBqJ0afNW9tyQnvBGTZ3qMXXcVHEJiRqSl7Ct_DG9keNpXkybffRA4xQTXjzZMYI-xHQjg_0wjpH7B0Wly5Q2Jx-avGJvUn4G7A_0bJKnkFzmA-AaSnw-XEtBWUhveadJdpxSg3AKZodqfjjqmr1EImpMfxUN0Gdsmu74");'></div>
-<div>
-<p class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">Top 5 Cybersecurity Tips for Startups</p>
-<p class="text-sm text-gray-500 dark:text-gray-500">By David Lee · 1 day ago</p>
-</div>
-</a>
-<a class="group flex items-center gap-4" href="tech2.html">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCW2eGD7_80x6jmvVLdZ3Xa05PkriMyBJRp3R3JhYkFFfEwmbJ0Xx_ugiZZJUhC3DHzkBQvriENea0c69fgJUTAneSTKNwDiLBAWTiqn9Ha8b_sd4N6rK_QGyqjhVLAf_BHS-ru93dJxyzSKts_TciyOdjzUwG9iSW4d1T6NPsnF7XI_1_19tlUoXzXfL0BlgBeXANuWVS9NLsv2Amqq2ECYeXfre82N0Elzkd-RpJudoSesfirbTJk-Nhg-nDG-h8TnA_VBAzevZk");'></div>
-<div>
-<p class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">Building a Scalable Web Application</p>
-<p class="text-sm text-gray-500 dark:text-gray-500">By Emily Wong · 3 days ago</p>
-</div>
-</a>
-<a class="group flex items-center gap-4" href="tech2.html">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuABsT6rBYyhZz7mwj953aSfV1c70VaK7Q8goRrAmy7uU5y4YSnSwEdsB_P6euIN24LjC0ysRTXNYOno4tfJw2gvOY5ZuKAL8jqrmoUsqu0QCWaZHBc0WN2nlWiSnpeizYWqCEnEQdKIjeWJgdpO0BTr5TFMzJ_327j_afXgcAOehr4VPJb9ok1VkA3YgCHFfRQkAbapQvdrGEU6nkv4ew_2bJD6Eub8NtBYErJ_QwqwqIWQX2Ibw2R2CfNHflvhobVGJUwr9HoIxps");'></div>
-<div>
-<p class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">The Rise of Fintech Startups in Asia</p>
-<p class="text-sm text-gray-500 dark:text-gray-500">By Michael Tan · 5 days ago</p>
-</div>
-</a>
-<a class="group flex items-center gap-4" href="tech2.html">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5ON8GNRfQfFeu3lVtYv3K4zAT_bLSF2zuqc7Iw0cifTb5A1OCrwd6NKMP60TA0fdi4A5hEg4Y_6xRckLayMLa9PELUs_g8GBAsIRVUAOeSD9dt15024-qjNl4tq7UwOEepzz-yoPFc6Nt4G3M9llLKghJY5vXFlJ2wA_XjugfVPAlS2FYTfwqC78gpdglftph6UNU1EwgHTR7hl5b-uofCPfHm4iQ6wZSR68-jnz8aC1o1fQ9VxNFghqhzZycl14-RcNFxQ4lIAw");'></div>
-<div>
-<p class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">Mastering Remote Collaboration Tools</p>
-<p class="text-sm text-gray-500 dark:text-gray-500">By Jessica Lim · 7 days ago</p>
-</div>
-</a>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-
-</body></html>
+                  <p class="text-sm text-gray-500 dark:text-gray-500">
+                    By Sarah Chen · 2 days ago
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="lg:col-span-1">
+            <div
+              class="bg-background-light dark:bg-background-dark/50 p-6 rounded-xl shadow-md"
+            >
+              <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+                Recent Articles
+              </h3>
+              <div class="space-y-4">
+                <a class="group flex items-center gap-4" href="tech2.html">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0"
+                    style="
+                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbF77TXsVFo3IIkUdINyjGM6vL0p9AUJldsWIIRDpySUiOPKCScnUlbc09-M3yxH4t76hKmf6rDWTmYg-WyRGIcgbi-SIvXtMwF2r8ZPtBqJ0afNW9tyQnvBGTZ3qMXXcVHEJiRqSl7Ct_DG9keNpXkybffRA4xQTXjzZMYI-xHQjg_0wjpH7B0Wly5Q2Jx-avGJvUn4G7A_0bJKnkFzmA-AaSnw-XEtBWUhveadJdpxSg3AKZodqfjjqmr1EImpMfxUN0Gdsmu74');
+                    "
+                  ></div>
+                  <div>
+                    <p
+                      class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors"
+                    >
+                      Top 5 Cybersecurity Tips for Startups
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-500">
+                      By David Lee · 1 day ago
+                    </p>
+                  </div>
+                </a>
+                <a class="group flex items-center gap-4" href="tech2.html">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0"
+                    style="
+                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCW2eGD7_80x6jmvVLdZ3Xa05PkriMyBJRp3R3JhYkFFfEwmbJ0Xx_ugiZZJUhC3DHzkBQvriENea0c69fgJUTAneSTKNwDiLBAWTiqn9Ha8b_sd4N6rK_QGyqjhVLAf_BHS-ru93dJxyzSKts_TciyOdjzUwG9iSW4d1T6NPsnF7XI_1_19tlUoXzXfL0BlgBeXANuWVS9NLsv2Amqq2ECYeXfre82N0Elzkd-RpJudoSesfirbTJk-Nhg-nDG-h8TnA_VBAzevZk');
+                    "
+                  ></div>
+                  <div>
+                    <p
+                      class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors"
+                    >
+                      Building a Scalable Web Application
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-500">
+                      By Emily Wong · 3 days ago
+                    </p>
+                  </div>
+                </a>
+                <a class="group flex items-center gap-4" href="tech2.html">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0"
+                    style="
+                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuABsT6rBYyhZz7mwj953aSfV1c70VaK7Q8goRrAmy7uU5y4YSnSwEdsB_P6euIN24LjC0ysRTXNYOno4tfJw2gvOY5ZuKAL8jqrmoUsqu0QCWaZHBc0WN2nlWiSnpeizYWqCEnEQdKIjeWJgdpO0BTr5TFMzJ_327j_afXgcAOehr4VPJb9ok1VkA3YgCHFfRQkAbapQvdrGEU6nkv4ew_2bJD6Eub8NtBYErJ_QwqwqIWQX2Ibw2R2CfNHflvhobVGJUwr9HoIxps');
+                    "
+                  ></div>
+                  <div>
+                    <p
+                      class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors"
+                    >
+                      The Rise of Fintech Startups in Asia
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-500">
+                      By Michael Tan · 5 days ago
+                    </p>
+                  </div>
+                </a>
+                <a class="group flex items-center gap-4" href="tech2.html">
+                  <div
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg size-16 flex-shrink-0"
+                    style="
+                      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD5ON8GNRfQfFeu3lVtYv3K4zAT_bLSF2zuqc7Iw0cifTb5A1OCrwd6NKMP60TA0fdi4A5hEg4Y_6xRckLayMLa9PELUs_g8GBAsIRVUAOeSD9dt15024-qjNl4tq7UwOEepzz-yoPFc6Nt4G3M9llLKghJY5vXFlJ2wA_XjugfVPAlS2FYTfwqC78gpdglftph6UNU1EwgHTR7hl5b-uofCPfHm4iQ6wZSR68-jnz8aC1o1fQ9VxNFghqhzZycl14-RcNFxQ4lIAw');
+                    "
+                  ></div>
+                  <div>
+                    <p
+                      class="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors"
+                    >
+                      Mastering Remote Collaboration Tools
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-500">
+                      By Jessica Lim · 7 days ago
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

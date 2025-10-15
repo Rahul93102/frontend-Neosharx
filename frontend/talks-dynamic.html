@@ -54,7 +54,7 @@
           opacity: 1;
         }
         51%,
-        100% {
+        s 100% {
           opacity: 0;
         }
       }
@@ -282,6 +282,39 @@
           font-size: 1.5rem;
         }
       }
+
+      /* Filter tabs */
+      .filter-tabs {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding: 0.25rem;
+      }
+
+      .filter-tab {
+        padding: 0.875rem 1.75rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.2s;
+        white-space: nowrap;
+        border: 2px solid #e5e7eb;
+        background: white;
+        color: #374151;
+        font-size: 0.9375rem;
+      }
+
+      .filter-tab:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
+
+      .filter-tab.active {
+        background: #000000;
+        color: white;
+        border-color: #000000;
+      }
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
@@ -295,7 +328,10 @@
       <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="max-w-6xl mx-auto">
           <div class="text-center mb-8 mt-12">
-            <h1 class="text-5xl font-bold tracking-tight mb-4 text-black">
+            <h1
+              class="text-5xl font-bold tracking-tight mb-4"
+              style="color: #007fff"
+            >
               NeoSharX Talks
             </h1>
             <div
@@ -346,7 +382,6 @@
                     font-size: 0.875rem;
                   "
                 >
-                  Use arrows to navigate
                 </div>
               </div>
 
@@ -364,16 +399,14 @@
             </div>
           </div>
 
-          <!-- Filters -->
-          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
-            <select
-              id="sortFilter"
-              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-            >
-              <option value="recent">Sort by: Recent</option>
-              <option value="episode">Episode Number</option>
-              <option value="duration">Duration</option>
-            </select>
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">
+              All Episodes
+            </button>
+            <button class="filter-tab" data-filter="recent">Recent</button>
+            <button class="filter-tab" data-filter="featured">Featured</button>
+            <button class="filter-tab" data-filter="popular">Popular</button>
           </div>
 
           <!-- Loading State -->
@@ -461,7 +494,7 @@
               >
             </div>
             <p class="text-sm text-gray-500">
-              © 2023 NeoSharX. All rights reserved.
+              © 2025 NeoSharX. All rights reserved.
             </p>
           </div>
         </div>
@@ -469,14 +502,25 @@
     </div>
 
     <script>
-      const API_BASE_URL = "http://localhost:8000/api/auth";
+      console.log("Talks dynamic script loaded");
+      const API_BASE_URL = "http://localhost:8001/api/auth";
       let allEpisodes = [];
+      let currentFilter = "all";
+      let filteredEpisodes = [];
 
       async function loadEpisodes() {
+        console.log("loadEpisodes function called");
         const loadingState = document.getElementById("loadingState");
         const errorState = document.getElementById("errorState");
         const emptyState = document.getElementById("emptyState");
         const moreEpisodesContainer = document.getElementById("moreEpisodes");
+
+        console.log("DOM elements found:", {
+          loadingState: !!loadingState,
+          errorState: !!errorState,
+          emptyState: !!emptyState,
+          moreEpisodesContainer: !!moreEpisodesContainer,
+        });
 
         try {
           console.log(
@@ -484,40 +528,51 @@
             `${API_BASE_URL}/talk-episodes/`
           );
           const response = await fetch(`${API_BASE_URL}/talk-episodes/`);
+          console.log("Response status:", response.status);
+          console.log("Response ok:", response.ok);
 
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
 
           const data = await response.json();
-          console.log("Episodes loaded:", data);
+          console.log("Data received:", data);
+          console.log("Episodes in data:", data.episodes);
 
           allEpisodes = data.episodes || [];
+          console.log("allEpisodes length:", allEpisodes.length);
+          console.log("allEpisodes:", allEpisodes);
 
           if (allEpisodes.length === 0) {
+            console.log("No episodes found, showing empty state");
             loadingState.classList.add("hidden");
             emptyState.classList.remove("hidden");
             return;
           }
 
+          console.log("Loading featured screens and rendering episodes");
           // Load featured screens from episodes with is_featured = true
           loadFeaturedScreens(allEpisodes);
 
-          // Show all episodes
-          renderMoreEpisodes(allEpisodes);
+          // Apply initial filter and show episodes
+          applyFilters();
 
           loadingState.classList.add("hidden");
+
+          // Setup filter event listeners
+          setupFilters();
 
           // Comment system removed from listing page
         } catch (error) {
           console.error("Error loading episodes:", error);
+          console.error("Error details:", error.message);
+          console.error("Error stack:", error.stack);
           loadingState.classList.add("hidden");
           errorState.classList.remove("hidden");
         }
       }
 
       function loadFeaturedScreens(episodes) {
-        // Collect featured screens from episodes where is_featured = true
         const featuredScreens = [];
         episodes.forEach((episode) => {
           if (
@@ -737,6 +792,45 @@
         renderMoreEpisodes(sortedEpisodes);
       });
 
+      function setupFilters() {
+        document.querySelectorAll(".filter-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-tab")
+              .forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            currentFilter = tab.dataset.filter;
+            applyFilters();
+          });
+        });
+      }
+
+      function applyFilters() {
+        switch (currentFilter) {
+          case "recent":
+            filteredEpisodes = [...allEpisodes].sort(
+              (a, b) => new Date(b.published_at) - new Date(a.published_at)
+            );
+            break;
+          case "featured":
+            filteredEpisodes = allEpisodes.filter(
+              (episode) => episode.featured_screen && episode.featured_screen.is_featured
+            );
+            break;
+          case "popular":
+            // For now, sort by duration as a proxy for popularity
+            filteredEpisodes = [...allEpisodes].sort(
+              (a, b) => b.duration_minutes - a.duration_minutes
+            );
+            break;
+          case "all":
+          default:
+            filteredEpisodes = [...allEpisodes];
+            break;
+        }
+        renderMoreEpisodes(filteredEpisodes);
+      }
+
       // Load navigation
       fetch("navigation.html")
         .then((res) => res.text())
@@ -784,6 +878,9 @@
         }
         window.addEventListener("load", () => setTimeout(step, 500));
       })();
+
+      // Load episodes on page load
+      loadEpisodes();
     </script>
   </body>
 </html>

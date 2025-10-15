@@ -31,19 +31,16 @@
           console.log("Processing LinkedIn OAuth callback...");
 
           // Send code to backend for processing
-          const response = await fetch(
-            `${API_BASE_URL}/linkedin/callback/`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                code: code,
-                state: state,
-              }),
-            }
-          );
+          const response = await fetch(`${API_BASE_URL}/linkedin/callback/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              code: code,
+              state: state,
+            }),
+          });
 
           const data = await response.json();
 
@@ -63,9 +60,7 @@
             );
             localStorage.removeItem("linkedin_state");
 
-            console.log(
-              "LinkedIn authentication successful, redirecting..."
-            );
+            console.log("LinkedIn authentication successful, redirecting...");
 
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");

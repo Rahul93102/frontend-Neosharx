@@ -421,8 +421,12 @@
 
       <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="max-w-6xl mx-auto">
-          <div class="text-center mb-8 mt-12">
-            <h1 class="text-5xl font-bold tracking-tight mb-4 text-black">
+          <!-- Header -->
+          <div class="text-center mb-12 mt-12">
+            <h1
+              class="text-5xl font-bold tracking-tight mb-4"
+              style="color: #007fff"
+            >
               SharXathons
             </h1>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
@@ -460,6 +464,12 @@
                   </button>
                 </div>
               </div>
+              <div id="featuredSlider" class="featured-slider">
+                <div class="featured-card" aria-live="polite">
+                  <!-- Featured hackathon will render here -->
+                </div>
+              </div>
+              <div id="featuredDots" class="dots"></div>
             </div>
           </div>
 
@@ -488,7 +498,7 @@
             </h3>
             <button
               onclick="location.reload()"
-              class="bg-black text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-800 transition-all duration-100 ease-in-out"
+              class="bg-[#007fff] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#0056b3] transition-all duration-100 ease-in-out"
             >
               Retry
             </button>
@@ -523,7 +533,9 @@
       // Fetch hackathons from API
       async function fetchHackathons() {
         try {
-          const response = await fetch("http://127.0.0.1:8000/hackathons/");
+          const response = await fetch(
+            "http://localhost:8001/api/auth/hackathons/"
+          );
           const data = await response.json();
 
           if (data && data.hackathons) {
@@ -698,9 +710,6 @@
           .join("");
       }
 
-
-
-
       function setupFilters() {
         document.querySelectorAll(".filter-tab").forEach((tab) => {
           tab.addEventListener("click", () => {
@@ -713,7 +722,6 @@
           });
         });
       }
-
 
       function applyFilters() {
         filteredHackathons =
