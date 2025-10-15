@@ -267,21 +267,35 @@
         const contentDiv = document.getElementById("article-content");
         contentDiv.innerHTML = formatContent(article.content);
 
-        if (article.tags && article.tags.length > 0) {
+        // Normalize tags: support array, comma/space-separated string, or tag_list field
+        (function renderTags() {
           const tagsDiv = document.getElementById("tags");
-          const tagsArray = article.tags.split(' ').filter(tag => tag.trim());
-          tagsDiv.innerHTML = tagsArray
-            .map(function (tag) {
-              return (
-                '<span class="px-3 py-1 bg-black/5 dark:bg-white/5 text-black dark:text-white rounded-full text-sm font-medium">' +
-                tag.trim() +
-                "</span>"
-              );
-            })
-            .join("");
-        } else {
-          document.getElementById("tags-section").classList.add("hidden");
-        }
+          let tagsArray = [];
+
+          if (Array.isArray(article.tags)) {
+            tagsArray = article.tags.map((t) => String(t).trim()).filter(Boolean);
+          } else if (typeof article.tags === "string") {
+            // Split on commas or whitespace
+            tagsArray = article.tags.split(/[\s,]+/).map((t) => t.trim()).filter(Boolean);
+          } else if (Array.isArray(article.tag_list)) {
+            tagsArray = article.tag_list.map((t) => String(t).trim()).filter(Boolean);
+          }
+
+          if (tagsArray.length > 0) {
+            tagsDiv.innerHTML = tagsArray
+              .map(function (tag) {
+                return (
+                  '<span class="px-3 py-1 bg-black/5 dark:bg-white/5 text-black dark:text-white rounded-full text-sm font-medium">' +
+                  tag +
+                  "</span>"
+                );
+              })
+              .join("");
+            document.getElementById("tags-section").classList.remove("hidden");
+          } else {
+            document.getElementById("tags-section").classList.add("hidden");
+          }
+        })();
       }
 
       function formatContent(content) {
@@ -371,7 +385,7 @@
             slug,
             "comments-container",
             {
-              apiBaseUrl: "http://localhost:8000/api/auth",
+              apiBaseUrl: "http://localhost:8001/api/auth",
               showLoginPrompt: true,
               enableReplies: true,
               enableLikes: true,

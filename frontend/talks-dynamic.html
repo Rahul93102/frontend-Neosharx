@@ -282,39 +282,6 @@
           font-size: 1.5rem;
         }
       }
-
-      /* Filter tabs */
-      .filter-tabs {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 2rem;
-        overflow-x: auto;
-        padding: 0.25rem;
-      }
-
-      .filter-tab {
-        padding: 0.875rem 1.75rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-weight: 700;
-        transition: all 0.2s;
-        white-space: nowrap;
-        border: 2px solid #e5e7eb;
-        background: white;
-        color: #374151;
-        font-size: 0.9375rem;
-      }
-
-      .filter-tab:hover {
-        background: #f9fafb;
-        border-color: #9ca3af;
-      }
-
-      .filter-tab.active {
-        background: #000000;
-        color: white;
-        border-color: #000000;
-      }
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
@@ -399,14 +366,16 @@
             </div>
           </div>
 
-          <!-- Filter Tabs -->
-          <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">
-              All Episodes
-            </button>
-            <button class="filter-tab" data-filter="recent">Recent</button>
-            <button class="filter-tab" data-filter="featured">Featured</button>
-            <button class="filter-tab" data-filter="popular">Popular</button>
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+            <select
+              id="sortFilter"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            >
+              <option value="recent">Sort by: Recent</option>
+              <option value="episode">Episode Number</option>
+              <option value="duration">Duration</option>
+            </select>
           </div>
 
           <!-- Loading State -->
@@ -505,8 +474,6 @@
       console.log("Talks dynamic script loaded");
       const API_BASE_URL = "http://localhost:8001/api/auth";
       let allEpisodes = [];
-      let currentFilter = "all";
-      let filteredEpisodes = [];
 
       async function loadEpisodes() {
         console.log("loadEpisodes function called");
@@ -554,13 +521,10 @@
           // Load featured screens from episodes with is_featured = true
           loadFeaturedScreens(allEpisodes);
 
-          // Apply initial filter and show episodes
-          applyFilters();
+          // Show all episodes
+          renderMoreEpisodes(allEpisodes);
 
           loadingState.classList.add("hidden");
-
-          // Setup filter event listeners
-          setupFilters();
 
           // Comment system removed from listing page
         } catch (error) {
@@ -678,9 +642,27 @@
       }
 
       function setupFeaturedControls() {
-        const prev = document.getElementById("prevFeatured");
-        const next = document.getElementById("nextFeatured");
+        const controlsDiv = document.querySelector(".slider-controls");
+        if (!controlsDiv) return;
 
+        // Clear existing controls
+        controlsDiv.innerHTML = "";
+
+        // Create prev button
+        const prev = document.createElement("button");
+        prev.id = "prevFeatured";
+        prev.className = "nav-btn";
+        prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
+        prev.setAttribute("aria-label", "Previous featured episode");
+
+        // Create next button
+        const next = document.createElement("button");
+        next.id = "nextFeatured";
+        next.className = "nav-btn";
+        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
+        next.setAttribute("aria-label", "Next featured episode");
+
+        // Add click handlers
         prev.onclick = () => {
           const s = window._featuredState;
           if (!s || !s.items) return;
@@ -694,6 +676,10 @@
           s.index = (s.index + 1) % s.items.length;
           renderFeaturedItem();
         };
+
+        // Add to DOM
+        controlsDiv.appendChild(prev);
+        controlsDiv.appendChild(next);
       }
 
       function renderMoreEpisodes(episodes) {
@@ -791,45 +777,6 @@
 
         renderMoreEpisodes(sortedEpisodes);
       });
-
-      function setupFilters() {
-        document.querySelectorAll(".filter-tab").forEach((tab) => {
-          tab.addEventListener("click", () => {
-            document
-              .querySelectorAll(".filter-tab")
-              .forEach((t) => t.classList.remove("active"));
-            tab.classList.add("active");
-            currentFilter = tab.dataset.filter;
-            applyFilters();
-          });
-        });
-      }
-
-      function applyFilters() {
-        switch (currentFilter) {
-          case "recent":
-            filteredEpisodes = [...allEpisodes].sort(
-              (a, b) => new Date(b.published_at) - new Date(a.published_at)
-            );
-            break;
-          case "featured":
-            filteredEpisodes = allEpisodes.filter(
-              (episode) => episode.featured_screen && episode.featured_screen.is_featured
-            );
-            break;
-          case "popular":
-            // For now, sort by duration as a proxy for popularity
-            filteredEpisodes = [...allEpisodes].sort(
-              (a, b) => b.duration_minutes - a.duration_minutes
-            );
-            break;
-          case "all":
-          default:
-            filteredEpisodes = [...allEpisodes];
-            break;
-        }
-        renderMoreEpisodes(filteredEpisodes);
-      }
 
       // Load navigation
       fetch("navigation.html")
