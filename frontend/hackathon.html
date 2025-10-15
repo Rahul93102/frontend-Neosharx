@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SharXathons - Innovation Challenges | NeoSharX</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#000000",
+              "background-light": "#fafafa",
+              "content-light": "#111827",
+              "subtle-light": "#6b7280",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #000000;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Color palette - black/gray/white only */
+      :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+      }
+
+      /* Featured Screens Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-slider {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        align-items: center;
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: var(--gray-100);
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 2.5rem;
+        color: var(--gray-900);
+        background: var(--gray-50);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        letter-spacing: 0.025em;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.875rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+      }
+
+      .featured-description {
+        color: var(--gray-600);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .featured-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--gray-500);
+        font-weight: 400;
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .featured-button {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        background: var(--black);
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+        width: fit-content;
+      }
+
+      .featured-button:hover {
+        background: var(--gray-800);
+        transform: translateY(-1px);
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--white);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1.25rem;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--gray-300);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .dot:hover {
+        background: var(--gray-400);
+      }
+
+      .dot.active {
+        background: var(--black);
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      /* Hackathon Cards */
+      .hackathons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .hackathon-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hackathon-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        border-color: #000;
+      }
+
+      .hackathon-card-image-wrapper {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+        background: #f3f4f6;
+      }
+
+      .hackathon-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+
+      .card-badge.live {
+        background: #10b981;
+        color: white;
+        animation: pulse-badge 2s ease-in-out infinite;
+      }
+
+      .card-badge.upcoming {
+        background: #000000;
+        color: white;
+      }
+
+      .card-badge.completed {
+        background: #6b7280;
+        color: white;
+      }
+
+      .hackathon-card-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hackathon-card-category {
+        color: #6b7280;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .hackathon-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2789c5ff;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+      }
+
+      .hackathon-card-description {
+        color: #6b7280;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+      }
+
+      .hackathon-card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .prize-amount {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #000;
+      }
+
+      @keyframes pulse-badge {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Filter tabs */
+      .filter-tabs {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding: 0.25rem;
+      }
+
+      .filter-tab {
+        padding: 0.875rem 1.75rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.2s;
+        white-space: nowrap;
+        border: 2px solid #e5e7eb;
+        background: white;
+        color: #374151;
+        font-size: 0.9375rem;
+      }
+
+      .filter-tab:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
+
+      .filter-tab.active {
+        background: #000000;
+        color: white;
+        border-color: #000000;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hackathons-grid {
+          grid-template-columns: 1fr;
+        }
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 1.5rem;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-background-light font-display text-content-light"
+    data-page="hackathons"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-8 mt-12">
+            <h1 class="text-5xl font-bold tracking-tight mb-4 text-black">
+              SharXathons
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
+              Join revolutionary hackathons and innovation challenges. Build,
+              compete, and win with NeoSharX community.
+            </p>
+          </div>
+
+          <!-- Featured Hackathons Carousel -->
+          <div id="featuredHackathonsSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1rem;
+                "
+              >
+                <h2
+                  style="
+                    font-weight: 600;
+                    font-size: 1.25rem;
+                    color: var(--black);
+                  "
+                >
+                  Featured Challenges
+                </h2>
+                <div class="slider-controls">
+                  <button class="nav-btn featured-prev">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                  </button>
+                  <button class="nav-btn featured-next">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">
+              All Challenges
+            </button>
+            <button class="filter-tab" data-filter="live">Live Now</button>
+            <button class="filter-tab" data-filter="upcoming">Upcoming</button>
+            <button class="filter-tab" data-filter="completed">
+              Completed
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-20">
+            <div class="loading-spinner mx-auto"></div>
+            <p class="mt-4 text-gray-600">Loading challenges...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-20">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">
+              Unable to load hackathons
+            </h3>
+            <button
+              onclick="location.reload()"
+              class="bg-black text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-800 transition-all duration-100 ease-in-out"
+            >
+              Retry
+            </button>
+          </div>
+
+          <!-- Hackathons Grid -->
+          <div id="hackathonsSection" class="hidden">
+            <div class="hackathons-grid" id="hackathonsGrid">
+              <!-- Hackathons will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Load navigation
+      fetch("navigation.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("nav-container").innerHTML = data;
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      let allHackathons = [],
+        filteredHackathons = [],
+        currentFilter = "all";
+      let featuredHackathons = [],
+        currentFeaturedIndex = 0,
+        featuredInterval;
+
+      // Fetch hackathons from API
+      async function fetchHackathons() {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/hackathons/");
+          const data = await response.json();
+
+          if (data && data.hackathons) {
+            allHackathons = data.hackathons;
+            filteredHackathons = [...allHackathons];
+
+            // Separate featured hackathons
+            featuredHackathons = allHackathons
+              .filter((h) => h.is_featured)
+              .slice(0, 5);
+
+            document.getElementById("loadingState").classList.add("hidden");
+            document
+              .getElementById("hackathonsSection")
+              .classList.remove("hidden");
+
+            if (featuredHackathons.length > 0) {
+              document
+                .getElementById("featuredHackathonsSection")
+                .classList.remove("hidden");
+              renderFeaturedHackathons();
+              startFeaturedSlider();
+            }
+
+            renderHackathons();
+            setupFilters();
+          } else {
+            throw new Error("Invalid response format");
+          }
+        } catch (error) {
+          console.error("Error fetching hackathons:", error);
+          document.getElementById("loadingState").classList.add("hidden");
+          document.getElementById("errorState").classList.remove("hidden");
+        }
+      }
+
+      function getStatus(h) {
+        const now = new Date();
+        const start = new Date(h.start_datetime);
+        const end = new Date(h.end_datetime);
+        return now >= start && now <= end
+          ? "Live"
+          : now < start
+          ? "Upcoming"
+          : "Completed";
+      }
+
+      // Format date
+      function formatDate(dateString) {
+        if (!dateString) return "TBA";
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      // Render featured hackathons slider
+      function renderFeaturedHackathons() {
+        const slider = document.getElementById("featuredSlider");
+        const dots = document.getElementById("featuredDots");
+
+        if (featuredHackathons.length === 0) return;
+
+        // Render current featured hackathon
+        const h = featuredHackathons[currentFeaturedIndex];
+        const status = getStatus(h);
+
+        slider.innerHTML = `
+          <div class="featured-card">
+            <div class="featured-media">
+              <img src="${
+                h.banner_image || h.image || "/api/placeholder/400/300"
+              }" alt="${h.name}" />
+              <span class="featured-badge">${status}</span>
+            </div>
+            <div class="featured-content">
+              <h3 class="featured-title">${h.name}</h3>
+              <p class="featured-description">${(h.description || "").substring(
+                0,
+                150
+              )}...</p>
+              <div class="featured-meta">
+                <span>Date: ${formatDate(h.start_datetime)}</span>
+                <span>Registartion: ${h.participants_count || 0} </span>
+              </div>
+              <a href="hackathon-detail.html?slug=${
+                h.slug
+              }" class="featured-button">
+                <span class="material-symbols-outlined">arrow_forward</span>
+                View Challenge
+              </a>
+            </div>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = featuredHackathons
+          .map(
+            (_, index) =>
+              `<div class="dot ${
+                index === currentFeaturedIndex ? "active" : ""
+              }" onclick="goToFeaturedSlide(${index})"></div>`
+          )
+          .join("");
+      }
+
+      // Start featured slider auto-rotation
+      function startFeaturedSlider() {
+        featuredInterval = setInterval(() => {
+          currentFeaturedIndex =
+            (currentFeaturedIndex + 1) % featuredHackathons.length;
+          renderFeaturedHackathons();
+        }, 5000);
+      }
+
+      // Go to specific featured slide
+      function goToFeaturedSlide(index) {
+        currentFeaturedIndex = index;
+        renderFeaturedHackathons();
+        clearInterval(featuredInterval);
+        startFeaturedSlider();
+      }
+
+      // Render hackathons grid
+      function renderHackathons() {
+        const grid = document.getElementById("hackathonsGrid");
+
+        if (filteredHackathons.length === 0) {
+          grid.innerHTML =
+            '<div class="col-span-full text-center py-20"><h3 class="text-2xl font-bold">No hackathons found</h3></div>';
+          return;
+        }
+
+        grid.innerHTML = filteredHackathons
+          .map((h) => {
+            const status = getStatus(h);
+            return `
+            <div class="hackathon-card" onclick="window.location.href='hackathon-detail.html?slug=${
+              h.slug
+            }'">
+              <div class="hackathon-card-image-wrapper">
+                <img src="${
+                  h.image || h.banner_image || "/api/placeholder/400/300"
+                }" alt="${h.name}" class="hackathon-card-image" />
+                <span class="card-badge ${status.toLowerCase()}">${status}</span>
+              </div>
+              <div class="hackathon-card-content">
+                <span class="hackathon-card-category">${
+                  h.category || "Hackathon"
+                }</span>
+                <h3 class="hackathon-card-title">${h.name}</h3>
+                <p class="hackathon-card-description">${(
+                  h.description ||
+                  h.tagline ||
+                  ""
+                ).substring(0, 100)}...</p>
+                <div class="hackathon-card-meta">
+                  <div class="text-sm text-gray-600">
+                    <div> Date: ${formatDate(h.start_datetime)}</div>
+                    <div>Registartion: ${
+                      h.participants_count || 0
+                    } Registered</div>
+                  </div>
+                  <div class="prize-amount">${h.prize_pool || "TBA"}</div>
+                </div>
+              </div>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+
+
+
+      function setupFilters() {
+        document.querySelectorAll(".filter-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            document
+              .querySelectorAll(".filter-tab")
+              .forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            currentFilter = tab.dataset.filter;
+            applyFilters();
+          });
+        });
+      }
+
+
+      function applyFilters() {
+        filteredHackathons =
+          currentFilter === "all"
+            ? [...allHackathons]
+            : allHackathons.filter(
+                (h) => getStatus(h).toLowerCase() === currentFilter
+              );
+        renderHackathons();
+      }
+
+      // Featured slider controls
+      document.addEventListener("click", (e) => {
+        if (e.target.closest(".featured-prev")) {
+          currentFeaturedIndex =
+            currentFeaturedIndex > 0
+              ? currentFeaturedIndex - 1
+              : featuredHackathons.length - 1;
+          renderFeaturedHackathons();
+          clearInterval(featuredInterval);
+          startFeaturedSlider();
+        }
+        if (e.target.closest(".featured-next")) {
+          currentFeaturedIndex =
+            (currentFeaturedIndex + 1) % featuredHackathons.length;
+          renderFeaturedHackathons();
+          clearInterval(featuredInterval);
+          startFeaturedSlider();
+        }
+      });
+
+      // Initialize
+      fetchHackathons();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neo Projects - NeoSharX</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Color palette: black, gray, white only */
+      :root {
+        --black: #000000;
+        --gray-dark: #333333;
+        --gray-medium: #666666;
+        --gray-light: #999999;
+        --gray-lighter: #cccccc;
+        --gray-bg: #f5f5f5;
+        --white: #ffffff;
+      }
+
+      body {
+        font-family: "Newsreader", serif;
+        background: var(--gray-bg);
+        color: var(--black);
+      }
+
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #666;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Featured Screen Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 32px;
+        border: 1px solid var(--gray-lighter);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: #007fff;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 32px;
+        color: var(--black);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .featured-category {
+        color: var(--gray-medium);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .featured-description {
+        color: var(--gray-dark);
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .meta-row {
+        display: flex;
+        gap: 16px;
+        color: var(--gray-medium);
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        align-items: center;
+      }
+
+      .view-btn {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        background: var(--black);
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+
+      .view-btn:hover {
+        background: var(--gray-dark);
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 127, 255, 0.7);
+        color: var(--white);
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 102, 204, 0.9);
+      }
+
+      .dots {
+        display: flex;
+        gap: 6px;
+        margin-top: 12px;
+        justify-content: center;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: var(--gray-lighter);
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .dot.active {
+        background: var(--gray-dark);
+      }
+
+      /* Project cards */
+      .project-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--gray-lighter);
+        transition: all 0.3s;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+      }
+
+      .project-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+      }
+
+      .project-card-image {
+        height: 200px;
+        overflow: hidden;
+        background: var(--gray-lighter);
+        position: relative;
+      }
+
+      .project-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .project-card:hover .project-card-image img {
+        transform: scale(1.05);
+      }
+
+      .project-card-content {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .project-category {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--gray-bg);
+        color: var(--gray-medium);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 999px;
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
+        width: fit-content;
+      }
+
+      .project-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+
+      .project-description {
+        color: var(--gray-dark);
+        font-weight: 400;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 16px;
+        flex: 1;
+      }
+
+      .project-meta {
+        display: flex;
+        gap: 12px;
+        color: var(--gray-medium);
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding-top: 12px;
+        border-top: 1px solid var(--gray-lighter);
+      }
+
+      .project-featured-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 20px;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="relative flex flex-col min-h-screen w-full">
+      <!-- Shared Navigation -->
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-12">
+            <h1
+              style="
+                font-size: 4rem;
+                font-weight: 700;
+                color: var(--black);
+                margin-bottom: 24px;
+              "
+            >
+              Neo Projects
+            </h1>
+
+            <!-- Animated Typing Taglines -->
+            <div
+              style="
+                font-size: 2.3rem;
+                color: #007fff;
+                max-width: 800px;
+                margin: 0 auto;
+                font-weight: 500;
+                min-height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <span id="typingText"></span>
+              <span id="cursor" style="animation: blink 1s infinite">|</span>
+            </div>
+          </div>
+
+          <!-- Featured Screens Slider -->
+          <div id="featuredScreensSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 12px;
+                "
+              >
+                <span
+                  style="font-weight: 600; color: var(--black); font-size: 1rem"
+                  >Featured Projects</span
+                >
+                <span
+                  style="
+                    color: var(--gray-medium);
+                    font-weight: 500;
+                    font-size: 0.9rem;
+                  "
+                  >Scroll with arrows</span
+                >
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured item will render here -->
+                </div>
+                <div class="slider-controls">
+                  <button
+                    id="prevFeatured"
+                    class="nav-btn"
+                    aria-label="Previous"
+                  >
+                </div>
+                <div class="dots" id="featuredDots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 16px;
+              margin-bottom: 40px;
+              flex-wrap: wrap;
+            "
+          >
+            <select
+              id="categoryFilter"
+              style="
+                padding: 10px 20px;
+                border: 1px solid var(--gray-lighter);
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                font-weight: 500;
+                cursor: pointer;
+              "
+            >
+              <option value="all">All Categories</option>
+              <option value="ai_ml">AI & ML</option>
+              <option value="blockchain">Blockchain</option>
+              <option value="iot">IoT</option>
+              <option value="robotics">Robotics</option>
+              <option value="ar_vr">AR/VR</option>
+              <option value="data_science">Data Science</option>
+              <option value="web_development">Web Development</option>
+              <option value="mobile_app">Mobile App</option>
+            </select>
+
+            <select
+              id="statusFilter"
+              style="
+                padding: 10px 20px;
+                border: 1px solid var(--gray-lighter);
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                font-weight: 500;
+                cursor: pointer;
+              "
+            >
+              <option value="all">All Status</option>
+              <option value="completed">Completed</option>
+              <option value="in_development">In Development</option>
+              <option value="beta">Beta</option>
+              <option value="maintained">Maintained</option>
+            </select>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p style="color: var(--gray-medium)">Loading projects...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p style="color: #c00; font-size: 1.1rem; margin-bottom: 16px">
+              Failed to load projects
+            </p>
+            <button
+              onclick="location.reload()"
+              style="
+                background: var(--black);
+                color: var(--white);
+                padding: 12px 24px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+              "
+            >
+              Retry
+            </button>
+          </div>
+
+          <!-- Projects Grid -->
+          <h2
+            style="
+              font-size: 2rem;
+              font-weight: 600;
+              text-align: center;
+              margin-bottom: 32px;
+              color: var(--black);
+            "
+          >
+            All Projects
+          </h2>
+          <div
+            id="projectsGrid"
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+              gap: 24px;
+            "
+          >
+            <!-- Projects will be loaded here -->
+          </div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="hidden text-center py-12">
+            <p style="font-size: 1.2rem; color: var(--gray-medium)">
+              No projects found
+            </p>
+            <p style="color: var(--gray-light); margin-top: 8px">
+              Try adjusting your filters
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:8000/api/auth";
+      let allProjects = [];
+      let filteredProjects = [];
+
+      // Typing Animation
+      const taglines = [
+        "Innovation starts here...",
+        "Building the future, one project at a time...",
+        "Where ideas become reality...",
+        "Transforming visions into solutions...",
+        "Discover cutting-edge innovations...",
+        "Empowering creators and developers...",
+      ];
+
+      let currentTaglineIndex = 0;
+      let currentCharIndex = 0;
+      let isDeleting = false;
+      let typingSpeed = 100;
+
+      function typeTagline() {
+        const typingElement = document.getElementById("typingText");
+        const currentTagline = taglines[currentTaglineIndex];
+
+        if (!isDeleting) {
+          // Typing
+          typingElement.textContent = currentTagline.substring(
+            0,
+            currentCharIndex + 1
+          );
+          currentCharIndex++;
+
+          if (currentCharIndex === currentTagline.length) {
+            // Pause at the end before deleting
+            isDeleting = true;
+            setTimeout(typeTagline, 2000);
+            return;
+          }
+        } else {
+          // Deleting
+          typingElement.textContent = currentTagline.substring(
+            0,
+            currentCharIndex - 1
+          );
+          currentCharIndex--;
+
+          if (currentCharIndex === 0) {
+            isDeleting = false;
+            currentTaglineIndex = (currentTaglineIndex + 1) % taglines.length;
+            setTimeout(typeTagline, 500);
+            return;
+          }
+        }
+
+        setTimeout(typeTagline, isDeleting ? 50 : typingSpeed);
+      }
+
+      // Start typing animation on load
+      window.addEventListener("load", () => {
+        setTimeout(typeTagline, 500);
+      });
+
+      async function loadProjects() {
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const emptyState = document.getElementById("emptyState");
+        const projectsGrid = document.getElementById("projectsGrid");
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/neo-projects/`);
+          if (!response.ok) throw new Error("Failed to fetch projects");
+
+          allProjects = await response.json();
+          filteredProjects = [...allProjects];
+
+          // Load featured screens from projects that have them
+          loadFeaturedScreens(allProjects);
+
+          loadingState.classList.add("hidden");
+          renderProjects();
+        } catch (error) {
+          console.error("Error loading projects:", error);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(projects) {
+        // Collect featured screens from all projects
+        const allScreens = [];
+        projects.forEach((project) => {
+          if (
+            project.featured_screen &&
+            project.featured_screen.url &&
+            project.featured_screen.is_featured
+          ) {
+            allScreens.push({
+              url: project.featured_screen.url,
+              type: project.featured_screen.type || "image",
+              project: project,
+            });
+          }
+        });
+
+        if (allScreens.length === 0) return;
+
+        // State for slider
+        window._featuredState = {
+          items: allScreens,
+          index: 0,
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        setupFeaturedControls();
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.items || state.items.length === 0) return;
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+        const item = state.items[idx];
+        const project = item.project || {};
+
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+        }
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-category">${
+              formatCategory(project.category) || "Project"
+            }</div>
+            <div class="featured-title">${
+              project.title || "Featured Project"
+            }</div>
+            <div class="featured-description">${project.description || ""}</div>
+            <div class="meta-row">
+              <div>${project.developer_name || ""}</div>
+              ${
+                project.status
+                  ? `<div>Status: ${formatStatus(project.status)}</div>`
+                  : ""
+              }
+            </div>
+            <a href="${
+              project.slug
+                ? `neo-project-detail.html?slug=${project.slug}`
+                : "#"
+            }" class="view-btn">
+              View Project
+              <span>→</span>
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = "";
+        state.items.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const prev = document.getElementById("prevFeatured");
+        const next = document.getElementById("nextFeatured");
+
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
+      }
+
+      function renderProjects() {
+        const projectsGrid = document.getElementById("projectsGrid");
+        const emptyState = document.getElementById("emptyState");
+
+        if (filteredProjects.length === 0) {
+          projectsGrid.innerHTML = "";
+          emptyState.classList.remove("hidden");
+          return;
+        }
+
+        emptyState.classList.add("hidden");
+        projectsGrid.innerHTML = filteredProjects
+          .map((project) => renderProjectCard(project))
+          .join("");
+      }
+
+      function renderProjectCard(project) {
+        const hasFeaturedScreen =
+          project.featured_screen &&
+          project.featured_screen.url &&
+          project.featured_screen.is_featured;
+
+        return `
+          <div class="project-card" onclick="window.location.href='neo-project-detail.html?slug=${
+            project.slug
+          }'">
+            <div class="project-card-image">
+              ${
+                hasFeaturedScreen
+                  ? '<div class="project-featured-badge">Featured</div>'
+                  : ""
+              }
+              <img src="${
+                project.featured_image || "https://via.placeholder.com/600x400"
+              }" alt="${project.title}" loading="lazy" />
+            </div>
+            <div class="project-card-content">
+              <div class="project-category">${
+                formatCategory(project.category) || "Project"
+              }</div>
+              <h3 class="project-title">${project.title}</h3>
+              <p class="project-description">${project.description || ""}</p>
+              <div class="project-meta">
+                <span>${project.developer_name || "NeoSharX"}</span>
+                <span>•</span>
+                <span>${
+                  project.status ? formatStatus(project.status) : "Active"
+                }</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function formatCategory(cat) {
+        const names = {
+          ai_ml: "AI & ML",
+          blockchain: "Blockchain",
+          iot: "IoT",
+          robotics: "Robotics",
+          ar_vr: "AR/VR",
+          data_science: "Data Science",
+          web_development: "Web Development",
+          mobile_app: "Mobile App",
+          game_development: "Game Dev",
+          cybersecurity: "Security",
+          cloud_computing: "Cloud",
+          devops: "DevOps",
+        };
+        return names[cat] || cat;
+      }
+
+      function formatStatus(status) {
+        const names = {
+          planning: "Planning",
+          in_development: "In Development",
+          beta: "Beta",
+          completed: "Completed",
+          maintained: "Maintained",
+          archived: "Archived",
+        };
+        return names[status] || status;
+      }
+
+      function applyFilters() {
+        const categoryFilter = document.getElementById("categoryFilter").value;
+        const statusFilter = document.getElementById("statusFilter").value;
+
+        // Filter by category and status
+        filteredProjects = allProjects.filter((project) => {
+          if (categoryFilter !== "all" && project.category !== categoryFilter)
+            return false;
+          if (statusFilter !== "all" && project.status !== statusFilter)
+            return false;
+          return true;
+        });
+
+        renderProjects();
+      }
+
+      // Event listeners
+      document
+        .getElementById("categoryFilter")
+        .addEventListener("change", applyFilters);
+      document
+        .getElementById("statusFilter")
+        .addEventListener("change", applyFilters);
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Load projects on page load
+      document.addEventListener("DOMContentLoaded", loadProjects);
+    </script>
+  </body>
+</html>

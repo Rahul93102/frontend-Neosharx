@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hackathon Details | NeoSharX</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#000000",
+              "background-light": "#fafafa",
+              "content-light": "#111827",
+              "subtle-light": "#6b7280",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Color palette - black/gray/white/blue */
+      :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --blue-50: #eff6ff;
+        --blue-100: #dbeafe;
+        --blue-200: #bfdbfe;
+        --blue-300: #93c5fd;
+        --blue-400: #60a5fa;
+        --blue-500: #3b82f6;
+        --blue-600: #2563eb;
+        --blue-700: #1d4ed8;
+        --blue-800: #1e40af;
+        --blue-900: #1e3a8a;
+      }
+
+      body {
+        font-family: "Newsreader", serif;
+        background: var(--gray-50);
+        color: var(--gray-900);
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+
+      .loading-spinner {
+        border: 4px solid var(--gray-200);
+        border-top: 4px solid var(--black);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Hero Section */
+      .hero-section {
+        position: relative;
+        height: 60vh;
+        min-height: 500px;
+        background: var(--black);
+        overflow: hidden;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.7) 0%,
+          rgba(0, 0, 0, 0.5) 100%
+        );
+        z-index: 1;
+      }
+
+      .hero-image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      .hero-text {
+        max-width: 800px;
+        color: var(--white);
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-description {
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 0.75rem 1.25rem;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* Content Sections */
+      .content-section {
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--black);
+        border-radius: 2px;
+      }
+
+      /* Prize Cards */
+      .prize-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .prize-card {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 0.75rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .prize-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--black);
+      }
+
+      .prize-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: var(--black);
+      }
+
+      .prize-position {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--gray-600);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .prize-amount {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 1rem;
+      }
+
+      .prize-description {
+        font-size: 0.875rem;
+        color: var(--gray-700);
+        line-height: 1.5;
+      }
+
+      /* Rules List */
+      .rules-list {
+        margin-top: 2rem;
+      }
+
+      .rule-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--gray-100);
+      }
+
+      .rule-item:last-child {
+        border-bottom: none;
+      }
+
+      .rule-icon {
+        color: var(--black);
+        font-size: 1.25rem;
+        margin-top: 0.125rem;
+        flex-shrink: 0;
+      }
+
+      .rule-text {
+        color: var(--gray-700);
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      /* Sidebar */
+      .sidebar-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .sidebar-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--gray-100);
+      }
+
+      .info-item:last-child {
+        border-bottom: none;
+      }
+
+      .info-label {
+        font-weight: 500;
+        color: var(--gray-600);
+      }
+
+      .info-value {
+        font-weight: 600;
+        color: var(--black);
+      }
+
+      /* Organizer Card */
+      .organizer-card {
+        text-align: center;
+      }
+
+      .organizer-avatar {
+        width: 4rem;
+        height: 4rem;
+        background: var(--gray-100);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        border: 2px solid var(--gray-200);
+      }
+
+      .organizer-name {
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 0.25rem;
+      }
+
+      .organizer-role {
+        font-size: 0.875rem;
+        color: var(--gray-600);
+      }
+
+      /* CTA Button */
+      .cta-button {
+        width: 100%;
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .cta-button:hover {
+        background: var(--gray-800);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Comments Section */
+      .comments-section {
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 2.5rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .comments-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      /* Back Button */
+      .back-button {
+        position: fixed;
+        top: 100px;
+        left: 2rem;
+        z-index: 100;
+        background: var(--white);
+        color: var(--black);
+        border: 1px solid var(--gray-200);
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .back-button:hover {
+        background: var(--gray-50);
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Blue Elements */
+      .text-blue {
+        color: var(--blue-600);
+      }
+
+      .text-blue-light {
+        color: var(--blue-500);
+      }
+
+      .bg-blue {
+        background-color: var(--blue-600);
+      }
+
+      .bg-blue:hover {
+        background-color: var(--blue-700);
+      }
+
+      .border-blue {
+        border-color: var(--blue-600);
+      }
+
+      .btn-blue {
+        background: var(--blue-600);
+        color: var(--white);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-blue:hover {
+        background: var(--blue-700);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      }
+
+      /* Judges Section */
+      .judges-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .judge-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .judge-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: var(--blue-200);
+      }
+
+      .judge-avatar {
+        width: 5rem;
+        height: 5rem;
+        background: var(--blue-100);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        border: 3px solid var(--blue-200);
+      }
+
+      .judge-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 0.5rem;
+      }
+
+      .judge-role {
+        font-size: 0.875rem;
+        color: var(--blue-600);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .judge-company {
+        font-size: 0.875rem;
+        color: var(--gray-600);
+        margin-bottom: 1rem;
+      }
+
+      .judge-bio {
+        font-size: 0.875rem;
+        color: var(--gray-700);
+        line-height: 1.5;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .hero-description {
+          font-size: 1.1rem;
+        }
+
+        .hero-meta {
+          gap: 0.75rem;
+        }
+
+        .meta-item {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+
+        .content-section {
+          padding: 1.5rem;
+        }
+
+        .prize-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .back-button {
+          top: 80px;
+          left: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <div id="nav-container"></div>
+
+    <!-- Loading State -->
+    <div
+      id="loadingState"
+      class="min-h-screen flex items-center justify-center bg-gray-50"
+    >
+      <div class="text-center">
+        <div class="loading-spinner mx-auto mb-4"></div>
+        <p class="text-gray-600 font-medium">Loading hackathon details...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div
+      id="errorState"
+      class="hidden min-h-screen flex items-center justify-center bg-gray-50"
+    >
+      <div class="text-center max-w-md mx-auto px-4">
+        <div class="material-symbols-outlined text-6xl text-gray-400 mb-4">
+          error
+        </div>
+        <h3 id="errorTitle" class="text-2xl font-bold text-gray-800 mb-4">
+          Hackathon not found
+        </h3>
+        <p id="errorMessage" class="text-gray-600 mb-6">
+          The hackathon you're looking for doesn't exist or has been removed.
+        </p>
+        <a href="hackathon.html" class="cta-button">Back to Hackathons</a>
+      </div>
+    </div>
+
+    <!-- Hackathon Content -->
+    <div id="hackathonContent" class="hidden">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div id="heroImage" class="hero-image"></div>
+        <div class="hero-overlay"></div>
+        <div class="max-w-7xl mx-auto hero-content">
+          <div class="hero-text">
+            <h1 id="hackathonTitle" class="hero-title">Hackathon Title</h1>
+            <p id="hackathonDescription" class="hero-description">
+              Hackathon description will appear here.
+            </p>
+            <div class="hero-meta">
+              <div class="meta-item">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <span id="hackathonDate">Date TBA</span>
+              </div>
+              <div class="meta-item">
+                <span class="material-symbols-outlined">group</span>
+                <span id="hackathonParticipants">Participants</span>
+              </div>
+              <div class="meta-item">
+                <span class="material-symbols-outlined">emoji_events</span>
+                <span id="hackathonPrize">Prize TBA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Left Column - Main Content -->
+          <div class="lg:col-span-2 space-y-8">
+            <!-- About Section -->
+            <section class="content-section">
+              <h2 class="section-title">About This Hackathon</h2>
+              <div
+                id="aboutContent"
+                class="text-gray-700 leading-relaxed text-lg"
+              >
+                Hackathon details will be loaded here...
+              </div>
+            </section>
+
+            <!-- Prizes Section -->
+            <section class="content-section">
+              <h2 class="section-title">Prizes & Rewards</h2>
+              <div id="prizesGrid" class="prize-grid">
+                <!-- Prizes will be populated here -->
+              </div>
+            </section>
+
+            <!-- Rules Section -->
+            <section class="content-section">
+              <h2 class="section-title">Rules & Guidelines</h2>
+              <ul id="rulesList" class="rules-list">
+                <!-- Rules will be populated here -->
+              </ul>
+            </section>
+
+            <!-- Judges Section -->
+            <section class="content-section">
+              <h2 class="section-title">Judges & Mentors</h2>
+              <div class="judges-grid">
+                <div class="judge-card">
+                  <div class="judge-avatar">
+                    <span
+                      class="material-symbols-outlined text-3xl text-blue-500"
+                      >person</span
+                    >
+                  </div>
+                  <div class="judge-info">
+                    <h3 class="judge-name">Dr. Sarah Chen</h3>
+                    <p class="judge-role">AI/ML Expert</p>
+                    <p class="judge-company">TechCorp Inc.</p>
+                  </div>
+                </div>
+                <div class="judge-card">
+                  <div class="judge-avatar">
+                    <span
+                      class="material-symbols-outlined text-3xl text-blue-500"
+                      >person</span
+                    >
+                  </div>
+                  <div class="judge-info">
+                    <h3 class="judge-name">Marcus Rodriguez</h3>
+                    <p class="judge-role">Full Stack Developer</p>
+                    <p class="judge-company">StartupXYZ</p>
+                  </div>
+                </div>
+                <div class="judge-card">
+                  <div class="judge-avatar">
+                    <span
+                      class="material-symbols-outlined text-3xl text-blue-500"
+                      >person</span
+                    >
+                  </div>
+                  <div class="judge-info">
+                    <h3 class="judge-name">Dr. Emily Watson</h3>
+                    <p class="judge-role">Cybersecurity Specialist</p>
+                    <p class="judge-company">SecureTech Solutions</p>
+                  </div>
+                </div>
+                <div class="judge-card">
+                  <div class="judge-avatar">
+                    <span
+                      class="material-symbols-outlined text-3xl text-blue-500"
+                      >person</span
+                    >
+                  </div>
+                  <div class="judge-info">
+                    <h3 class="judge-name">Alex Kumar</h3>
+                    <p class="judge-role">Product Manager</p>
+                    <p class="judge-company">InnovateLabs</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Right Column - Sidebar -->
+          <div class="space-y-6">
+            <!-- Quick Info -->
+            <div class="sidebar-card">
+              <h3 class="sidebar-title">
+                <span class="material-symbols-outlined">info</span>
+                Quick Info
+              </h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <span class="info-label">Location</span>
+                  <span id="locationInfo" class="info-value">TBA</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Team Size</span>
+                  <span id="teamSizeInfo" class="info-value"
+                    >Not specified</span
+                  >
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Difficulty</span>
+                  <span id="difficultyInfo" class="info-value"
+                    >Not specified</span
+                  >
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Status</span>
+                  <span id="statusInfo" class="info-value">Unknown</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Organizer -->
+            <div class="sidebar-card organizer-card">
+              <h3 class="sidebar-title">
+                <span class="material-symbols-outlined">business</span>
+                Organizer
+              </h3>
+              <div class="organizer-avatar">
+                <span class="material-symbols-outlined text-2xl text-gray-400"
+                  >business</span
+                >
+              </div>
+              <div class="organizer-name" id="organizerName">NeoSharX Team</div>
+              <div class="organizer-role" id="organizerEmail">
+                hackathon@neosharx.com
+              </div>
+            </div>
+
+            <!-- Registration CTA -->
+            <div class="sidebar-card">
+              <h3 class="sidebar-title">
+                <span class="material-symbols-outlined">rocket_launch</span>
+                Ready to Participate?
+              </h3>
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                Join this exciting hackathon and showcase your skills! Connect
+                with fellow developers and build something amazing.
+              </p>
+              <button class="cta-button">
+                <span class="material-symbols-outlined mr-2">login</span>
+                Register Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <section class="comments-section mt-12">
+          <h2 class="comments-title">
+            <span class="material-symbols-outlined">forum</span>
+            Discussion
+          </h2>
+          <div id="comments-container">
+            <!-- Comments will be loaded here -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      // Load navigation
+      fetch("navigation.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("nav-container").innerHTML = data;
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      let hackathonData = null;
+
+      // Get URL parameter
+      function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      // Show error state
+      function showError(title, message) {
+        document.getElementById("loadingState").classList.add("hidden");
+        document.getElementById("errorState").classList.remove("hidden");
+        document.getElementById("errorTitle").textContent = title;
+        document.getElementById("errorMessage").textContent = message;
+      }
+
+      // Format date
+      function formatDate(dateString) {
+        if (!dateString) return "TBA";
+        try {
+          const date = new Date(dateString);
+          return date.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        } catch (e) {
+          return dateString;
+        }
+      }
+
+      // Render hackathon details
+      function renderHackathonDetails() {
+        if (!hackathonData) return;
+
+        // Update page title
+        document.title = hackathonData.name + " | NeoSharX";
+
+        // Hero section
+        const heroImage = document.getElementById("heroImage");
+        const imageUrl =
+          hackathonData.banner_image ||
+          hackathonData.image ||
+          "/api/placeholder/1200/600";
+        heroImage.style.backgroundImage = "url(" + imageUrl + ")";
+
+        document.getElementById("hackathonTitle").textContent =
+          hackathonData.name || "Untitled Hackathon";
+        document.getElementById("hackathonDescription").textContent =
+          hackathonData.description || hackathonData.tagline || "";
+        document.getElementById("hackathonDate").textContent = formatDate(
+          hackathonData.start_datetime
+        );
+        document.getElementById("hackathonParticipants").textContent =
+          (hackathonData.current_participants || 0) +
+          "/" +
+          (hackathonData.max_participants || "∞") +
+          " Registered";
+        document.getElementById("hackathonPrize").textContent =
+          hackathonData.prizes && hackathonData.prizes.length > 0
+            ? hackathonData.prizes[0].prize
+            : "TBA";
+
+        // About content
+        document.getElementById("aboutContent").innerHTML =
+          hackathonData.content ||
+          hackathonData.description ||
+          "No additional information available.";
+
+        // Quick info
+        document.getElementById("locationInfo").textContent =
+          hackathonData.location || "TBA";
+        document.getElementById("teamSizeInfo").textContent =
+          hackathonData.team_size || "Not specified";
+        document.getElementById("difficultyInfo").textContent =
+          hackathonData.difficulty_level || "Not specified";
+        document.getElementById("statusInfo").textContent = hackathonData.status
+          ? hackathonData.status.replace("_", " ").toUpperCase()
+          : "Unknown";
+
+        // Prizes
+        renderPrizes();
+
+        // Rules
+        renderRules();
+
+        // Organizer
+        document.getElementById("organizerName").textContent =
+          hackathonData.organizer_name || "NeoSharX Team";
+        document.getElementById("organizerEmail").textContent =
+          hackathonData.organizer_email || "hackathon@neosharx.com";
+
+        // Show content
+        document.getElementById("loadingState").classList.add("hidden");
+        document.getElementById("hackathonContent").classList.remove("hidden");
+
+        // Load comments after content is rendered
+        setTimeout(() => {
+          loadComments();
+        }, 500);
+      }
+
+      // Render prizes
+      function renderPrizes() {
+        const prizesGrid = document.getElementById("prizesGrid");
+        const prizes = hackathonData.prizes || [];
+
+        if (prizes.length === 0) {
+          prizesGrid.innerHTML =
+            '<div class="text-center py-8 text-gray-600">Prize details coming soon</div>';
+          return;
+        }
+
+        let html = "";
+        for (let i = 0; i < prizes.length; i++) {
+          const prize = prizes[i];
+          const position =
+            i + 1 + (i === 0 ? "st" : i === 1 ? "nd" : i === 2 ? "rd" : "th");
+          const amount = prize.prize || prize.amount || "TBA";
+          const desc = prize.description || "Prize for " + position + " place";
+
+          html += '<div class="prize-card">';
+          html +=
+            '<div class="prize-position">' +
+            position.toUpperCase() +
+            " PLACE</div>";
+          html += '<div class="prize-amount">' + amount + "</div>";
+          html += '<div class="prize-description">' + desc + "</div>";
+          html += "</div>";
+        }
+        prizesGrid.innerHTML = html;
+      }
+
+      // Render rules
+      function renderRules() {
+        const rulesList = document.getElementById("rulesList");
+        const rules = hackathonData.rules || [];
+
+        if (rules.length === 0) {
+          rulesList.innerHTML =
+            '<li class="rule-item"><span class="material-symbols-outlined rule-icon">info</span><span class="rule-text">Rules and guidelines will be provided closer to the event date.</span></li>';
+          return;
+        }
+
+        let html = "";
+        for (let i = 0; i < rules.length; i++) {
+          html += '<li class="rule-item">';
+          html +=
+            '<span class="material-symbols-outlined rule-icon">check_circle</span>';
+          html += '<span class="rule-text">' + rules[i] + "</span>";
+          html += "</li>";
+        }
+        rulesList.innerHTML = html;
+      }
+
+      // Load comments
+      function loadComments() {
+        const commentsContainer = document.getElementById("comments-container");
+        if (!hackathonData || !hackathonData.slug) {
+          commentsContainer.innerHTML =
+            '<p class="text-gray-600">Comments system loading...</p>';
+          return;
+        }
+
+        // Initialize comment system
+        if (window.CommentSystem) {
+          try {
+            const commentSystem = new CommentSystem(
+              "hackathon",
+              hackathonData.slug,
+              "comments-container",
+              {
+                apiBaseUrl: "http://127.0.0.1:8000/api/auth",
+                showLoginPrompt: true,
+                enableReplies: true,
+                enableLikes: true,
+                theme: "light",
+              }
+            );
+          } catch (error) {
+            console.error("Error initializing comment system:", error);
+            commentsContainer.innerHTML =
+              '<p class="text-gray-600">Comments system temporarily unavailable.</p>';
+          }
+        } else {
+          commentsContainer.innerHTML =
+            '<p class="text-gray-600">Comments system loading...</p>';
+        }
+      }
+
+      // Fetch hackathon details
+      async function fetchHackathonDetails() {
+        const slug = getUrlParameter("slug");
+
+        if (!slug) {
+          showError(
+            "No Hackathon Specified",
+            "Please provide a valid hackathon slug in the URL."
+          );
+          return;
+        }
+
+        try {
+          console.log("Fetching hackathons from API...");
+          const response = await fetch("http://127.0.0.1:8001/hackathons/");
+
+          if (!response.ok) {
+            throw new Error(
+              `API request failed: ${response.status} ${response.statusText}`
+            );
+          }
+
+          const data = await response.json();
+          console.log("API response received:", data);
+
+          if (data.hackathons && Array.isArray(data.hackathons)) {
+            // Find hackathon by slug
+            hackathonData = data.hackathons.find((h) => h.slug === slug);
+
+            if (hackathonData) {
+              console.log("Found matching hackathon:", hackathonData);
+              renderHackathonDetails();
+            } else {
+              console.error("Hackathon not found for slug:", slug);
+              console.log(
+                "Available slugs:",
+                data.hackathons.map((h) => h.slug)
+              );
+              showError(
+                "Hackathon Not Found",
+                `No hackathon found with slug: ${slug}`
+              );
+            }
+          } else {
+            throw new Error("Invalid API response format");
+          }
+        } catch (error) {
+          console.error("Error fetching hackathon:", error);
+          showError(
+            "Connection Error",
+            `Failed to load hackathon data: ${error.message}`
+          );
+        }
+      }
+
+      // Initialize
+      fetchHackathonDetails();
+    </script>
+
+    <!-- Load comment system -->
+    <script src="comment-system.js"></script>
+  </body>
+</html>

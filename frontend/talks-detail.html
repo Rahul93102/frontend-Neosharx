@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Episode Detail - NeoSharX Talks</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#067ff9",
+            "background-light": "#f5f7f8",
+            "content-light": "#111418",
+            "subtle-light": "#5f758c",
+          },
+          fontFamily: {
+            display: ["Newsreader"],
+          },
+        },
+      },
+    };
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
+  />
+  <style>
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: #000;
+      border-radius: 0.75rem;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .speaker-card {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .speaker-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .takeaway-item {
+      padding: 1rem;
+      background: #f9fafb;
+      border-left: 4px solid #067ff9;
+      border-radius: 0.375rem;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body class="bg-background-light font-display text-content-light">
+  <div class="relative flex flex-col min-h-screen w-full">
+    <div id="nav-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Loading State -->
+      <div id="loadingState" class="text-center py-12">
+        <div
+          class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"
+        ></div>
+        <p class="mt-4 text-subtle-light">Loading episode...</p>
+      </div>
+
+      <!-- Error State -->
+      <div id="errorState" class="hidden text-center py-12">
+        <p class="text-red-500 text-lg mb-4">Episode not found</p>
+        <a
+          href="talks-dynamic.html"
+          class="inline-block bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          Back to Episodes
+        </a>
+      </div>
+
+      <!-- Episode Content -->
+      <article id="episodeContent" class="max-w-4xl mx-auto hidden">
+        <!-- Video Player -->
+        <div class="video-container mb-8" id="videoContainer"></div>
+
+        <!-- Episode Header -->
+        <div class="mb-8">
+          <div class="flex items-center gap-4 mb-4">
+            <span
+              id="episodeNumber"
+              class="px-3 py-1 bg-primary/10 text-primary text-sm font-bold rounded-full uppercase tracking-wider"
+            ></span>
+          </div>
+          <h1
+            id="episodeTitle"
+            class="text-5xl font-extrabold tracking-tight mb-4"
+          ></h1>
+          <p
+            id="episodeHeader"
+            class="text-2xl text-subtle-light mb-6"
+          ></p>
+
+          <div
+            class="flex items-center gap-6 text-sm text-subtle-light mb-8"
+          >
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-lg">schedule</span>
+              <span id="duration"></span> min
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-lg">calendar_today</span>
+              <span id="publishedDate"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold mb-4">About This Episode</h2>
+          <div id="episodeDescription" class="text-subtle-light leading-relaxed whitespace-pre-wrap text-lg"></div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div id="keyTakeawaysSection" class="mb-12">
+          <h2 class="text-2xl font-bold mb-4">Key Takeaways</h2>
+          <div id="keyTakeawaysList"></div>
+        </div>
+
+        <!-- Speakers -->
+        <div id="speakersSection" class="mb-12">
+          <h2 class="text-2xl font-bold mb-6">Speakers</h2>
+          <div id="speakersList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-16 pt-8 border-t border-gray-200">
+          <div id="comments-container"></div>
+        </div>
+
+        <!-- Back to Episodes -->
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <a
+            href="talks-dynamic.html"
+            class="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+          >
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Back to All Episodes</span>
+          </a>
+        </div>
+      </article>
+    </main>
+
+    <footer class="bg-background-light border-t border-gray-200">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <div class="flex items-center gap-2 text-primary">
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            <h2 class="text-lg font-bold">NeoSharX</h2>
+          </div>
+          <div
+            class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+          >
+            <a
+              class="text-sm text-subtle-light hover:text-primary transition-colors"
+              href="#"
+            >About</a>
+            <a
+              class="text-sm text-subtle-light hover:text-primary transition-colors"
+              href="#"
+            >Contact</a>
+            <a
+              class="text-sm text-subtle-light hover:text-primary transition-colors"
+              href="#"
+            >Terms of Service</a>
+            <a
+              class="text-sm text-subtle-light hover:text-primary transition-colors"
+              href="#"
+            >Privacy Policy</a>
+          </div>
+          <p class="text-sm text-subtle-light">
+            © 2023 NeoSharX. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const API_BASE_URL = "http://localhost:8000/api/auth";
+
+    function getSlugFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("slug");
+    }
+
+    async function loadEpisode() {
+      const loadingState = document.getElementById("loadingState");
+      const errorState = document.getElementById("errorState");
+      const episodeContent = document.getElementById("episodeContent");
+
+      try {
+        const slug = getSlugFromURL();
+        if (!slug) {
+          throw new Error("No slug provided");
+        }
+
+        console.log("Loading episode with slug:", slug);
+        const response = await fetch(
+          `${API_BASE_URL}/talk-episodes/slug/${slug}/`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const episode = await response.json();
+        console.log("Episode loaded:", episode);
+
+        renderEpisode(episode);
+
+        loadingState.classList.add("hidden");
+        episodeContent.classList.remove("hidden");
+
+        // Initialize comment system
+        initializeCommentSystem(slug);
+      } catch (error) {
+        console.error("Error loading episode:", error);
+        loadingState.classList.add("hidden");
+        errorState.classList.remove("hidden");
+      }
+    }
+
+    function renderEpisode(episode) {
+      // Video Player
+      const videoContainer = document.getElementById("videoContainer");
+      videoContainer.innerHTML = `<iframe src="${episode.youtube_embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+      // Header
+      document.getElementById("episodeNumber").textContent = `Episode ${episode.episode_number}`;
+      document.getElementById("episodeTitle").textContent = episode.title;
+      document.getElementById("episodeHeader").textContent = episode.header;
+
+      // Metadata
+      document.getElementById("duration").textContent = episode.duration_minutes;
+
+      const publishedDate = new Date(episode.published_at);
+      document.getElementById("publishedDate").textContent = publishedDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+
+      // Description
+      document.getElementById("episodeDescription").textContent = episode.description;
+
+      // Key Takeaways
+      if (episode.key_takeaways && episode.key_takeaways.length > 0) {
+        const takeawaysHtml = episode.key_takeaways
+          .map((takeaway) => `<div class="takeaway-item">${takeaway}</div>`)
+          .join("");
+        document.getElementById("keyTakeawaysList").innerHTML = takeawaysHtml;
+      } else {
+        document.getElementById("keyTakeawaysSection").style.display = "none";
+      }
+
+      // Speakers
+      if (episode.speaker_panels && episode.speaker_panels.length > 0) {
+        const speakersHtml = episode.speaker_panels
+          .map(
+            (speaker) => `
+            <div class="speaker-card">
+              <div class="flex items-start gap-4 mb-4">
+                ${speaker.avatar_url ? `<img src="${speaker.avatar_url}" alt="${speaker.name}" class="w-16 h-16 rounded-full object-cover" />` : ''}
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold mb-1">${speaker.name}</h3>
+                  <p class="text-subtle-light text-sm">${speaker.title}</p>
+                </div>
+              </div>
+              <p class="text-subtle-light leading-relaxed mb-4">${speaker.bio}</p>
+              ${
+                speaker.social_links
+                  ? `
+                <div class="flex gap-4 text-sm">
+                  ${
+                    speaker.social_links.linkedin
+                      ? `<a href="${speaker.social_links.linkedin}" target="_blank" class="text-primary hover:text-primary/80 font-medium flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">link</span>
+                      LinkedIn
+                    </a>`
+                      : ""
+                  }
+                  ${
+                    speaker.social_links.twitter
+                      ? `<a href="${speaker.social_links.twitter}" target="_blank" class="text-primary hover:text-primary/80 font-medium flex items-center gap-1">
+                      <span class="material-symbols-outlined text-sm">link</span>
+                      Twitter
+                    </a>`
+                      : ""
+                  }
+                </div>
+              `
+                  : ""
+              }
+            </div>
+          `
+          )
+          .join("");
+        document.getElementById("speakersList").innerHTML = speakersHtml;
+      } else {
+        document.getElementById("speakersSection").style.display = "none";
+      }
+
+      // Update page title
+      document.title = `${episode.title} - NeoSharX Talks`;
+    }
+
+    function initializeCommentSystem(slug) {
+      if (typeof CommentSystem !== 'undefined') {
+        new CommentSystem("talk_episode", slug, "comments-container", {
+          apiBaseUrl: API_BASE_URL,
+          showLoginPrompt: true,
+          enableReplies: true,
+          enableLikes: true,
+        });
+      }
+    }
+
+    // Load navigation
+    fetch("navigation.html")
+      .then((res) => res.text())
+      .then((html) => {
+        document.getElementById("nav-container").innerHTML = html;
+      })
+      .catch((err) => console.error("Navigation load error:", err));
+
+    // Load episode on page load
+    document.addEventListener("DOMContentLoaded", loadEpisode);
+  </script>
+
+  <!-- Comment System -->
+  <script src="comment-system.js"></script>
+</body>
+</html>

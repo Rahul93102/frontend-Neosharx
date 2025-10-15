@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoboSharX - NeoSharX</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background-light": "#ffffff",
+              "background-dark": "#000000",
+              "content-light": "#000000",
+              "content-dark": "#ffffff",
+              "subtle-light": "#666666",
+              "subtle-dark": "#999999",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <style>
+      .prose {
+        color: #000000;
+        max-width: 65ch;
+      }
+      .dark .prose {
+        color: #ffffff;
+      }
+      .prose h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.3;
+      }
+      .prose h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-top: 2rem;
+        margin-bottom: 1.25rem;
+      }
+      .prose p {
+        margin-bottom: 1.5rem;
+        line-height: 1.75;
+        font-size: 1.125rem;
+      }
+      .prose img,
+      .prose video {
+        margin: 2.5rem 0;
+        border-radius: 0.75rem;
+        width: 100%;
+      }
+      .prose ul,
+      .prose ol {
+        margin: 1.5rem 0;
+        padding-left: 1.75rem;
+      }
+      .prose li {
+        margin-bottom: 0.75rem;
+        line-height: 1.75;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark"
+    data-page="robotics-detail"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-placeholder"></div>
+
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Loading State -->
+        <div id="loading" class="text-center py-12">
+          <div
+            class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-black dark:border-white border-t-transparent"
+          ></div>
+          <p class="mt-4 text-subtle-light dark:text-subtle-dark">
+            Loading article...
+          </p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error" class="hidden text-center py-12">
+          <p class="text-red-500 text-lg mb-4">Article not found</p>
+          <a
+            href="robotics-news.html"
+            class="inline-block bg-black dark:bg-white text-white dark:text-black font-bold px-6 py-3 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+          >
+            Back to Robotics News
+          </a>
+        </div>
+
+        <!-- Article Content -->
+        <article id="content" class="max-w-4xl mx-auto hidden">
+          <!-- Hero Image -->
+          <div
+            id="hero-image"
+            class="w-full h-96 bg-cover bg-center rounded-2xl mb-8"
+          ></div>
+
+          <!-- Article Header -->
+          <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+              <span
+                id="category-badge"
+                class="px-3 py-1 bg-black/10 dark:bg-white/10 text-black dark:text-white text-sm font-bold rounded-full uppercase tracking-wider"
+              ></span>
+            </div>
+            <h1
+              id="article-title"
+              class="text-5xl font-extrabold tracking-tight mb-4"
+            ></h1>
+            <p
+              id="article-summary"
+              class="text-2xl text-subtle-light dark:text-subtle-dark mb-6"
+            ></p>
+          </div>
+
+          <!-- Article Content -->
+          <div
+            id="article-content"
+            class="prose prose-lg max-w-none mb-12"
+          ></div>
+
+          <!-- Tags Section -->
+          <div
+            id="tags-section"
+            class="mb-12 pb-8 border-b border-subtle-light/20 dark:border-subtle-dark/20"
+          >
+            <h3 class="text-lg font-bold mb-4">Tags</h3>
+            <div id="tags" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <!-- Article Actions -->
+          <div class="mb-12 flex items-center justify-between">
+            <a
+              href="tech-dynamic.html"
+              class="inline-flex items-center gap-2 text-black dark:text-white hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
+            >
+              <span class="material-symbols-outlined">arrow_back</span>
+              <span class="font-medium">Back to Tech News</span>
+            </a>
+            <button
+              onclick="shareArticle()"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+            >
+              <span class="material-symbols-outlined text-lg">share</span>
+              <span>Share</span>
+            </button>
+          </div>
+
+          <!-- Related Articles -->
+          <div id="related-section" class="mb-12">
+            <h2 class="text-3xl font-extrabold tracking-tight mb-6">
+              Related Articles
+            </h2>
+            <div id="related-articles" class="grid md:grid-cols-3 gap-6"></div>
+          </div>
+
+          <!-- Comments Section -->
+          <div class="mb-12">
+            <h2 class="text-3xl font-extrabold tracking-tight mb-6">
+              Comments
+            </h2>
+            <div id="comments-container"></div>
+          </div>
+        </article>
+      </main>
+    </div>
+
+    <script src="nav-loader.js"></script>
+    <script>
+      const API_URL = "http://127.0.0.1:8000/robotics-news/";
+      let currentArticle = null;
+
+      async function loadArticle() {
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get("slug");
+
+        if (!slug) {
+          window.location.href = "robotics-news.html";
+          return;
+        }
+
+        try {
+          const response = await fetch(API_URL);
+          const data = await response.json();
+
+          // Handle different possible response structures
+          let allArticles =
+            data.tech_news ||
+            data.articles ||
+            data.news ||
+            data.results ||
+            (Array.isArray(data) ? data : []);
+
+          const article = allArticles.find(function (item) {
+            return item.slug === slug;
+          });
+
+          if (!article) {
+            showError();
+            return;
+          }
+
+          currentArticle = article;
+          displayArticle(article);
+          loadRelatedArticles(allArticles, article.id);
+
+          document.getElementById("loading").classList.add("hidden");
+          document.getElementById("content").classList.remove("hidden");
+
+          // Initialize comment system after article is loaded
+          if (article.slug) {
+            initializeCommentSystem(article.slug);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          showError();
+        }
+      }
+
+      function showError() {
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("error").classList.remove("hidden");
+      }
+
+      function displayArticle(article) {
+        document.title = article.title + " - NeoSharX";
+
+        document.getElementById("hero-image").style.backgroundImage =
+          "url(" +
+          (article.featured_image ||
+            article.image_url ||
+            "https://via.placeholder.com/1200x400") +
+          ")";
+        document.getElementById("article-title").textContent = article.title;
+
+        // Display summary if available
+        if (article.summary || article.description) {
+          document.getElementById("article-summary").textContent =
+            article.summary || article.description;
+        } else {
+          document.getElementById("article-summary").style.display = "none";
+        }
+
+        document.getElementById("category-badge").textContent =
+          article.category || "Tech News";
+
+        const contentDiv = document.getElementById("article-content");
+        contentDiv.innerHTML = formatContent(article.content);
+
+        if (article.tags && article.tags.length > 0) {
+          const tagsDiv = document.getElementById("tags");
+          tagsDiv.innerHTML = article.tags
+            .map(function (tag) {
+              return (
+                '<span class="px-3 py-1 bg-black/5 dark:bg-white/5 text-black dark:text-white rounded-full text-sm font-medium">' +
+                tag +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("tags-section").classList.add("hidden");
+        }
+      }
+
+      function formatContent(content) {
+        if (!content) return "<p>Content not available.</p>";
+
+        var formatted = content.replace(/\n\n/g, "</p><p>");
+        formatted = "<p>" + formatted + "</p>";
+
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+        formatted = formatted.replace(/^### (.*$)/gm, "<h3>$1</h3>");
+        formatted = formatted.replace(/^## (.*$)/gm, "<h2>$1</h2>");
+        formatted = formatted.replace(/^# (.*$)/gm, "<h1>$1</h1>");
+
+        return formatted;
+      }
+
+      function loadRelatedArticles(allArticles, currentId) {
+        const related = allArticles
+          .filter(function (a) {
+            return a.id !== currentId;
+          })
+          .slice(0, 3);
+
+        if (related.length === 0) {
+          document.getElementById("related-section").classList.add("hidden");
+          return;
+        }
+
+        const relatedDiv = document.getElementById("related-articles");
+        relatedDiv.innerHTML = related
+          .map(function (article) {
+            return (
+              '<div class="group bg-white dark:bg-black rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-600 transition-all cursor-pointer" onclick="window.location.href=' +
+              "'robotics-detail.html?slug=" +
+              article.slug +
+              "'" +
+              '">' +
+              '<div class="aspect-video bg-cover bg-center" style="background-image: url(' +
+              (article.featured_image ||
+                article.image_url ||
+                "https://via.placeholder.com/400x300") +
+              ')"></div>' +
+              '<div class="p-4">' +
+              '<span class="text-xs px-2 py-1 rounded-full bg-black/10 dark:bg-white/10 text-black dark:text-white font-medium uppercase tracking-wider">' +
+              (article.category || "Tech") +
+              "</span>" +
+              '<h3 class="text-lg font-bold mt-2 mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors line-clamp-2">' +
+              article.title +
+              "</h3>" +
+              '<p class="text-sm text-subtle-light dark:text-subtle-dark line-clamp-2">' +
+              (article.summary || article.description || "") +
+              "</p>" +
+              "</div>" +
+              "</div>"
+            );
+          })
+          .join("");
+      }
+
+      function shareArticle() {
+        if (navigator.share && currentArticle) {
+          navigator
+            .share({
+              title: currentArticle.title,
+              text: currentArticle.summary || currentArticle.description || "",
+              url: window.location.href,
+            })
+            .catch(function (err) {
+              console.log("Error sharing:", err);
+            });
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          alert("Link copied to clipboard!");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadArticle);
+    </script>
+    <script src="comment-system.js"></script>
+    <script>
+      function initializeCommentSystem(slug) {
+        try {
+          const commentSystem = new CommentSystem(
+            "robotics_news",
+            slug,
+            "comments-container",
+            {
+              apiBaseUrl: "http://localhost:8000/api/auth",
+              showLoginPrompt: true,
+              enableReplies: true,
+              enableLikes: true,
+            }
+          );
+          console.log("Comment system initialized for slug:", slug);
+        } catch (error) {
+          console.error("Error initializing comment system:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

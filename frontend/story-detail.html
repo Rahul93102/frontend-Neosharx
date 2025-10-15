@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story Detail - NeoSharX</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+              "content-light": "#111418",
+              "content-dark": "#f5f7f8",
+              "subtle-light": "#5f758c",
+              "subtle-dark": "#a0aec0",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark"
+    data-page="story-detail"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <!-- Header -->
+      <header
+        class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-subtle-light/20 dark:border-subtle-dark/20"
+      >
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-8">
+              <div class="flex items-center gap-2 text-primary">
+                <svg
+                  class="h-8 w-8"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+                <h2 class="text-xl font-bold">NeoSharX</h2>
+              </div>
+              <div id="nav-placeholder"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-12">
+          <div
+            class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"
+          ></div>
+          <p class="mt-4 text-subtle-light dark:text-subtle-dark">
+            Loading story...
+          </p>
+        </div>
+
+        <!-- Story Content -->
+        <article id="storyContent" class="max-w-4xl mx-auto hidden">
+          <!-- Hero Image -->
+          <div
+            id="heroImage"
+            class="w-full h-96 bg-cover bg-center rounded-2xl mb-8"
+          ></div>
+
+          <!-- Story Header -->
+          <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+              <span
+                id="industryBadge"
+                class="px-3 py-1 bg-primary/10 text-primary text-sm font-bold rounded-full"
+              ></span>
+              <span
+                id="stageBadge"
+                class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm font-medium rounded-full"
+              ></span>
+            </div>
+            <h1
+              id="storyHeading"
+              class="text-5xl font-extrabold tracking-tight mb-4"
+            ></h1>
+            <p
+              id="storySubheading"
+              class="text-2xl text-subtle-light dark:text-subtle-dark mb-6"
+            ></p>
+
+            <div
+              class="flex items-center gap-6 text-sm text-subtle-light dark:text-subtle-dark mb-8"
+            >
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">business</span>
+                <span id="companyName"></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg">person</span>
+                <span id="founderName"></span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-lg"
+                  >calendar_today</span
+                >
+                <span id="publishedDate"></span>
+              </div>
+            </div>
+
+            <div class="p-6 bg-primary/5 rounded-xl mb-8">
+              <h3 class="text-lg font-bold mb-2">Summary</h3>
+              <p id="storySummary" class="text-lg"></p>
+            </div>
+          </div>
+
+          <!-- Story Content -->
+          <div
+            id="storyMainContent"
+            class="prose prose-lg max-w-none mb-12"
+          ></div>
+
+          <!-- Video (if available) -->
+          <div id="videoSection" class="mb-12 hidden">
+            <h3 class="text-2xl font-bold mb-4">Watch the Story</h3>
+            <div class="aspect-video">
+              <iframe
+                id="videoPlayer"
+                class="w-full h-full rounded-xl"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+
+          <!-- Key Takeaways -->
+          <div class="mb-12 p-8 bg-green-50 dark:bg-green-900/20 rounded-xl">
+            <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+              <span class="material-symbols-outlined text-green-600"
+                >lightbulb</span
+              >
+              Key Takeaways
+            </h3>
+            <div
+              id="keyTakeaways"
+              class="whitespace-pre-line text-lg leading-relaxed"
+            ></div>
+          </div>
+
+          <!-- Challenges & Solutions -->
+          <div class="grid md:grid-cols-2 gap-6 mb-12">
+            <div class="p-6 bg-red-50 dark:bg-red-900/20 rounded-xl">
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-red-600"
+                  >warning</span
+                >
+                Challenges Faced
+              </h3>
+              <div id="challenges" class="whitespace-pre-line"></div>
+            </div>
+            <div class="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-600"
+                  >check_circle</span
+                >
+                Solutions Implemented
+              </h3>
+              <div id="solutions" class="whitespace-pre-line"></div>
+            </div>
+          </div>
+
+          <!-- Tags -->
+          <div class="mb-12">
+            <h3 class="text-xl font-bold mb-4">Tags</h3>
+            <div id="tagsContainer" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <!-- Share -->
+          <div
+            class="border-t border-subtle-light/20 dark:border-subtle-dark/20 pt-8 mb-8"
+          >
+            <p class="text-center text-subtle-light dark:text-subtle-dark">
+              Found this story inspiring?
+              <a
+                href="startup-dynamic.html"
+                class="text-primary font-semibold hover:underline"
+                >Discover more startup journeys</a
+              >
+            </p>
+          </div>
+
+          <!-- Comments Section -->
+          <div
+            class="border-t border-subtle-light/20 dark:border-subtle-dark/20 pt-8"
+          >
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700"
+            >
+              <div id="comments-container">
+                <!-- Comments will be loaded here -->
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Error State -->
+        <div id="errorState" class="text-center py-12 hidden">
+          <span class="material-symbols-outlined text-6xl text-red-500 mb-4"
+            >error</span
+          >
+          <p class="text-xl mb-4">Story not found</p>
+          <a
+            href="startup-dynamic.html"
+            class="text-primary font-semibold hover:underline"
+            >← Back to all stories</a
+          >
+        </div>
+      </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="auth-system.js"></script>
+    <script src="comment-system.js"></script>
+
+    <script src="nav-loader.js"></script>
+    <script>
+      const API_BASE = "http://localhost:8001/api/auth";
+      let authSystem;
+      let commentSystem;
+
+      function getYouTubeEmbedUrl(url) {
+        if (!url) return null;
+        const regExp =
+          /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return match && match[2].length === 11
+          ? `https://www.youtube.com/embed/${match[2]}`
+          : null;
+      }
+
+      async function loadStory() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const slug = urlParams.get("slug");
+
+        if (!slug) {
+          showError();
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/stories/${slug}/`);
+          if (!response.ok) throw new Error("Story not found");
+
+          const story = await response.json();
+          displayStory(story);
+
+          // Initialize comment system
+          initializeCommentSystem(slug);
+        } catch (error) {
+          console.error("Error loading story:", error);
+          showError();
+        }
+      }
+
+      function displayStory(story) {
+        document.getElementById("loadingState").classList.add("hidden");
+        document.getElementById("storyContent").classList.remove("hidden");
+
+        // Update page title
+        document.title = `${story.heading} - NeoSharX`;
+
+        // Hero image
+        document.getElementById("heroImage").style.backgroundImage = `url('${
+          story.featured_image ||
+          "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200"
+        }')`;
+
+        // Badges
+        document.getElementById("industryBadge").textContent = story.industry
+          .replace("_", " ")
+          .toUpperCase();
+        document.getElementById("stageBadge").textContent = story.stage
+          .replace("_", " ")
+          .toUpperCase();
+
+        // Header info
+        document.getElementById("storyHeading").textContent = story.heading;
+        document.getElementById("storySubheading").textContent =
+          story.subheading || "";
+        document.getElementById("companyName").textContent = story.company_name;
+        document.getElementById("founderName").textContent =
+          story.founder_name || "Unknown";
+
+        const publishedDate = new Date(story.published_at).toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+        );
+        document.getElementById("publishedDate").textContent = publishedDate;
+
+        // Summary
+        document.getElementById("storySummary").textContent = story.summary;
+
+        // Main content
+        document.getElementById("storyMainContent").innerHTML = story.content;
+
+        // Video
+        if (story.video_url) {
+          const embedUrl = getYouTubeEmbedUrl(story.video_url);
+          if (embedUrl) {
+            document.getElementById("videoPlayer").src = embedUrl;
+            document.getElementById("videoSection").classList.remove("hidden");
+          }
+        }
+
+        // Key takeaways
+        document.getElementById("keyTakeaways").textContent =
+          story.key_takeaways;
+
+        // Challenges & Solutions
+        document.getElementById("challenges").textContent =
+          story.challenges_faced || "No specific challenges mentioned.";
+        document.getElementById("solutions").textContent =
+          story.solutions_implemented || "No specific solutions mentioned.";
+
+        // Tags
+        if (story.tags) {
+          const tagsContainer = document.getElementById("tagsContainer");
+          story.tags.split(",").forEach((tag) => {
+            const tagElement = document.createElement("span");
+            tagElement.className =
+              "px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full";
+            tagElement.textContent = tag.trim();
+            tagsContainer.appendChild(tagElement);
+          });
+        }
+      }
+
+      function showError() {
+        document.getElementById("loadingState").classList.add("hidden");
+        document.getElementById("errorState").classList.remove("hidden");
+      }
+
+      // Initialize comment system
+      function initializeCommentSystem(slug) {
+        // Initialize auth system
+        authSystem = new AuthSystem();
+
+        // Initialize comment system for startup stories
+        commentSystem = new CommentSystem(
+          "startup_story",
+          slug,
+          "comments-container",
+          {
+            apiBaseUrl: API_BASE,
+            showLoginPrompt: true,
+            enableReplies: true,
+            enableLikes: true,
+            enableFlags: true,
+          }
+        );
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", loadStory);
+    </script>
+    <script src="nav-loader.js"></script>
+  </body>
+</html>

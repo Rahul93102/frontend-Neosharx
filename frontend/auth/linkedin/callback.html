@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Login - Processing</title>
+    <link rel="stylesheet" href="auth-styles.css" />
+    <style>
+      .callback-container {
+        max-width: 400px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #0077b5;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .status-message {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 6px;
+        font-weight: 500;
+      }
+
+      .status-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .status-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .status-loading {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #0077b5;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="callback-container">
+        <h2>Processing LinkedIn Login</h2>
+
+        <div id="loadingSpinner" class="spinner"></div>
+        <div id="statusMessage" class="status-message status-loading">
+          Authenticating with LinkedIn...
+        </div>
+
+        <a
+          href="linkedin-login.html"
+          class="back-link"
+          id="backLink"
+          style="display: none"
+        >
+          ← Back to Login
+        </a>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://127.0.0.1:8000/api/auth";
+
+      function showStatus(message, type) {
+        const statusDiv = document.getElementById("statusMessage");
+        statusDiv.textContent = message;
+        statusDiv.className = `status-message status-${type}`;
+      }
+
+      function hideSpinner() {
+        document.getElementById("loadingSpinner").style.display = "none";
+      }
+
+      function showBackLink() {
+        document.getElementById("backLink").style.display = "inline-block";
+      }
+
+      // Handle LinkedIn callback
+      window.addEventListener("load", async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        const state = urlParams.get("state");
+        const error = urlParams.get("error");
+        const errorDescription = urlParams.get("error_description");
+
+        if (error) {
+          hideSpinner();
+          showStatus(`LinkedIn Error: ${errorDescription || error}`, "error");
+          showBackLink();
+          return;
+        }
+
+        if (!code || !state) {
+          hideSpinner();
+          showStatus(
+            "Invalid callback parameters. Please try logging in again.",
+            "error"
+          );
+          showBackLink();
+          return;
+        }
+
+        await handleLinkedInCallback(code, state);
+      });
+
+      async function handleLinkedInCallback(code, state) {
+        try {
+          // Verify state matches
+          const storedState = localStorage.getItem("linkedin_state");
+          if (state !== storedState) {
+            throw new Error("Security validation failed. Please try again.");
+          }
+
+          showStatus("Verifying LinkedIn credentials...", "loading");
+
+          // Send code to backend for processing
+          const response = await fetch(`${API_BASE_URL}/linkedin/callback/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              code: code,
+              state: state,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Store authentication token in the format AuthSystem expects
+            localStorage.setItem("authToken", data.token);
+
+            // Create user object in the format AuthSystem expects
+            const user = {
+              id: data.user_id || data.user.id,
+              username: data.username || data.user.username || data.user.name,
+              email: data.email || data.user.email,
+              phone_verified:
+                data.phone_verified || data.user.phone_verified || false,
+              login_method: "linkedin",
+            };
+
+            localStorage.setItem("currentUser", JSON.stringify(user));
+            localStorage.removeItem("linkedin_state");
+
+            hideSpinner();
+            showStatus(
+              "LinkedIn login successful! Redirecting to dashboard...",
+              "success"
+            );
+
+            // Redirect back to tech-detail page with success flag
+            const returnSlug =
+              localStorage.getItem("oauth_return_slug") ||
+              "apple-unveils-vision-pro-2-with-revolutionary-eye-tracking-interface";
+            setTimeout(() => {
+              window.location.href = `../../tech-detail.html?slug=${returnSlug}&linkedin_success=true`;
+            }, 2000);
+          } else {
+            throw new Error(data.error || "LinkedIn authentication failed");
+          }
+        } catch (error) {
+          console.error("LinkedIn callback error:", error);
+          hideSpinner();
+          showStatus(`Login failed: ${error.message}`, "error");
+          showBackLink();
+
+          // Clean up
+          localStorage.removeItem("linkedin_state");
+        }
+      }
+    </script>
+  </body>
+</html>

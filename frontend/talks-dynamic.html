@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NeoSharX Talks - Podcast Hub</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#000000",
+              "background-light": "#fafafa",
+              "content-light": "#111827",
+              "subtle-light": "#6b7280",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #000000;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Color palette - black/gray/white only */
+      :root {
+        --black: #000000;
+        --white: #ffffff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+      }
+
+      /* Featured Screens Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: var(--white);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--gray-200);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-slider {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        align-items: center;
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 0.75rem;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: var(--gray-100);
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 2.5rem;
+        color: var(--gray-900);
+        background: var(--gray-50);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        letter-spacing: 0.025em;
+      }
+
+      .featured-epnum {
+        color: var(--gray-600);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.75rem;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.875rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.2;
+      }
+
+      .featured-header {
+        color: var(--gray-600);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .meta-row {
+        display: flex;
+        gap: 1.5rem;
+        color: var(--gray-500);
+        font-weight: 400;
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        align-items: center;
+      }
+
+      .watch-btn {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        background: var(--black);
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+        width: fit-content;
+      }
+
+      .watch-btn:hover {
+        background: var(--gray-800);
+        transform: translateY(-1px);
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--white);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1.25rem;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--gray-300);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .dot:hover {
+        background: var(--gray-400);
+      }
+
+      .dot.active {
+        background: var(--black);
+        width: 24px;
+        border-radius: 4px;
+      }
+
+      /* Episode card featured badge */
+      .episode-featured-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        z-index: 10;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 1.5rem;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-background-light font-display text-content-light">
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-8 mt-12">
+            <h1 class="text-5xl font-bold tracking-tight mb-4 text-black">
+              NeoSharX Talks
+            </h1>
+            <div
+              style="
+                font-size: 1.125rem;
+                color: #007fff;
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+              "
+            >
+              <span id="typingText"></span>
+              <span id="cursor" style="animation: blink 1s infinite">|</span>
+            </div>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
+              Conversations that inspire innovation. Join industry leaders and
+              innovators as they share insights on technology, entrepreneurship,
+              and the future.
+            </p>
+          </div>
+
+          <!-- Featured Screens Carousel -->
+          <div id="featuredScreensSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1rem;
+                "
+              >
+                <h2
+                  style="
+                    font-weight: 600;
+                    font-size: 1.25rem;
+                    color: var(--black);
+                  "
+                >
+                  Featured Episodes
+                </h2>
+                <div
+                  style="
+                    color: var(--gray-500);
+                    font-weight: 400;
+                    font-size: 0.875rem;
+                  "
+                >
+                  Use arrows to navigate
+                </div>
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured item will render here -->
+                </div>
+                <div class="slider-controls"></div>
+                <div id="featuredDots" class="dots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+            <select
+              id="sortFilter"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            >
+              <option value="recent">Sort by: Recent</option>
+              <option value="episode">Episode Number</option>
+              <option value="duration">Duration</option>
+            </select>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-gray-500">Loading episodes...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p class="text-red-500 text-lg mb-4">Failed to load episodes</p>
+            <button
+              onclick="location.reload()"
+              class="text-white font-medium px-6 py-3 rounded-lg transition-colors"
+              style="background: #007fff; border-radius: 8px"
+              onmouseover="this.style.background='#0066cc'"
+              onmouseout="this.style.background='#007fff'"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+
+        <!-- More Episodes Section -->
+        <h2
+          class="text-3xl font-semibold tracking-tight text-center mb-10 text-black"
+        >
+          All Episodes
+        </h2>
+        <div
+          id="moreEpisodes"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <!-- Episodes will be loaded here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+          <p class="text-xl text-gray-500">No episodes found</p>
+          <p class="text-gray-500 mt-2">Check back soon for new episodes</p>
+        </div>
+      </main>
+
+      <footer class="bg-white border-t border-gray-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center gap-6"
+          >
+            <div class="flex items-center gap-2 text-black">
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+              <h2 class="text-lg font-semibold">NeoSharX</h2>
+            </div>
+            <div
+              class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+            >
+              <a
+                class="text-sm text-gray-600 hover:text-black transition-colors"
+                href="#"
+                >About</a
+              >
+              <a
+                class="text-sm text-gray-600 hover:text-black transition-colors"
+                href="#"
+                >Contact</a
+              >
+              <a
+                class="text-sm text-gray-600 hover:text-black transition-colors"
+                href="#"
+                >Terms of Service</a
+              >
+              <a
+                class="text-sm text-gray-600 hover:text-black transition-colors"
+                href="#"
+                >Privacy Policy</a
+              >
+            </div>
+            <p class="text-sm text-gray-500">
+              © 2023 NeoSharX. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:8000/api/auth";
+      let allEpisodes = [];
+
+      async function loadEpisodes() {
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const emptyState = document.getElementById("emptyState");
+        const moreEpisodesContainer = document.getElementById("moreEpisodes");
+
+        try {
+          console.log(
+            "Fetching episodes from:",
+            `${API_BASE_URL}/talk-episodes/`
+          );
+          const response = await fetch(`${API_BASE_URL}/talk-episodes/`);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          console.log("Episodes loaded:", data);
+
+          allEpisodes = data.episodes || [];
+
+          if (allEpisodes.length === 0) {
+            loadingState.classList.add("hidden");
+            emptyState.classList.remove("hidden");
+            return;
+          }
+
+          // Load featured screens from episodes with is_featured = true
+          loadFeaturedScreens(allEpisodes);
+
+          // Show all episodes
+          renderMoreEpisodes(allEpisodes);
+
+          loadingState.classList.add("hidden");
+
+          // Comment system removed from listing page
+        } catch (error) {
+          console.error("Error loading episodes:", error);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(episodes) {
+        // Collect featured screens from episodes where is_featured = true
+        const featuredScreens = [];
+        episodes.forEach((episode) => {
+          if (
+            episode.featured_screen &&
+            episode.featured_screen.url &&
+            episode.featured_screen.is_featured === true
+          ) {
+            featuredScreens.push({
+              url: episode.featured_screen.url,
+              type: episode.featured_screen.type || "image",
+              episode: episode,
+            });
+          }
+        });
+
+        if (featuredScreens.length === 0) return;
+
+        // State for slider
+        window._featuredState = {
+          items: featuredScreens,
+          index: 0,
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        setupFeaturedControls();
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.items || state.items.length === 0) return;
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+        const item = state.items[idx];
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1].split("?")[0]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+        }
+
+        const episode = item.episode || {};
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-epnum">Episode ${
+              episode.episode_number || ""
+            }</div>
+            <div class="featured-title">${
+              episode.title || "Featured Episode"
+            }</div>
+            <div class="featured-header">${episode.header || ""}</div>
+            <div class="meta-row">
+              <div>${
+                episode.duration_minutes
+                  ? episode.duration_minutes + " min"
+                  : ""
+              }</div>
+              <div>${
+                episode.published_at
+                  ? new Date(episode.published_at).toLocaleDateString()
+                  : ""
+              }</div>
+            </div>
+            <a href="${
+              episode.slug ? `talks-detail.html?slug=${episode.slug}` : "#"
+            }" class="watch-btn">
+              <span>Watch Episode</span>
+              <span class="material-symbols-outlined">play_circle</span>
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = "";
+        state.items.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const prev = document.getElementById("prevFeatured");
+        const next = document.getElementById("nextFeatured");
+
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
+      }
+
+      function renderMoreEpisodes(episodes) {
+        const container = document.getElementById("moreEpisodes");
+
+        container.innerHTML = episodes
+          .map((episode) => {
+            const publishedDate = new Date(episode.published_at);
+            const hasFeaturedScreen =
+              episode.featured_screen && episode.featured_screen.url;
+
+            return `
+            <a
+              href="talks-detail.html?slug=${episode.slug}"
+              class="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <div class="relative h-48 overflow-hidden bg-gray-100">
+                ${
+                  hasFeaturedScreen
+                    ? `
+                  ${
+                    episode.featured_screen.type === "video"
+                      ? `<div class="w-full h-full flex items-center justify-center bg-gray-900">
+                      <span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+                    </div>`
+                      : `<img
+                      src="${episode.featured_screen.url}"
+                      alt="${episode.title}"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
+                    />`
+                  }
+                  <div class="episode-featured-badge">Featured</div>
+                `
+                    : episode.thumbnail_url
+                    ? `
+                  <img
+                    src="${episode.thumbnail_url}"
+                    alt="${episode.title}"
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                `
+                    : ""
+                }
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <span class="absolute top-3 left-3 px-2 py-1 text-white text-xs font-medium rounded" style="background: #007fff;">
+                  EP ${episode.episode_number}
+                </span>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2 line-clamp-2 text-black group-hover:text-gray-700 transition-colors">
+                  ${episode.title}
+                </h3>
+                <p class="text-sm text-gray-600 mb-4 line-clamp-2 font-normal">
+                  ${episode.header}
+                </p>
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">schedule</span>
+                    <span>${episode.duration_minutes} min</span>
+                  </div>
+                  <span>${publishedDate.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}</span>
+                </div>
+              </div>
+            </a>
+          `;
+          })
+          .join("");
+      }
+      // Sort functionality
+      document.getElementById("sortFilter")?.addEventListener("change", (e) => {
+        const sortBy = e.target.value;
+        let sortedEpisodes = [...allEpisodes];
+
+        switch (sortBy) {
+          case "episode":
+            sortedEpisodes.sort((a, b) => a.episode_number - b.episode_number);
+            break;
+          case "duration":
+            sortedEpisodes.sort(
+              (a, b) => b.duration_minutes - a.duration_minutes
+            );
+            break;
+          case "recent":
+          default:
+            sortedEpisodes.sort(
+              (a, b) => new Date(b.published_at) - new Date(a.published_at)
+            );
+            break;
+        }
+
+        renderMoreEpisodes(sortedEpisodes);
+      });
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Load episodes on page load
+      document.addEventListener("DOMContentLoaded", loadEpisodes);
+    </script>
+    <script>
+      (function () {
+        const taglines = [
+          "In-depth conversations about tech and startups...",
+          "Lessons from founders, engineers and makers...",
+          "Stories that spark new ideas and actions...",
+        ];
+        let ti = 0,
+          ci = 0,
+          del = false;
+        function step() {
+          const el = document.getElementById("typingText");
+          if (!el) return;
+          const txt = taglines[ti];
+          if (!del) {
+            el.textContent = txt.slice(0, ci + 1);
+            ci++;
+            if (ci === txt.length) {
+              del = true;
+              setTimeout(step, 2000);
+              return;
+            }
+          } else {
+            el.textContent = txt.slice(0, ci - 1);
+            ci--;
+            if (ci === 0) {
+              del = false;
+              ti = (ti + 1) % taglines.length;
+              setTimeout(step, 500);
+              return;
+            }
+          }
+          setTimeout(step, del ? 50 : 100);
+        }
+        window.addEventListener("load", () => setTimeout(step, 500));
+      })();
+    </script>
+  </body>
+</html>

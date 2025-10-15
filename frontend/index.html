@@ -445,9 +445,270 @@
         font-size: 0.95rem !important; /* 15.2px - about 7% increase */
         font-weight: 500 !important; /* medium */
       }
+
+      /* Clean White Navigation Styles */
+      .nav-enhanced {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Desktop Nav Links */
+      .nav-link {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        transform: translateY(-2px) scale(1.05);
+      }
+
+      .nav-underline {
+        z-index: -1;
+      }
+
+      .nav-link.active-nav {
+        font-weight: 700;
+        color: #2563eb;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        border-radius: 0.5rem;
+      }
+
+      .nav-link.active-nav .nav-underline {
+        transform: scale(1) !important;
+        background: #dbeafe;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu-container {
+        background: rgba(255, 255, 255, 0.98);
+        border-top: 2px solid #e5e7eb;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-nav-link.active-mobile-nav {
+        font-weight: 700;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        color: #2563eb;
+        transform: translateX(4px) scale(1.02);
+      }
+
+      /* Smooth Transitions */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .nav-link,
+      .mobile-nav-link {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Interactive hover effects */
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #2563eb);
+        transition: width 0.3s ease, left 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 80%;
+        left: 10%;
+      }
+
+      .nav-link.active-nav::after {
+        width: 80%;
+        left: 10%;
+      }
     </style>
   </head>
-  <body class="bg-white text-stone-800 pt-10">
+  <body class="bg-white text-black" data-page="home">
+    <!-- Standard Navigation -->
+    <nav
+      class="nav-enhanced fixed top-0 left-0 right-0 z-[9999] bg-white border-b border-gray-200 shadow-lg"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-12">
+          <div class="flex items-center">
+            <a href="index.html" class="flex items-center group">
+              <img
+                src="logo27.png"
+                alt="Logo"
+                class="h-8 w-auto transition-all duration-300 group-hover:scale-110 filter drop-shadow-md"
+              />
+            </a>
+          </div>
+
+          <div class="hidden md:flex items-center space-x-1">
+            <a
+              href="index.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="home"
+              ><span class="relative z-10">Home</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="talks-dynamic.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="talks"
+              ><span class="relative z-10">Talks</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="startup.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="startup"
+              ><span class="relative z-10">Startups</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="neo-dynamic.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="neo"
+              ><span class="relative z-10">Neo Stories</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="neo-projects.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="neo-projects"
+              ><span class="relative z-10">Projects</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="hackathon.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="hackathons"
+              ><span class="relative z-10">SharXathons</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="robotics-news.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="robotics"
+              ><span class="relative z-10">RoboSharX</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+            <a
+              href="tech-news.html"
+              class="nav-link group relative px-3 py-1 text-gray-700 font-medium transition-all duration-300 hover:text-blue-600 hover:scale-105"
+              data-page="tech"
+              ><span class="relative z-10">Tech News</span
+              ><span
+                class="nav-underline absolute inset-0 bg-blue-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"
+              ></span
+            ></a>
+
+            <a
+              href="signup.html"
+              class="ml-4 px-4 py-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
+              >Join Community</a
+            >
+          </div>
+
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-button"
+              class="relative text-gray-700 hover:text-blue-600 focus:outline-none p-1 rounded-lg hover:bg-blue-50 transition-all duration-300"
+            >
+              <svg
+                class="h-5 w-5 hamburger-icon transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="mobile-menu"
+          class="mobile-menu-container md:hidden overflow-hidden max-h-0 transition-all duration-500 ease-in-out"
+        >
+          <div class="flex flex-col space-y-1 py-4">
+            <a
+              href="index.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="home"
+              >Home</a
+            >
+            <a
+              href="talks-dynamic.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="talks"
+              >NeoSharX Talks</a
+            >
+            <a
+              href="startup.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="startup"
+              >Startup Stories</a
+            >
+            <a
+              href="neo-dynamic.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="neo"
+              >Neo Stories</a
+            >
+            <a
+              href="neo-projects.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="neo-projects"
+              >Neo Projects</a
+            >
+            <a
+              href="hackathon.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="hackathons"
+              >SharXathons</a
+            >
+            <a
+              href="robotics-news.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="robosharx"
+              >RoboSharX</a
+            >
+            <a
+              href="tech-news.html"
+              class="mobile-nav-link px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-300 transform hover:translate-x-2 hover:scale-105"
+              data-page="tech"
+              >What's Up Tech</a
+            >
+
+            <a
+              href="signup.html"
+              class="mt-4 mx-4 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-full shadow-lg text-center hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
+              >Join Community</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
     <div id="loader-wrapper">
       <div id="blue-panel-1" class="panel"></div>
       <div id="content-blue-1" class="content-block">
@@ -2255,6 +2516,121 @@
             }
           });
         }
+      });
+    </script>
+
+    <!-- Navigation Script -->
+    <script>
+      // Enhanced Mobile menu toggle with animations
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener("click", function () {
+            const isOpen =
+              mobileMenu.style.maxHeight && mobileMenu.style.maxHeight !== "0px";
+
+            if (isOpen) {
+              // Close menu
+              mobileMenu.style.maxHeight = "0px";
+              hamburgerIcon.style.transform = "rotate(0deg)";
+            } else {
+              // Open menu
+              mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+              hamburgerIcon.style.transform = "rotate(90deg)";
+            }
+          });
+        }
+
+        // Highlight active page with enhanced styling
+        const currentPage = document.body.getAttribute("data-page");
+        if (currentPage) {
+          // Desktop navigation
+          const desktopLinks = document.querySelectorAll(".nav-link");
+          desktopLinks.forEach((link) => {
+            if (
+              link.getAttribute("data-page") === currentPage ||
+              (currentPage === "neo-stories" &&
+                link.getAttribute("data-page") === "neo") ||
+              (currentPage === "neo-detail" &&
+                link.getAttribute("data-page") === "neo") ||
+              (currentPage === "story-detail" &&
+                link.getAttribute("data-page") === "startup") ||
+              (currentPage === "tech-detail" &&
+                link.getAttribute("data-page") === "tech") ||
+              (currentPage === "robotics-detail" &&
+                link.getAttribute("data-page") === "robosharx") ||
+              (currentPage === "hackathon-detail" &&
+                link.getAttribute("data-page") === "hackathons") ||
+              (currentPage === "neo-project-detail" &&
+                link.getAttribute("data-page") === "neo-projects")
+            ) {
+              // Add active state with gradient and glow
+              link.classList.add("active-nav");
+              const blob = link.querySelector(".nav-blob");
+              if (blob) {
+                blob.style.transform = "scale(1)";
+              }
+            }
+          });
+
+          // Mobile navigation
+          const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+          mobileLinks.forEach((link) => {
+            if (
+              link.getAttribute("data-page") === currentPage ||
+              (currentPage === "neo-stories" &&
+                link.getAttribute("data-page") === "neo") ||
+              (currentPage === "neo-detail" &&
+                link.getAttribute("data-page") === "neo") ||
+              (currentPage === "story-detail" &&
+                link.getAttribute("data-page") === "startup") ||
+              (currentPage === "tech-detail" &&
+                link.getAttribute("data-page") === "tech") ||
+              (currentPage === "robotics-detail" &&
+                link.getAttribute("data-page") === "robosharx") ||
+              (currentPage === "hackathon-detail" &&
+                link.getAttribute("data-page") === "hackathons") ||
+              (currentPage === "neo-project-detail" &&
+                link.getAttribute("data-page") === "neo-projects")
+            ) {
+              link.classList.add("active-mobile-nav");
+              const dot = link.querySelector("span > span");
+              if (dot) {
+                dot.style.width = "8px";
+                dot.style.height = "8px";
+              }
+            }
+          });
+        }
+
+        // Add scroll effect to navigation
+        let lastScroll = 0;
+        window.addEventListener("scroll", function () {
+          const currentScroll = window.pageYOffset;
+          const nav = document.querySelector(".nav-enhanced");
+
+          if (nav) {
+            if (currentScroll > lastScroll && currentScroll > 100) {
+              // Scrolling down
+              nav.style.transform = "translateY(-100%)";
+            } else {
+              // Scrolling up
+              nav.style.transform = "translateY(0)";
+            }
+
+            // Add shadow on scroll
+            if (currentScroll > 10) {
+              nav.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.1)";
+            } else {
+              nav.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.1)";
+            }
+          }
+
+          lastScroll = currentScroll;
+        });
       });
     </script>
   </body>
