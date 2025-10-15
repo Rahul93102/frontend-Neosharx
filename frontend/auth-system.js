@@ -108,13 +108,16 @@ class AuthSystem {
   // LinkedIn login support
   async loginWithLinkedIn(code) {
     try {
-      const response = await fetch(`${this.apiBaseUrl}/linkedin/callback/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code }),
-      });
+      const response = await fetch(
+        `${this.apiBaseUrl}/auth/linkedin/callback/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -142,7 +145,7 @@ class AuthSystem {
   // Google login support
   async loginWithGoogle(code) {
     try {
-      const response = await fetch(`${this.apiBaseUrl}/google/callback/`, {
+      const response = await fetch(`${this.apiBaseUrl}/auth/google/callback/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -176,7 +179,9 @@ class AuthSystem {
   // Get LinkedIn login URL
   async getLinkedInLoginUrl() {
     try {
-      const response = await fetch(`${this.apiBaseUrl}/linkedin/login-url/`);
+      const response = await fetch(
+        `${this.apiBaseUrl}/auth/linkedin/login-url/`
+      );
       const data = await response.json();
       return data.login_url;
     } catch (error) {
@@ -188,7 +193,7 @@ class AuthSystem {
   // Get Google login URL
   async getGoogleLoginUrl() {
     try {
-      const response = await fetch(`${this.apiBaseUrl}/google/login-url/`);
+      const response = await fetch(`${this.apiBaseUrl}/auth/google/login-url/`);
       const data = await response.json();
       return data.login_url;
     } catch (error) {
