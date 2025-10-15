@@ -1016,7 +1016,7 @@
 
         try {
           console.log("Fetching hackathons from API...");
-          const response = await fetch("http://127.0.0.1:8001/hackathons/");
+          const response = await fetch("http://localhost:8001/api/auth/hackathons/");
 
           if (!response.ok) {
             throw new Error(

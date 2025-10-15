@@ -187,7 +187,7 @@
 
     <script src="nav-loader.js"></script>
     <script>
-      const API_URL = "http://127.0.0.1:8000/robotics-news/";
+      const API_URL = "http://localhost:8001/api/auth/robotics-news/";
       let currentArticle = null;
 
       async function loadArticle() {
@@ -205,10 +205,10 @@
 
           // Handle different possible response structures
           let allArticles =
-            data.tech_news ||
-            data.articles ||
-            data.news ||
             data.results ||
+            data.articles ||
+            data.tech_news ||
+            data.news ||
             (Array.isArray(data) ? data : []);
 
           const article = allArticles.find(function (item) {
@@ -269,11 +269,12 @@
 
         if (article.tags && article.tags.length > 0) {
           const tagsDiv = document.getElementById("tags");
-          tagsDiv.innerHTML = article.tags
+          const tagsArray = article.tags.split(' ').filter(tag => tag.trim());
+          tagsDiv.innerHTML = tagsArray
             .map(function (tag) {
               return (
                 '<span class="px-3 py-1 bg-black/5 dark:bg-white/5 text-black dark:text-white rounded-full text-sm font-medium">' +
-                tag +
+                tag.trim() +
                 "</span>"
               );
             })
