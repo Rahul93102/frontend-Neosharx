@@ -464,12 +464,18 @@
                   </button>
                 </div>
               </div>
+
               <div id="featuredSlider" class="featured-slider">
-                <div class="featured-card" aria-live="polite">
-                  <!-- Featured hackathon will render here -->
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured hackathon will render here -->
                 </div>
+                <div class="slider-controls"></div>
+                <div id="featuredDots" class="dots"></div>
               </div>
-              <div id="featuredDots" class="dots"></div>
             </div>
           </div>
 
@@ -596,7 +602,7 @@
 
       // Render featured hackathons slider
       function renderFeaturedHackathons() {
-        const slider = document.getElementById("featuredSlider");
+        const inner = document.getElementById("featuredInner");
         const dots = document.getElementById("featuredDots");
 
         if (featuredHackathons.length === 0) return;
@@ -605,31 +611,29 @@
         const h = featuredHackathons[currentFeaturedIndex];
         const status = getStatus(h);
 
-        slider.innerHTML = `
-          <div class="featured-card">
-            <div class="featured-media">
-              <img src="${
-                h.banner_image || h.image || "/api/placeholder/400/300"
-              }" alt="${h.name}" />
-              <span class="featured-badge">${status}</span>
+        inner.innerHTML = `
+          <div class="featured-media">
+            <img src="${
+              h.banner_image || h.image || "/api/placeholder/400/300"
+            }" alt="${h.name}" />
+            <span class="featured-badge">${status}</span>
+          </div>
+          <div class="featured-content">
+            <h3 class="featured-title">${h.name}</h3>
+            <p class="featured-description">${(h.description || "").substring(
+              0,
+              150
+            )}...</p>
+            <div class="featured-meta">
+              <span>Date: ${formatDate(h.start_datetime)}</span>
+              <span>Registration: ${h.participants_count || 0} </span>
             </div>
-            <div class="featured-content">
-              <h3 class="featured-title">${h.name}</h3>
-              <p class="featured-description">${(h.description || "").substring(
-                0,
-                150
-              )}...</p>
-              <div class="featured-meta">
-                <span>Date: ${formatDate(h.start_datetime)}</span>
-                <span>Registartion: ${h.participants_count || 0} </span>
-              </div>
-              <a href="hackathon-detail.html?slug=${
-                h.slug
-              }" class="featured-button">
-                <span class="material-symbols-outlined">arrow_forward</span>
-                View Challenge
-              </a>
-            </div>
+            <a href="hackathon-detail.html?slug=${
+              h.slug
+            }" class="featured-button">
+              <span class="material-symbols-outlined">arrow_forward</span>
+              View Challenge
+            </a>
           </div>
         `;
 

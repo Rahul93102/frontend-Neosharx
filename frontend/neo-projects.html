@@ -177,32 +177,6 @@
         z-index: 40;
       }
 
-      .slider-btn {
-        background: rgba(255, 255, 255, 0.9);
-        color: #333;
-        border: 2px solid #e5e7eb;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-        backdrop-filter: blur(10px);
-      }
-
-      .slider-btn:hover {
-        background: rgba(255, 255, 255, 1);
-        border-color: #067ff9;
-        color: #067ff9;
-        transform: scale(1.05);
-      }
-
-      .slider-btn:active {
-        transform: scale(0.95);
-      }
-
       .nav-btn {
         background: rgba(0, 127, 255, 0.7);
         color: var(--white);
@@ -352,39 +326,6 @@
           font-size: 1.5rem;
         }
       }
-
-      /* Filter tabs */
-      .filter-tabs {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 2rem;
-        overflow-x: auto;
-        padding: 0.25rem;
-      }
-
-      .filter-tab {
-        padding: 0.875rem 1.75rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-weight: 700;
-        transition: all 0.2s;
-        white-space: nowrap;
-        border: 2px solid #e5e7eb;
-        background: white;
-        color: #374151;
-        font-size: 0.9375rem;
-      }
-
-      .filter-tab:hover {
-        background: #f9fafb;
-        border-color: #9ca3af;
-      }
-
-      .filter-tab.active {
-        background: #000000;
-        color: white;
-        border-color: #000000;
-      }
     </style>
   </head>
   <body>
@@ -460,26 +401,68 @@
                   <!-- Single featured item will render here -->
                 </div>
                 <div class="slider-controls">
-                  <button id="prevFeatured" class="slider-btn prev-btn" aria-label="Previous featured item">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                  </button>
-                  <button id="nextFeatured" class="slider-btn next-btn" aria-label="Next featured item">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                  </button>
+                  <button
+                    id="prevFeatured"
+                    class="nav-btn"
+                    aria-label="Previous"
+                  >
                 </div>
                 <div class="dots" id="featuredDots"></div>
               </div>
             </div>
           </div>
 
-          <!-- Filter Tabs -->
-          <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">
-              All Projects
-            </button>
-            <button class="filter-tab" data-filter="ai_ml">AI & ML</button>
-            <button class="filter-tab" data-filter="blockchain">Blockchain</button>
-            <button class="filter-tab" data-filter="completed">Completed</button>
+          <!-- Filters -->
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 16px;
+              margin-bottom: 40px;
+              flex-wrap: wrap;
+            "
+          >
+            <select
+              id="categoryFilter"
+              style="
+                padding: 10px 20px;
+                border: 1px solid var(--gray-lighter);
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                font-weight: 500;
+                cursor: pointer;
+              "
+            >
+              <option value="all">All Categories</option>
+              <option value="ai_ml">AI & ML</option>
+              <option value="blockchain">Blockchain</option>
+              <option value="iot">IoT</option>
+              <option value="robotics">Robotics</option>
+              <option value="ar_vr">AR/VR</option>
+              <option value="data_science">Data Science</option>
+              <option value="web_development">Web Development</option>
+              <option value="mobile_app">Mobile App</option>
+            </select>
+
+            <select
+              id="statusFilter"
+              style="
+                padding: 10px 20px;
+                border: 1px solid var(--gray-lighter);
+                border-radius: 999px;
+                background: var(--white);
+                color: var(--black);
+                font-weight: 500;
+                cursor: pointer;
+              "
+            >
+              <option value="all">All Status</option>
+              <option value="completed">Completed</option>
+              <option value="in_development">In Development</option>
+              <option value="beta">Beta</option>
+              <option value="maintained">Maintained</option>
+            </select>
           </div>
 
           <!-- Loading State -->
@@ -551,7 +534,6 @@
       const API_BASE_URL = "http://localhost:8001/api/auth";
       let allProjects = [];
       let filteredProjects = [];
-      let currentFilter = "all";
 
       // Typing Animation
       const taglines = [
@@ -628,9 +610,6 @@
 
           loadingState.classList.add("hidden");
           renderProjects();
-
-          // Setup filters
-          setupFilters();
         } catch (error) {
           console.error("Error loading projects:", error);
           loadingState.classList.add("hidden");
@@ -845,32 +824,29 @@
         return names[status] || status;
       }
 
-      function setupFilters() {
-        document.querySelectorAll(".filter-tab").forEach((tab) => {
-          tab.addEventListener("click", () => {
-            document
-              .querySelectorAll(".filter-tab")
-              .forEach((t) => t.classList.remove("active"));
-            tab.classList.add("active");
-            currentFilter = tab.dataset.filter;
-            applyFilters();
-          });
-        });
-      }
-
       function applyFilters() {
-        if (currentFilter === "all") {
-          filteredProjects = [...allProjects];
-        } else if (currentFilter === "ai_ml") {
-          filteredProjects = allProjects.filter((project) => project.category === "ai_ml");
-        } else if (currentFilter === "blockchain") {
-          filteredProjects = allProjects.filter((project) => project.category === "blockchain");
-        } else if (currentFilter === "completed") {
-          filteredProjects = allProjects.filter((project) => project.status === "completed");
-        }
+        const categoryFilter = document.getElementById("categoryFilter").value;
+        const statusFilter = document.getElementById("statusFilter").value;
+
+        // Filter by category and status
+        filteredProjects = allProjects.filter((project) => {
+          if (categoryFilter !== "all" && project.category !== categoryFilter)
+            return false;
+          if (statusFilter !== "all" && project.status !== statusFilter)
+            return false;
+          return true;
+        });
 
         renderProjects();
       }
+
+      // Event listeners
+      document
+        .getElementById("categoryFilter")
+        .addEventListener("change", applyFilters);
+      document
+        .getElementById("statusFilter")
+        .addEventListener("change", applyFilters);
 
       // Load navigation
       fetch("navigation.html")
@@ -881,11 +857,7 @@
         .catch((err) => console.error("Navigation load error:", err));
 
       // Load projects on page load
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadProjects);
-      } else {
-        loadProjects();
-      }
+      loadProjects();
     </script>
   </body>
 </html>
