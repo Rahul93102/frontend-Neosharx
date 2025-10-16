@@ -74,6 +74,7 @@
         height: 100%;
         z-index: 1000;
         overflow: hidden;
+        display: none; /* Hide loader permanently */
       }
       .panel {
         position: absolute;
@@ -242,8 +243,7 @@
         display: none;
       }
       #main-content {
-        opacity: 0;
-        animation: fade-in-main 1s ease-in 6s forwards;
+        opacity: 1; /* Show content immediately */
       }
       @keyframes fade-in-main {
         from {
@@ -1752,41 +1752,7 @@
           .catch((err) => console.error("Navigation load error:", err));
 
         // --- SIMPLE LOADER SCRIPT ---
-        const loader = document.getElementById("loader-wrapper");
-        const mainContent = document.getElementById("main-content");
-
-        // Rate limiting logic - show loader max 3 times per hour
-        const shouldShowLoader = () => {
-          const now = new Date();
-          const currentHour = now.getHours();
-          const currentDate = now.toDateString();
-
-          // Get stored data from localStorage
-          const storedData = JSON.parse(localStorage.getItem('loaderVisits') || '{}');
-
-          // Reset if it's a new day or new hour
-          if (storedData.date !== currentDate || storedData.hour !== currentHour) {
-            storedData.date = currentDate;
-            storedData.hour = currentHour;
-            storedData.count = 0;
-          }
-
-          // Check if under the limit
-          if (storedData.count < 3) {
-            storedData.count++;
-            localStorage.setItem('loaderVisits', JSON.stringify(storedData));
-            return true;
-          }
-
-          return false;
-        };
-
-        // If rate limited, hide loader immediately and show main content
-        if (!shouldShowLoader()) {
-          loader.classList.add("hidden");
-          mainContent.style.opacity = "1";
-        }
-        // If showing loader, main content will fade in automatically after 6s via CSS
+        // Loader removed - content shows normally
       });
 
         // --- ANIMATION ON SCROLL ---
