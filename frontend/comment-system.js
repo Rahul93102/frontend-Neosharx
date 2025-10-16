@@ -78,7 +78,7 @@ class CommentSystem {
                 .comments-header h3 {
                     font-size: 1.5rem;
                     font-weight: 700;
-                    color: #1a1a1a;
+                    color: #000000;
                     margin-bottom: 1.5rem;
                     display: flex;
                     align-items: center;
@@ -87,16 +87,16 @@ class CommentSystem {
                 #comment-count {
                     font-size: 1rem;
                     font-weight: 400;
-                    color: #666;
+                    color: #666666;
                 }
                 .comment-form-login {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
                     border: none;
                     border-radius: 12px;
                     padding: 1.5rem;
                     margin-bottom: 1.5rem;
                     color: white;
-                    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.2);
+                    box-shadow: 0 4px 6px rgba(0, 127, 255, 0.2);
                 }
                 .comment-form-login a {
                     color: white;
@@ -104,8 +104,8 @@ class CommentSystem {
                     text-decoration: underline;
                 }
                 .comment-form {
-                    background: white;
-                    border: 2px solid #e5e7eb;
+                    background: #ffffff;
+                    border: 2px solid #007fff;
                     border-radius: 12px;
                     padding: 1.5rem;
                     margin-bottom: 1.5rem;
@@ -113,31 +113,31 @@ class CommentSystem {
                     transition: all 0.3s ease;
                 }
                 .comment-form:hover {
-                    border-color: #3b82f6;
-                    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+                    border-color: #0056b3;
+                    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.15);
                 }
                 .comment-form textarea {
                     width: 100%;
                     padding: 0.875rem;
-                    border: 1px solid #d1d5db;
+                    border: 1px solid #cccccc;
                     border-radius: 8px;
-                    background: #f9fafb;
-                    color: #1a1a1a;
+                    background: #f8f9fa;
+                    color: #000000;
                     font-size: 0.95rem;
                     resize: none;
                     transition: all 0.2s ease;
                 }
                 .comment-form textarea:focus {
                     outline: none;
-                    border-color: #3b82f6;
-                    background: white;
-                    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+                    border-color: #007fff;
+                    background: #ffffff;
+                    box-shadow: 0 0 0 3px rgba(0, 127, 255, 0.1);
                 }
                 .user-avatar {
                     width: 40px;
                     height: 40px;
                     border-radius: 50%;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -161,18 +161,18 @@ class CommentSystem {
                     }
                 }
                 .comment-box {
-                    background: white;
-                    border: 1px solid #e5e7eb;
+                    background: #ffffff;
+                    border: 1px solid #007fff;
                     border-radius: 12px;
                     padding: 1.25rem;
                     transition: all 0.2s ease;
                 }
                 .comment-box:hover {
                     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-                    border-color: #cbd5e1;
+                    border-color: #0056b3;
                 }
                 .comment-reply .comment-box {
-                    background: #f9fafb;
+                    background: #f0f8ff;
                 }
                 .comment-header {
                     display: flex;
@@ -182,26 +182,26 @@ class CommentSystem {
                 }
                 .comment-author {
                     font-weight: 600;
-                    color: #1a1a1a;
+                    color: #000000;
                 }
                 .comment-time {
                     font-size: 0.85rem;
-                    color: #6b7280;
+                    color: #666666;
                 }
                 .comment-badge {
                     font-size: 0.75rem;
-                    background: #fee2e2;
-                    color: #dc2626;
+                    background: #ffcccc;
+                    color: #cc0000;
                     padding: 0.25rem 0.5rem;
                     border-radius: 4px;
                     font-weight: 600;
                 }
                 .admin-badge {
-                    background: #dbeafe;
-                    color: #2563eb;
+                    background: #cce7ff;
+                    color: #0056b3;
                 }
                 .comment-text {
-                    color: #374151;
+                    color: #000000;
                     line-height: 1.6;
                     margin-bottom: 0.875rem;
                     word-wrap: break-word;
@@ -219,7 +219,7 @@ class CommentSystem {
                     padding: 0.375rem 0.75rem;
                     border: none;
                     background: transparent;
-                    color: #6b7280;
+                    color: #666666;
                     font-size: 0.875rem;
                     font-weight: 500;
                     cursor: pointer;
@@ -227,56 +227,56 @@ class CommentSystem {
                     transition: all 0.2s ease;
                 }
                 .action-btn:hover {
-                    background: #f3f4f6;
-                    color: #1f2937;
+                    background: #e6f3ff;
+                    color: #000000;
                 }
                 .action-btn svg {
                     width: 1rem;
                     height: 1rem;
                 }
                 .like-btn.active {
-                    color: #3b82f6;
-                    background: #eff6ff;
+                    color: #007fff;
+                    background: #e6f3ff;
                 }
                 .dislike-btn.active {
-                    color: #ef4444;
-                    background: #fef2f2;
+                    color: #cc0000;
+                    background: #ffe6e6;
                 }
                 .reply-btn {
-                    color: #3b82f6;
+                    color: #007fff;
                 }
                 .reply-btn:hover {
-                    background: #eff6ff;
-                    color: #2563eb;
+                    background: #e6f3ff;
+                    color: #0056b3;
                 }
                 .delete-btn {
-                    color: #ef4444;
+                    color: #cc0000;
                 }
                 .delete-btn:hover {
-                    background: #fef2f2;
-                    color: #dc2626;
+                    background: #ffe6e6;
+                    color: #990000;
                 }
                 .flag-btn {
-                    color: #f59e0b;
+                    color: #ff9900;
                 }
                 .flag-btn:hover {
-                    background: #fef3c7;
-                    color: #d97706;
+                    background: #fff5e6;
+                    color: #cc7a00;
                 }
                 .submit-btn {
                     padding: 0.625rem 1.5rem;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
                     color: white;
                     border: none;
                     border-radius: 8px;
                     font-weight: 600;
                     cursor: pointer;
                     transition: all 0.3s ease;
-                    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+                    box-shadow: 0 2px 4px rgba(0, 127, 255, 0.3);
                 }
                 .submit-btn:hover:not(:disabled) {
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+                    box-shadow: 0 4px 8px rgba(0, 127, 255, 0.4);
                 }
                 .submit-btn:disabled {
                     opacity: 0.6;
@@ -284,18 +284,18 @@ class CommentSystem {
                 }
                 .cancel-btn {
                     padding: 0.625rem 1.5rem;
-                    background: white;
-                    color: #6b7280;
-                    border: 1px solid #d1d5db;
+                    background: #ffffff;
+                    color: #666666;
+                    border: 1px solid #cccccc;
                     border-radius: 8px;
                     font-weight: 500;
                     cursor: pointer;
                     transition: all 0.2s ease;
                 }
                 .cancel-btn:hover {
-                    background: #f9fafb;
-                    border-color: #9ca3af;
-                    color: #374151;
+                    background: #f8f9fa;
+                    border-color: #999999;
+                    color: #000000;
                 }
                 .reply-form {
                     background: #f9fafb;

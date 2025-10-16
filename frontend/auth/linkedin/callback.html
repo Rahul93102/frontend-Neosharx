@@ -67,10 +67,12 @@
 
             if (isSignup) {
               // Redirect to onboarding for new users
-              window.location.href = "http://localhost:3000/onboarding.html";
+              window.location.href =
+                "http://localhost:3000/frontend/onboarding.html";
             } else {
               // Redirect to home page for existing users
-              window.location.href = "http://localhost:3000/index.html";
+              window.location.href =
+                "http://localhost:3000/frontend/index.html";
             }
           } else {
             throw new Error(data.error || "Authentication failed");

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Auth</title>
+  </head>
+  <body>
+    <h1>Authentication Test</h1>
+    <button onclick="setLoggedIn()">Set as Logged In</button>
+    <button onclick="setLoggedOut()">Set as Logged Out</button>
+    <button onclick="checkStatus()">Check Status</button>
+    <button onclick="checkAllStorage()">Check All Storage</button>
+    <div id="status"></div>
+
+    <script>
+      function setLoggedIn() {
+        localStorage.setItem(
+          "currentUser",
+          '{"name":"Test User","email":"test@example.com"}'
+        );
+        document.getElementById("status").textContent = "Set to logged in";
+      }
+
+      function setLoggedOut() {
+        localStorage.removeItem("currentUser");
+        document.getElementById("status").textContent = "Set to logged out";
+      }
+
+      function checkStatus() {
+        const user = localStorage.getItem("currentUser");
+        document.getElementById("status").textContent =
+          "Current user: " + (user || "null");
+      }
+
+      function checkAllStorage() {
+        let output = "All localStorage items:<br>";
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          const value = localStorage.getItem(key);
+          output += `${key}: ${value}<br>`;
+        }
+        document.getElementById("status").innerHTML = output;
+      }
+    </script>
+  </body>
+</html>

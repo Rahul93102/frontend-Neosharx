@@ -1755,263 +1755,261 @@
         // Loader removed - content shows normally
       });
 
-        // --- ANIMATION ON SCROLL ---
-        const observer = new IntersectionObserver(
+      // --- ANIMATION ON SCROLL ---
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      document
+        .querySelectorAll(".reveal, .slide-in-left-elem, .slide-in-right-elem")
+        .forEach((el) => {
+          observer.observe(el);
+        });
+
+      // --- COUNTER SCRIPT ---
+      const counters = document.querySelectorAll(".counter");
+      const speed = 200; // The lower the #, the faster the count
+      counters.forEach((counter) => {
+        const updateCount = () => {
+          const target = +counter.getAttribute("data-target");
+          const count = +counter.innerText.replace("+", "");
+          const inc = target / speed;
+          if (count < target) {
+            counter.innerText =
+              Math.ceil(count + inc) +
+              (counter.innerText.includes("+") ? "+" : "");
+            setTimeout(updateCount, 15);
+          } else {
+            counter.innerText =
+              target.toLocaleString() +
+              (counter.innerText.includes("+") ? "+" : "");
+          }
+        };
+        // Start counting when the element is visible
+        const counterObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                entry.target.classList.add("visible");
+                updateCount();
+                counterObserver.unobserve(entry.target);
               }
             });
           },
-          { threshold: 0.1 }
+          { threshold: 0.5 }
         );
-        document
-          .querySelectorAll(
-            ".reveal, .slide-in-left-elem, .slide-in-right-elem"
-          )
-          .forEach((el) => {
-            observer.observe(el);
-          });
+        counterObserver.observe(counter);
+      });
 
-        // --- COUNTER SCRIPT ---
-        const counters = document.querySelectorAll(".counter");
-        const speed = 200; // The lower the #, the faster the count
-        counters.forEach((counter) => {
-          const updateCount = () => {
-            const target = +counter.getAttribute("data-target");
-            const count = +counter.innerText.replace("+", "");
-            const inc = target / speed;
-            if (count < target) {
-              counter.innerText =
-                Math.ceil(count + inc) +
-                (counter.innerText.includes("+") ? "+" : "");
-              setTimeout(updateCount, 15);
-            } else {
-              counter.innerText =
-                target.toLocaleString() +
-                (counter.innerText.includes("+") ? "+" : "");
-            }
-          };
-          // Start counting when the element is visible
-          const counterObserver = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  updateCount();
-                  counterObserver.unobserve(entry.target);
-                }
-              });
-            },
-            { threshold: 0.5 }
+      // --- DECORATIVE IMAGES MOUSE MOVE EFFECT ---
+      const animatedElements = document.querySelectorAll("[data-animation]");
+      window.addEventListener("mousemove", (e) => {
+        const { clientX, clientY } = e;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        animatedElements.forEach((el) => {
+          const speed = parseFloat(el.dataset.speed) || 0;
+          const rotate = parseFloat(el.dataset.rotate) || 0;
+          const x = (clientX - centerX) * speed;
+          const y = (clientY - centerY) * speed;
+          const rotation = (clientX - centerX) * speed * (rotate / 10);
+
+          el.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+        });
+      });
+
+      // --- EVENT CAROUSELS SCRIPT ---
+      function setupCarousel(carouselSection) {
+        const scrollContainer =
+          carouselSection.querySelector(".scroll-container");
+        const prevButton = carouselSection.querySelector(".carousel-prev");
+        const nextButton = carouselSection.querySelector(".carousel-next");
+        const items = carouselSection.querySelectorAll(".carousel-item");
+        const paginationContainer =
+          carouselSection.querySelector(".pagination");
+        let currentIndex = 0;
+
+        // Create pagination dots
+        items.forEach((_, index) => {
+          const dot = document.createElement("button");
+          dot.classList.add("dot", "w-3", "h-3", "rounded-full");
+          dot.classList.toggle("bg-primary", index === 0);
+          dot.classList.toggle("bg-gray-100", index !== 0);
+          dot.addEventListener("click", () => {
+            scrollToItem(index);
+          });
+          paginationContainer.appendChild(dot);
+        });
+
+        const dots = paginationContainer.querySelectorAll(".dot");
+
+        function updateUI() {
+          // Update dots
+          dots.forEach((dot, index) => {
+            dot.classList.toggle("bg-primary", index === currentIndex);
+            dot.classList.toggle("bg-gray-100", index !== currentIndex);
+          });
+          // Update buttons
+          prevButton.disabled = currentIndex === 0;
+          prevButton.classList.toggle("opacity-50", currentIndex === 0);
+          nextButton.disabled = currentIndex === items.length - 1;
+          nextButton.classList.toggle(
+            "opacity-50",
+            currentIndex === items.length - 1
           );
-          counterObserver.observe(counter);
+        }
+
+        function scrollToItem(index) {
+          const itemWidth = items[0].offsetWidth;
+          const scrollLeft = index * (itemWidth + 24); // 24 is space-x-6
+          scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+          currentIndex = index;
+          updateUI();
+        }
+
+        nextButton.addEventListener("click", () => {
+          if (currentIndex < items.length - 1) {
+            scrollToItem(currentIndex + 1);
+          }
         });
 
-        // --- DECORATIVE IMAGES MOUSE MOVE EFFECT ---
-        const animatedElements = document.querySelectorAll("[data-animation]");
-        window.addEventListener("mousemove", (e) => {
-          const { clientX, clientY } = e;
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
-
-          animatedElements.forEach((el) => {
-            const speed = parseFloat(el.dataset.speed) || 0;
-            const rotate = parseFloat(el.dataset.rotate) || 0;
-            const x = (clientX - centerX) * speed;
-            const y = (clientY - centerY) * speed;
-            const rotation = (clientX - centerX) * speed * (rotate / 10);
-
-            el.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-          });
+        prevButton.addEventListener("click", () => {
+          if (currentIndex > 0) {
+            scrollToItem(currentIndex - 1);
+          }
         });
 
-        // --- EVENT CAROUSELS SCRIPT ---
-        function setupCarousel(carouselSection) {
-          const scrollContainer =
-            carouselSection.querySelector(".scroll-container");
-          const prevButton = carouselSection.querySelector(".carousel-prev");
-          const nextButton = carouselSection.querySelector(".carousel-next");
-          const items = carouselSection.querySelectorAll(".carousel-item");
-          const paginationContainer =
-            carouselSection.querySelector(".pagination");
-          let currentIndex = 0;
+        // Mouse drag scrolling
+        let isDown = false;
+        let startX;
+        let scrollLeft;
 
-          // Create pagination dots
-          items.forEach((_, index) => {
-            const dot = document.createElement("button");
-            dot.classList.add("dot", "w-3", "h-3", "rounded-full");
-            dot.classList.toggle("bg-primary", index === 0);
-            dot.classList.toggle("bg-gray-100", index !== 0);
-            dot.addEventListener("click", () => {
-              scrollToItem(index);
-            });
-            paginationContainer.appendChild(dot);
-          });
+        scrollContainer.addEventListener("mousedown", (e) => {
+          isDown = true;
+          scrollContainer.classList.add("grabbing");
+          startX = e.pageX - scrollContainer.offsetLeft;
+          scrollLeft = scrollContainer.scrollLeft;
+        });
+        scrollContainer.addEventListener("mouseleave", () => {
+          isDown = false;
+          scrollContainer.classList.remove("grabbing");
+        });
+        scrollContainer.addEventListener("mouseup", () => {
+          isDown = false;
+          scrollContainer.classList.remove("grabbing");
+        });
+        scrollContainer.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - scrollContainer.offsetLeft;
+          const walk = (x - startX) * 2; //scroll-fast
+          scrollContainer.scrollLeft = scrollLeft - walk;
+        });
 
-          const dots = paginationContainer.querySelectorAll(".dot");
+        updateUI(); // Initial setup
+      }
 
-          function updateUI() {
-            // Update dots
-            dots.forEach((dot, index) => {
-              dot.classList.toggle("bg-primary", index === currentIndex);
-              dot.classList.toggle("bg-gray-100", index !== currentIndex);
-            });
-            // Update buttons
-            prevButton.disabled = currentIndex === 0;
-            prevButton.classList.toggle("opacity-50", currentIndex === 0);
-            nextButton.disabled = currentIndex === items.length - 1;
-            nextButton.classList.toggle(
-              "opacity-50",
-              currentIndex === items.length - 1
+      // Initialize all carousels on the page
+      document
+        .querySelectorAll("#events-carousel-section > div")
+        .forEach(setupCarousel);
+
+      // --- FETCH EVENTS FROM BACKEND ---
+      async function fetchEvents() {
+        try {
+          console.log("Fetching events from backend...");
+
+          // Fetch all event types
+          const [pastRes, recentRes, upcomingRes] = await Promise.all([
+            fetch(`${API_BASE_URL}/events/type/past/`),
+            fetch(`${API_BASE_URL}/events/type/recent/`),
+            fetch(`${API_BASE_URL}/events/type/upcoming/`),
+          ]);
+
+          console.log(
+            "Response status:",
+            pastRes.status,
+            recentRes.status,
+            upcomingRes.status
+          );
+
+          const pastData = await pastRes.json();
+          const recentData = await recentRes.json();
+          const upcomingData = await upcomingRes.json();
+
+          console.log("Past events:", pastData);
+          console.log("Recent events:", recentData);
+          console.log("Upcoming events:", upcomingData);
+
+          // Extract results array from response
+          const pastEvents = pastData.results || [];
+          const recentEvents = recentData.results || [];
+          const upcomingEvents = upcomingData.results || [];
+
+          // Update carousels with fetched data
+          if (pastEvents.length > 0) {
+            console.log("Updating past events carousel");
+            updateEventCarousel(
+              "#events-carousel-section > div:nth-child(1) .scroll-container",
+              pastEvents,
+              "past"
+            );
+          }
+          if (recentEvents.length > 0) {
+            console.log("Updating recent events carousel");
+            updateEventCarousel(
+              "#events-carousel-section > div:nth-child(2) .scroll-container",
+              recentEvents,
+              "recent"
+            );
+          }
+          if (upcomingEvents.length > 0) {
+            console.log("Updating upcoming events carousel");
+            updateEventCarousel(
+              "#events-carousel-section > div:nth-child(3) .scroll-container",
+              upcomingEvents,
+              "upcoming"
             );
           }
 
-          function scrollToItem(index) {
-            const itemWidth = items[0].offsetWidth;
-            const scrollLeft = index * (itemWidth + 24); // 24 is space-x-6
-            scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
-            currentIndex = index;
-            updateUI();
-          }
+          // Reinitialize carousels after updating
+          document
+            .querySelectorAll("#events-carousel-section > div")
+            .forEach(setupCarousel);
 
-          nextButton.addEventListener("click", () => {
-            if (currentIndex < items.length - 1) {
-              scrollToItem(currentIndex + 1);
-            }
-          });
-
-          prevButton.addEventListener("click", () => {
-            if (currentIndex > 0) {
-              scrollToItem(currentIndex - 1);
-            }
-          });
-
-          // Mouse drag scrolling
-          let isDown = false;
-          let startX;
-          let scrollLeft;
-
-          scrollContainer.addEventListener("mousedown", (e) => {
-            isDown = true;
-            scrollContainer.classList.add("grabbing");
-            startX = e.pageX - scrollContainer.offsetLeft;
-            scrollLeft = scrollContainer.scrollLeft;
-          });
-          scrollContainer.addEventListener("mouseleave", () => {
-            isDown = false;
-            scrollContainer.classList.remove("grabbing");
-          });
-          scrollContainer.addEventListener("mouseup", () => {
-            isDown = false;
-            scrollContainer.classList.remove("grabbing");
-          });
-          scrollContainer.addEventListener("mousemove", (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - scrollContainer.offsetLeft;
-            const walk = (x - startX) * 2; //scroll-fast
-            scrollContainer.scrollLeft = scrollLeft - walk;
-          });
-
-          updateUI(); // Initial setup
+          console.log("Events loaded successfully!");
+        } catch (error) {
+          console.error("Error fetching events:", error);
+          console.error("Error details:", error.message);
         }
+      }
 
-        // Initialize all carousels on the page
-        document
-          .querySelectorAll("#events-carousel-section > div")
-          .forEach(setupCarousel);
+      function updateEventCarousel(selector, events, type) {
+        const container = document.querySelector(selector);
+        if (!container) return;
 
-        // --- FETCH EVENTS FROM BACKEND ---
-        async function fetchEvents() {
-          try {
-            console.log("Fetching events from backend...");
+        container.innerHTML = events
+          .map((event) => {
+            const buttonText =
+              type === "past"
+                ? "Watch Highlights"
+                : type === "recent"
+                ? "View Photos / Replay"
+                : "Register Now";
+            const grayscale = type === "past" ? "filter grayscale" : "";
+            const bgClass = type === "upcoming" ? "bg-[#007fff]" : "";
 
-            // Fetch all event types
-            const [pastRes, recentRes, upcomingRes] = await Promise.all([
-              fetch(`${API_BASE_URL}/events/type/past/`),
-              fetch(`${API_BASE_URL}/events/type/recent/`),
-              fetch(`${API_BASE_URL}/events/type/upcoming/`),
-            ]);
+            // Admin edit URL
+            const adminEditUrl = `http://localhost:8000/admin/authentication/event/${event.id}/change/`;
+            const eventDetailUrl = event.registration_url || "#";
 
-            console.log(
-              "Response status:",
-              pastRes.status,
-              recentRes.status,
-              upcomingRes.status
-            );
-
-            const pastData = await pastRes.json();
-            const recentData = await recentRes.json();
-            const upcomingData = await upcomingRes.json();
-
-            console.log("Past events:", pastData);
-            console.log("Recent events:", recentData);
-            console.log("Upcoming events:", upcomingData);
-
-            // Extract results array from response
-            const pastEvents = pastData.results || [];
-            const recentEvents = recentData.results || [];
-            const upcomingEvents = upcomingData.results || [];
-
-            // Update carousels with fetched data
-            if (pastEvents.length > 0) {
-              console.log("Updating past events carousel");
-              updateEventCarousel(
-                "#events-carousel-section > div:nth-child(1) .scroll-container",
-                pastEvents,
-                "past"
-              );
-            }
-            if (recentEvents.length > 0) {
-              console.log("Updating recent events carousel");
-              updateEventCarousel(
-                "#events-carousel-section > div:nth-child(2) .scroll-container",
-                recentEvents,
-                "recent"
-              );
-            }
-            if (upcomingEvents.length > 0) {
-              console.log("Updating upcoming events carousel");
-              updateEventCarousel(
-                "#events-carousel-section > div:nth-child(3) .scroll-container",
-                upcomingEvents,
-                "upcoming"
-              );
-            }
-
-            // Reinitialize carousels after updating
-            document
-              .querySelectorAll("#events-carousel-section > div")
-              .forEach(setupCarousel);
-
-            console.log("Events loaded successfully!");
-          } catch (error) {
-            console.error("Error fetching events:", error);
-            console.error("Error details:", error.message);
-          }
-        }
-
-        function updateEventCarousel(selector, events, type) {
-          const container = document.querySelector(selector);
-          if (!container) return;
-
-          container.innerHTML = events
-            .map((event) => {
-              const buttonText =
-                type === "past"
-                  ? "Watch Highlights"
-                  : type === "recent"
-                  ? "View Photos / Replay"
-                  : "Register Now";
-              const grayscale = type === "past" ? "filter grayscale" : "";
-              const bgClass = type === "upcoming" ? "bg-[#007fff]" : "";
-
-              // Admin edit URL
-              const adminEditUrl = `http://localhost:8000/admin/authentication/event/${event.id}/change/`;
-              const eventDetailUrl = event.registration_url || "#";
-
-              return `
+            return `
               <div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative shadow-lg ${bgClass} cursor-pointer"
                    onclick="window.open('${eventDetailUrl}', '_blank')">
                 ${
@@ -2049,60 +2047,57 @@
                 </div>
               </div>
             `;
-            })
-            .join("");
-        }
+          })
+          .join("");
+      }
 
-        // --- FETCH YOUTUBE VIDEOS FROM BACKEND ---
-        async function fetchYouTubeVideos() {
-          try {
-            console.log("Fetching YouTube videos from backend...");
+      // --- FETCH YOUTUBE VIDEOS FROM BACKEND ---
+      async function fetchYouTubeVideos() {
+        try {
+          console.log("Fetching YouTube videos from backend...");
 
-            const response = await fetch(`${API_BASE_URL}/youtube-videos/`);
-            console.log("YouTube videos response status:", response.status);
+          const response = await fetch(`${API_BASE_URL}/youtube-videos/`);
+          console.log("YouTube videos response status:", response.status);
 
-            const data = await response.json();
-            console.log("YouTube videos data:", data);
+          const data = await response.json();
+          console.log("YouTube videos data:", data);
 
-            const videos = data.videos || [];
+          const videos = data.videos || [];
 
-            const container = document.getElementById(
-              "youtube-videos-container"
-            );
-            if (!container) {
-              console.error("YouTube videos container not found!");
-              return;
-            }
+          const container = document.getElementById("youtube-videos-container");
+          if (!container) {
+            console.error("YouTube videos container not found!");
+            return;
+          }
 
-            if (videos.length === 0) {
-              console.log("No videos available");
-              container.innerHTML = `
+          if (videos.length === 0) {
+            console.log("No videos available");
+            container.innerHTML = `
                 <div class="col-span-full text-center py-8 text-gray-600">
                   <p>No videos available at the moment.</p>
                 </div>
               `;
-              return;
-            }
+            return;
+          }
 
-            console.log(`Displaying ${videos.length} videos`);
+          console.log(`Displaying ${videos.length} videos`);
 
-            // Display videos in uniform rectangular cards
-            container.innerHTML = videos
-              .map((video) => {
-                // Extract video ID from URL or use provided video_id
-                const videoId = video.video_id;
-                const embedUrl =
-                  video.video_type === "short"
-                    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1`
-                    : `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&modestbranding=1`;
+          // Display videos in uniform rectangular cards
+          container.innerHTML = videos
+            .map((video) => {
+              // Extract video ID from URL or use provided video_id
+              const videoId = video.video_id;
+              const embedUrl =
+                video.video_type === "short"
+                  ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1`
+                  : `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&modestbranding=1`;
 
-                // Admin edit URL
-                const adminEditUrl = `http://localhost:8000/admin/authentication/youtubevideo/${video.id}/change/`;
-                const youtubeWatchUrl =
-                  video.watch_url ||
-                  `https://www.youtube.com/watch?v=${videoId}`;
+              // Admin edit URL
+              const adminEditUrl = `http://localhost:8000/admin/authentication/youtubevideo/${video.id}/change/`;
+              const youtubeWatchUrl =
+                video.watch_url || `https://www.youtube.com/watch?v=${videoId}`;
 
-                return `
+              return `
                 <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-100 group relative cursor-pointer"
                      onclick="window.open('${youtubeWatchUrl}', '_blank')">
                   <!-- Edit Button (Admin Only) -->
@@ -2184,82 +2179,127 @@
                   </div>
                 </div>
               `;
-              })
-              .join("");
+            })
+            .join("");
 
-            console.log("YouTube videos loaded successfully!");
-          } catch (error) {
-            console.error("Error fetching YouTube videos:", error);
-            console.error("Error details:", error.message);
-            const container = document.getElementById(
-              "youtube-videos-container"
-            );
-            if (container) {
-              container.innerHTML = `
+          console.log("YouTube videos loaded successfully!");
+        } catch (error) {
+          console.error("Error fetching YouTube videos:", error);
+          console.error("Error details:", error.message);
+          const container = document.getElementById("youtube-videos-container");
+          if (container) {
+            container.innerHTML = `
                 <div class="col-span-full text-center py-8 text-red-600">
                   <p>Error loading videos. Please try again later.</p>
                   <p class="text-sm mt-2">Error: ${error.message}</p>
                 </div>
               `;
-            }
           }
         }
+      }
 
-        // Load data from backend
-        console.log("Initializing backend connections...");
-        console.log("API Base URL:", API_BASE_URL);
-        fetchEvents();
-        fetchYouTubeVideos();
+      // Load data from backend
+      console.log("Initializing backend connections...");
+      console.log("API Base URL:", API_BASE_URL);
+      fetchEvents();
+      fetchYouTubeVideos();
 
-        // --- COMMUNITY MODAL FUNCTIONALITY ---
-        const communityBtn = document.getElementById("community-btn");
-        const communityModal = document.getElementById("community-modal");
-        const closeModalBtn = document.getElementById("close-modal");
+      // --- COMMUNITY MODAL FUNCTIONALITY ---
+      const communityBtn = document.getElementById("community-btn");
+      const communityModal = document.getElementById("community-modal");
+      const closeModalBtn = document.getElementById("close-modal");
 
-        if (communityBtn && communityModal) {
-          // Open modal
-          communityBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            communityModal.classList.remove("hidden");
-            // Trigger animation
-            setTimeout(() => {
-              communityModal.classList.add("show");
-            }, 10);
-            // Prevent body scroll
-            document.body.style.overflow = "hidden";
-          });
+      if (communityBtn && communityModal) {
+        // Open modal
+        communityBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          communityModal.classList.remove("hidden");
+          // Trigger animation
+          setTimeout(() => {
+            communityModal.classList.add("show");
+          }, 10);
+          // Prevent body scroll
+          document.body.style.overflow = "hidden";
+        });
 
-          // Close modal functions
-          function closeModal() {
-            communityModal.classList.remove("show");
-            setTimeout(() => {
-              communityModal.classList.add("hidden");
-            }, 300);
-            // Restore body scroll
-            document.body.style.overflow = "auto";
-          }
-
-          // Close button
-          closeModalBtn.addEventListener("click", closeModal);
-
-          // Click outside to close
-          communityModal.addEventListener("click", function (e) {
-            if (e.target === communityModal) {
-              closeModal();
-            }
-          });
-
-          // ESC key to close
-          document.addEventListener("keydown", function (e) {
-            if (
-              e.key === "Escape" &&
-              !communityModal.classList.contains("hidden")
-            ) {
-              closeModal();
-            }
-          });
+        // Close modal functions
+        function closeModal() {
+          communityModal.classList.remove("show");
+          setTimeout(() => {
+            communityModal.classList.add("hidden");
+          }, 300);
+          // Restore body scroll
+          document.body.style.overflow = "auto";
         }
-      });
+
+        // Close button
+        closeModalBtn.addEventListener("click", closeModal);
+
+        // Click outside to close
+        communityModal.addEventListener("click", function (e) {
+          if (e.target === communityModal) {
+            closeModal();
+          }
+        });
+
+        // ESC key to close
+        document.addEventListener("keydown", function (e) {
+          if (
+            e.key === "Escape" &&
+            !communityModal.classList.contains("hidden")
+          ) {
+            closeModal();
+          }
+        });
+      }
+
+      // Authentication logic - runs after navigation loads
+      setTimeout(() => {
+        updateAuthUI();
+      }, 500);
+
+      function updateAuthUI() {
+        const authToken = localStorage.getItem("authToken");
+        const currentUser = JSON.parse(
+          localStorage.getItem("currentUser") || "{}"
+        );
+        const communityBtn = document.querySelector('a[href*="signup"]');
+
+        if (authToken && currentUser.email) {
+          // User is logged in - show logout button
+          if (communityBtn) {
+            communityBtn.innerHTML = `
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Logout
+              </span>
+            `;
+            communityBtn.className =
+              "ml-3 px-4 py-1.5 bg-blue-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105";
+            communityBtn.href = "#";
+            communityBtn.onclick = (e) => {
+              e.preventDefault();
+              if (confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("currentUser");
+                localStorage.removeItem("userPreferences");
+                window.location.reload();
+              }
+            };
+          }
+        } else {
+          // User is logged out - show login button
+          if (communityBtn) {
+            communityBtn.innerHTML = "Login";
+            communityBtn.className =
+              "ml-3 px-4 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105";
+            communityBtn.href = "signup.html";
+            communityBtn.onclick = null;
+          }
+        }
+      }
     </script>
   </body>
 </html>

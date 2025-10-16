@@ -281,7 +281,11 @@
             >
               Continue to NeoSharX →
             </button>
-            <a href="index.html" class="skip-link">Skip for now</a>
+            <a
+              href="http://localhost:3000/frontend/index.html"
+              class="skip-link"
+              >Skip for now</a
+            >
           </form>
         </div>
       </div>
@@ -414,7 +418,8 @@
 
             // Redirect to index.html after a short delay
             setTimeout(() => {
-              window.location.href = "index.html?welcome=true";
+              window.location.href =
+                "http://localhost:3000/frontend/index.html?welcome=true";
             }, 1500);
           } catch (error) {
             console.error("Error saving preferences:", error);
@@ -426,7 +431,7 @@
           }
         });
 
-        // Check if user is authenticated (with small delay for callback processing)
+        // Check if user is authenticated (with delay for callback processing)
         setTimeout(() => {
           const authToken = localStorage.getItem("authToken");
           const currentUser = localStorage.getItem("currentUser");
@@ -444,7 +449,7 @@
             return;
           }
           console.log("User authenticated, showing onboarding");
-        }, 100);
+        }, 1000);
       });
     </script>
   </body>
