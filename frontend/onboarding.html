@@ -281,9 +281,7 @@
             >
               Continue to NeoSharX →
             </button>
-            <a
-              href="http://localhost:3000/frontend/index.html"
-              class="skip-link"
+            <a href="http://localhost:3000/index.html" class="skip-link"
               >Skip for now</a
             >
           </form>
@@ -419,7 +417,7 @@
             // Redirect to index.html after a short delay
             setTimeout(() => {
               window.location.href =
-                "http://localhost:3000/frontend/index.html?welcome=true";
+                "http://localhost:3000/index.html?welcome=true";
             }, 1500);
           } catch (error) {
             console.error("Error saving preferences:", error);
@@ -446,6 +444,21 @@
               console.log("User Email:", user.email);
               console.log("Login Method:", user.login_method);
               console.log("User authenticated, showing onboarding ✓");
+
+              // Dispatch auth state change event
+              console.log(
+                "Dispatching authStateChanged event from onboarding..."
+              );
+              window.dispatchEvent(
+                new CustomEvent("authStateChanged", {
+                  detail: {
+                    isAuthenticated: true,
+                    user: user,
+                    token: authToken,
+                  },
+                })
+              );
+              console.log("Event dispatched ✓");
             } catch (e) {
               console.error("Error parsing currentUser:", e);
             }
