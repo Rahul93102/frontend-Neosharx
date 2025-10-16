@@ -65,15 +65,17 @@
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");
 
-            if (isSignup) {
-              // Redirect to onboarding for new users
-              window.location.href =
-                "http://localhost:3000/frontend/onboarding.html";
-            } else {
-              // Redirect to home page for existing users
-              window.location.href =
-                "http://localhost:3000/frontend/index.html";
-            }
+            // Small delay to allow localStorage to persist
+            setTimeout(() => {
+              console.log("Redirecting to:", isSignup ? "onboarding" : "home");
+              if (isSignup) {
+                // Redirect to onboarding for new users (relative path, no /frontend/)
+                window.location.href = "../onboarding.html";
+              } else {
+                // Redirect to home page for existing users
+                window.location.href = "../index.html";
+              }
+            }, 300);
           } else {
             throw new Error(data.error || "Authentication failed");
           }

@@ -9,7 +9,7 @@ class CommentSystem {
     this.contentType = contentType;
     this.contentSlug = contentSlug;
     this.containerId = containerId;
-    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api";
+    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8000/api/auth";
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
