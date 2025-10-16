@@ -25,6 +25,14 @@ class CommentSystem {
       ...options,
     };
 
+    console.log("=== COMMENT SYSTEM INITIALIZED ===");
+    console.log("Content Type:", this.contentType);
+    console.log("Content Slug:", this.contentSlug);
+    console.log("API Base URL:", this.apiBaseUrl);
+    console.log("Auth Token:", this.authToken ? "Present ✓" : "Missing ✗");
+    console.log("Current User:", this.currentUser ? this.currentUser.username || this.currentUser.email : "Not logged in");
+    console.log("==================================");
+
     this.init();
   }
 
@@ -38,26 +46,58 @@ class CommentSystem {
       console.log("CommentSystem: Auth state changed", e.detail);
       this.refreshAuth();
     });
+
+    // Listen for storage changes (for cross-tab auth updates)
+    window.addEventListener("storage", (e) => {
+      if (e.key === "authToken" || e.key === "currentUser") {
+        console.log("CommentSystem: Storage changed, refreshing auth");
+        this.refreshAuth();
+      }
+    });
+
+    // Check auth state on page load
+    setTimeout(() => {
+      const currentAuth = localStorage.getItem("authToken");
+      const currentUserStr = localStorage.getItem("currentUser");
+      if (currentAuth && currentUserStr && !this.currentUser) {
+        console.log("CommentSystem: Auth detected on load, refreshing");
+        this.refreshAuth();
+      }
+    }, 500);
   }
 
   // Refresh authentication state
   refreshAuth() {
+    const prevToken = this.authToken;
+    const prevUser = this.currentUser;
+    
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
     );
 
-    console.log("CommentSystem: Refreshing auth state", {
-      hasToken: !!this.authToken,
-      hasUser: !!this.currentUser,
-      userDetails: this.currentUser,
-    });
+    console.log("=== COMMENT SYSTEM: REFRESHING AUTH ===");
+    console.log("Previous Auth:", prevToken ? "Had token" : "No token");
+    console.log("Current Auth:", this.authToken ? "Has token ✓" : "No token ✗");
+    console.log("Previous User:", prevUser ? prevUser.username || prevUser.email : "Not logged in");
+    console.log("Current User:", this.currentUser ? this.currentUser.username || this.currentUser.email : "Not logged in");
+    console.log("Auth Changed:", (!!prevToken !== !!this.authToken) ? "YES" : "NO");
+    console.log("========================================");
 
     // Re-render the comment form with updated auth state
     const formContainer = document.getElementById("comment-form-container");
     if (formContainer) {
+      console.log("Re-rendering comment form...");
       formContainer.innerHTML = this.renderCommentForm();
       this.bindCommentFormEvents();
+    } else {
+      console.warn("Comment form container not found!");
+    }
+
+    // Re-render comments to show appropriate actions
+    if (this.comments && this.comments.length > 0) {
+      console.log("Re-rendering comments...");
+      this.renderComments();
     }
   }
 

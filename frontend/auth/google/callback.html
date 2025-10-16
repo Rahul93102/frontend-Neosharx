@@ -49,32 +49,59 @@
 
           if (response.ok) {
             // Store authentication data
+            const userData = {
+              id: data.user_id || data.user.id,
+              username: data.username || data.user.username || data.user.name,
+              email: data.email || data.user.email,
+              phone_verified:
+                data.phone_verified || data.user.phone_verified || false,
+              login_method: "google",
+            };
+            
+            console.log("=== GOOGLE LOGIN SUCCESS ===");
+            console.log("Token:", data.token ? "Received ✓" : "Missing ✗");
+            console.log("User Data:", userData);
+            console.log("Saving to localStorage...");
+            
             localStorage.setItem("authToken", data.token);
-            localStorage.setItem(
-              "currentUser",
-              JSON.stringify({
-                id: data.user_id || data.user.id,
-                username: data.username || data.user.username || data.user.name,
-                email: data.email || data.user.email,
-                phone_verified:
-                  data.phone_verified || data.user.phone_verified || false,
-                login_method: "google",
-              })
-            );
+            localStorage.setItem("currentUser", JSON.stringify(userData));
             localStorage.removeItem("google_state");
 
-            console.log("Google authentication successful, redirecting...");
+            console.log("Verification - Token in localStorage:", localStorage.getItem("authToken") ? "✓" : "✗");
+            console.log("Verification - User in localStorage:", localStorage.getItem("currentUser") ? "✓" : "✗");
+            console.log("============================");
+
+            // Dispatch auth state change event for any listening components
+            try {
+              console.log("Dispatching authStateChanged event...");
+              window.dispatchEvent(
+                new CustomEvent("authStateChanged", {
+                  detail: {
+                    isAuthenticated: true,
+                    user: userData,
+                    token: data.token,
+                  },
+                })
+              );
+              console.log("Event dispatched successfully ✓");
+            } catch (e) {
+              console.error("Could not dispatch authStateChanged event:", e);
+            }
 
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");
 
-            if (isSignup) {
-              // Redirect to onboarding for new users
-              window.location.href = "http://localhost:3000/onboarding.html";
-            } else {
-              // Redirect to home page for existing users
-              window.location.href = "http://localhost:3000/index.html";
-            }
+            // Small delay to allow localStorage to persist
+            setTimeout(() => {
+              console.log("Redirecting to:", isSignup ? "onboarding" : "home");
+              if (isSignup) {
+                // Redirect to onboarding for new users
+                window.location.href = "http://localhost:3000/frontend/onboarding.html";
+              } else {
+                // Redirect to home page for existing users
+                window.location.href = "http://localhost:3000/frontend/index.html";
+              }
+            }, 300);
           } else {
             throw new Error(data.error || "Authentication failed");
           }
@@ -85,7 +112,6 @@
       });
 
       function showError(message) {
-        // Create and show error alert
         const alertDiv = document.createElement("div");
         alertDiv.style.cssText = `
                 position: fixed;

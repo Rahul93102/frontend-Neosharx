@@ -436,9 +436,20 @@
           const authToken = localStorage.getItem("authToken");
           const currentUser = localStorage.getItem("currentUser");
 
-          console.log("Onboarding auth check:");
-          console.log("authToken:", authToken ? "EXISTS" : "MISSING");
-          console.log("currentUser:", currentUser ? "EXISTS" : "MISSING");
+          console.log("=== ONBOARDING AUTH CHECK ===");
+          console.log("authToken:", authToken ? "EXISTS ✓" : "MISSING ✗");
+          console.log("currentUser:", currentUser ? "EXISTS ✓" : "MISSING ✗");
+
+          if (currentUser) {
+            try {
+              const user = JSON.parse(currentUser);
+              console.log("User Email:", user.email);
+              console.log("Login Method:", user.login_method);
+              console.log("User authenticated, showing onboarding ✓");
+            } catch (e) {
+              console.error("Error parsing currentUser:", e);
+            }
+          }
 
           if (!authToken || !currentUser) {
             console.log("No authentication found, redirecting to login");
@@ -448,8 +459,9 @@
             window.location.href = "login.html";
             return;
           }
-          console.log("User authenticated, showing onboarding");
-        }, 1000);
+
+          console.log("============================");
+        }, 500); // Reduced delay since we increased callback delay
       });
     </script>
   </body>

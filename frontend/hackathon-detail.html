@@ -801,6 +801,46 @@
     </div>
 
     <script>
+      // Check and dispatch auth state on page load
+      (function() {
+        const authToken = localStorage.getItem("authToken");
+        const currentUserStr = localStorage.getItem("currentUser");
+        
+        console.log("=== AUTH STATE CHECK ON PAGE LOAD ===");
+        console.log("Auth Token:", authToken ? "Present" : "Missing");
+        console.log("User Data:", currentUserStr ? "Present" : "Missing");
+        
+        if (authToken && currentUserStr) {
+          try {
+            const currentUser = JSON.parse(currentUserStr);
+            console.log("✓ Auth state detected:", {
+              username: currentUser.username,
+              email: currentUser.email,
+              login_method: currentUser.login_method
+            });
+            
+            // Dispatch auth state change event
+            setTimeout(() => {
+              console.log("Dispatching authStateChanged event...");
+              window.dispatchEvent(
+                new CustomEvent("authStateChanged", {
+                  detail: {
+                    isAuthenticated: true,
+                    user: currentUser,
+                    token: authToken,
+                  },
+                })
+              );
+            }, 200);
+          } catch (e) {
+            console.error("✗ Error parsing user data:", e);
+          }
+        } else {
+          console.log("✗ Not authenticated - missing auth data");
+        }
+        console.log("======================================");
+      })();
+
       // Load navigation
       fetch("navigation.html")
         .then((response) => response.text())
@@ -810,6 +850,7 @@
         .catch((err) => console.error("Navigation load error:", err));
 
       let hackathonData = null;
+      let commentSystemInstance = null; // Store comment system instance globally
 
       // Get URL parameter
       function getUrlParameter(name) {
@@ -979,18 +1020,27 @@
         // Initialize comment system
         if (window.CommentSystem) {
           try {
-            const commentSystem = new CommentSystem(
+            // Store instance globally so it can receive auth events
+            commentSystemInstance = new CommentSystem(
               "hackathon",
               hackathonData.slug,
               "comments-container",
               {
-                apiBaseUrl: "http://127.0.0.1:8000/api/auth",
+                apiBaseUrl: "http://localhost:8001/api/auth",
                 showLoginPrompt: true,
                 enableReplies: true,
                 enableLikes: true,
                 theme: "light",
               }
             );
+            
+            // Listen for auth state changes and refresh comment system
+            document.addEventListener("authStateChanged", (e) => {
+              console.log("Hackathon Detail: Auth changed, refreshing comment system", e.detail);
+              if (commentSystemInstance) {
+                commentSystemInstance.refreshAuth();
+              }
+            });
           } catch (error) {
             console.error("Error initializing comment system:", error);
             commentsContainer.innerHTML =
