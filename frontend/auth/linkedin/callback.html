@@ -7,7 +7,7 @@
   </head>
   <body>
     <script>
-      const API_BASE_URL = "http://localhost:8001/api"; // Handle LinkedIn callback immediately
+      const API_BASE_URL = "http://localhost:8001/api";
       window.addEventListener("load", async function () {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get("code");
@@ -48,7 +48,6 @@
             console.log("===== LINKEDIN AUTH SUCCESS =====");
             console.log("Backend response:", data);
 
-            // Store authentication data
             const authToken = data.token;
             const userData = {
               id: data.user.id,
@@ -64,15 +63,11 @@
             console.log("- authToken:", authToken);
             console.log("- userData:", userData);
 
-            // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");
 
             console.log("State value:", state);
             console.log("Is signup flow:", isSignup);
 
-            // Since callback is on port 8001 but frontend is on port 3000,
-            // we can't use localStorage (different origins)
-            // So we pass the auth data via URL parameters
             const authData = encodeURIComponent(
               JSON.stringify({
                 token: authToken,

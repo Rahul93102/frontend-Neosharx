@@ -197,7 +197,7 @@ class CommentSystem {
                     flex-shrink: 0;
                 }
                 .comment {
-                    margin-bottom: 1rem;
+                    margin-bottom: 2.5rem;
                     animation: slideIn 0.3s ease;
                 }
                 @keyframes slideIn {
@@ -211,32 +211,72 @@ class CommentSystem {
                     }
                 }
                 .comment-box {
-                    background: #ffffff;
-                    border: 1px solid #007fff;
-                    border-radius: 12px;
-                    padding: 1.25rem;
+                    background: transparent;
+                    border: none;
+                    border-radius: 0;
+                    padding: 0;
                     transition: all 0.2s ease;
                 }
                 .comment-box:hover {
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-                    border-color: #0056b3;
+                    box-shadow: none;
+                    border-color: transparent;
+                }
+                .comment-reply {
+                    margin-top: 1rem;
                 }
                 .comment-reply .comment-box {
-                    background: #f0f8ff;
+                    background: transparent;
+                    padding: 0;
+                }
+                .replies {
+                    margin-top: 1rem;
+                    margin-left: 40px;
+                    padding-left: 1rem;
+                }
+                .replies-toggle {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin-top: 0.75rem;
+                    padding: 0.5rem 1rem;
+                    background: transparent;
+                    color: #065fd4;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    border: none;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                .replies-toggle:hover {
+                    background: #def1ff;
+                }
+                .replies-toggle svg {
+                    width: 1rem;
+                    height: 1rem;
+                    transition: transform 0.2s ease;
+                }
+                .replies-toggle.expanded svg {
+                    transform: rotate(180deg);
+                }
+                .replies.hidden {
+                    display: none;
                 }
                 .comment-header {
                     display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                    margin-bottom: 0.75rem;
+                    align-items: flex-start;
+                    gap: 1rem;
+                    margin-bottom: 0.5rem;
                 }
                 .comment-author {
-                    font-weight: 600;
-                    color: #000000;
+                    font-weight: 500;
+                    color: #0f0f0f;
+                    font-size: 0.8125rem;
                 }
                 .comment-time {
-                    font-size: 0.85rem;
-                    color: #666666;
+                    font-size: 0.75rem;
+                    color: #606060;
+                    margin-left: 0.25rem;
                 }
                 .comment-badge {
                     font-size: 0.75rem;
@@ -251,53 +291,57 @@ class CommentSystem {
                     color: #0056b3;
                 }
                 .comment-text {
-                    color: #000000;
-                    line-height: 1.6;
-                    margin-bottom: 0.875rem;
+                    color: #0f0f0f;
+                    line-height: 1.4;
+                    margin-bottom: 0.5rem;
+                    margin-left: 52px;
                     word-wrap: break-word;
+                    font-size: 0.875rem;
                 }
                 .comment-actions {
                     display: flex;
                     align-items: center;
-                    gap: 1rem;
+                    gap: 0.5rem;
                     flex-wrap: wrap;
+                    margin-left: 40px;
                 }
                 .action-btn {
                     display: inline-flex;
                     align-items: center;
-                    gap: 0.375rem;
-                    padding: 0.375rem 0.75rem;
+                    gap: 0.5rem;
+                    padding: 0.5rem 0.75rem;
                     border: none;
                     background: transparent;
-                    color: #666666;
-                    font-size: 0.875rem;
+                    color: #606060;
+                    font-size: 0.75rem;
                     font-weight: 500;
                     cursor: pointer;
-                    border-radius: 6px;
+                    border-radius: 18px;
                     transition: all 0.2s ease;
                 }
                 .action-btn:hover {
-                    background: #e6f3ff;
-                    color: #000000;
+                    background: #f2f2f2;
+                    color: #0f0f0f;
                 }
                 .action-btn svg {
                     width: 1rem;
                     height: 1rem;
                 }
                 .like-btn.active {
-                    color: #007fff;
-                    background: #e6f3ff;
+                    color: #0f0f0f;
+                    font-weight: 600;
                 }
                 .dislike-btn.active {
-                    color: #cc0000;
-                    background: #ffe6e6;
+                    color: #0f0f0f;
+                    font-weight: 600;
                 }
                 .reply-btn {
-                    color: #007fff;
+                    color: #0f0f0f;
+                    font-weight: 600;
                 }
                 .reply-btn:hover {
-                    background: #e6f3ff;
-                    color: #0056b3;
+                    background: #f2f2f2;
+                    color: #0f0f0f;
                 }
                 .delete-btn {
                     color: #cc0000;
@@ -525,33 +569,32 @@ class CommentSystem {
     return `
             <div class="comment ${
               level > 0 ? "comment-reply" : ""
-            }" data-comment-id="${comment.id}" style="margin-left: ${
-      level * 30
-    }px;">
-                <div class="comment-box">
-                    <div class="comment-header">
-                        <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">
-                            ${this.getInitials(comment.user_name)}
+            }" data-comment-id="${comment.id}">
+                <div class="comment-box" style="display: flex; gap: 12px;">
+                    <div class="user-avatar" style="width: 40px; height: 40px; font-size: 0.875rem; flex-shrink: 0;">
+                        ${this.getInitials(comment.user_name)}
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="comment-header" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <span class="comment-author">${comment.user_name}</span>
+                            ${
+                              isAdmin
+                                ? '<span class="comment-badge admin-badge">Admin</span>'
+                                : ""
+                            }
+                            <span class="comment-time">${timeAgo}</span>
+                            ${
+                              comment.is_flagged
+                                ? '<span class="comment-badge">Flagged</span>'
+                                : ""
+                            }
                         </div>
-                        <span class="comment-author">${comment.user_name}</span>
-                        ${
-                          isAdmin
-                            ? '<span class="comment-badge admin-badge">Admin</span>'
-                            : ""
-                        }
-                        <span class="comment-time">${timeAgo}</span>
-                        ${
-                          comment.is_flagged
-                            ? '<span class="comment-badge">Flagged</span>'
-                            : ""
-                        }
-                    </div>
-                    
-                    <div class="comment-text">
-                        ${this.formatCommentText(comment.text)}
-                    </div>
-                    
-                    <div class="comment-actions">
+                        
+                        <div class="comment-text" style="margin-left: 0; margin-bottom: 0.5rem;">
+                            ${this.formatCommentText(comment.text)}
+                        </div>
+                        
+                        <div class="comment-actions" style="margin-left: 0;">
                         ${this.renderLikeButtons(comment)}
                         
                         ${
@@ -595,16 +638,36 @@ class CommentSystem {
                         `
                             : ""
                         }
-                    </div>
-                    
-                    <div id="reply-form-${
-                      comment.id
-                    }" class="reply-form" style="display: none;">
-                        ${this.renderReplyForm(comment.id)}
+                        </div>
+                        
+                        <div id="reply-form-${
+                          comment.id
+                        }" class="reply-form" style="display: none;">
+                            ${this.renderReplyForm(comment.id)}
+                        </div>
                     </div>
                 </div>
                 
-                <div class="replies">
+                ${
+                  comment.replies && comment.replies.length > 0 && level === 0
+                    ? `
+                    <button class="replies-toggle" data-comment-id="${
+                      comment.id
+                    }" data-reply-count="${comment.replies.length}">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                        <span>${comment.replies.length} ${
+                        comment.replies.length === 1 ? "reply" : "replies"
+                      }</span>
+                    </button>
+                `
+                    : ""
+                }
+                
+                <div class="replies${
+                  level === 0 ? " hidden" : ""
+                }" id="replies-${comment.id}">
                     ${
                       comment.replies
                         ? comment.replies
@@ -749,6 +812,14 @@ class CommentSystem {
           ? e.target
           : e.target.closest(".flag-btn");
         this.flagComment(btn.dataset.commentId);
+      } else if (
+        e.target.classList.contains("replies-toggle") ||
+        e.target.closest(".replies-toggle")
+      ) {
+        const btn = e.target.classList.contains("replies-toggle")
+          ? e.target
+          : e.target.closest(".replies-toggle");
+        this.toggleReplies(btn.dataset.commentId, btn);
       } else if (e.target.id === "load-more-btn") {
         this.loadMoreComments();
       }
@@ -1101,6 +1172,27 @@ class CommentSystem {
     if (replyForm) {
       replyForm.style.display = "none";
       replyForm.querySelector("textarea").value = "";
+    }
+  }
+
+  toggleReplies(commentId, toggleBtn) {
+    const repliesContainer = document.getElementById(`replies-${commentId}`);
+    const replyCount = toggleBtn.dataset.replyCount;
+    
+    if (repliesContainer) {
+      const isHidden = repliesContainer.classList.contains("hidden");
+      
+      if (isHidden) {
+        // Show replies
+        repliesContainer.classList.remove("hidden");
+        toggleBtn.classList.add("expanded");
+        toggleBtn.querySelector("span").textContent = `Hide ${replyCount} ${replyCount === "1" ? "reply" : "replies"}`;
+      } else {
+        // Hide replies
+        repliesContainer.classList.add("hidden");
+        toggleBtn.classList.remove("expanded");
+        toggleBtn.querySelector("span").textContent = `${replyCount} ${replyCount === "1" ? "reply" : "replies"}`;
+      }
     }
   }
 
