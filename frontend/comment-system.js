@@ -5,15 +5,46 @@
  */
 
 class CommentSystem {
+  // Utility to update debug panel in UI
+  updateDebugPanel(extra = {}) {
+    let debugDiv = document.getElementById("comment-debug-panel");
+    if (!debugDiv) {
+      debugDiv = document.createElement("div");
+      debugDiv.id = "comment-debug-panel";
+      debugDiv.style =
+        "background:#f3f4f6;color:#222;font-size:13px;padding:8px 12px;margin-bottom:8px;border-radius:6px;border:1px solid #ddd;word-break:break-all;";
+      const container = document.getElementById(this.containerId);
+      if (container) container.prepend(debugDiv);
+    }
+    const user = this.currentUser;
+    debugDiv.innerHTML = `<b>CommentSystem Debug</b><br>
+      <b>Token:</b> ${
+        this.authToken ? this.authToken.substring(0, 12) + "..." : "None"
+      }<br>
+      <b>User:</b> ${user ? user.username || user.email || user.id : "None"}<br>
+      <b>UserObj:</b> <code>${JSON.stringify(user)}</code><br>
+      <b>Extra:</b> <code>${JSON.stringify(extra)}</code>`;
+  }
   constructor(contentType, contentSlug, containerId, options = {}) {
+    console.log("CommentSystem: Initializing", {
+      contentType,
+      contentSlug,
+      containerId,
+    });
     this.contentType = contentType;
     this.contentSlug = contentSlug;
     this.containerId = containerId;
-    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8000/api/auth";
+    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
     );
+
+    console.log("CommentSystem: Initial auth state", {
+      hasToken: !!this.authToken,
+      hasUser: !!this.currentUser,
+      user: this.currentUser,
+    });
     this.comments = [];
     this.isLoading = false;
     this.options = {
@@ -26,6 +57,10 @@ class CommentSystem {
     };
 
     this.init();
+    // Force auth refresh on page load
+    setTimeout(() => {
+      this.refreshAuth();
+    }, 100);
   }
 
   init() {
@@ -52,6 +87,9 @@ class CommentSystem {
       hasUser: !!this.currentUser,
       userDetails: this.currentUser,
     });
+
+    // Update debug panel in UI
+    this.updateDebugPanel();
 
     // Re-render the comment form with updated auth state
     const formContainer = document.getElementById("comment-form-container");
@@ -90,18 +128,30 @@ class CommentSystem {
                     color: #666666;
                 }
                 .comment-form-login {
-                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
-                    border: none;
-                    border-radius: 12px;
-                    padding: 1.5rem;
-                    margin-bottom: 1.5rem;
-                    color: white;
-                    box-shadow: 0 4px 6px rgba(0, 127, 255, 0.2);
+        background: linear-gradient(90deg, #007fff 0%, #5b6ee1 100%);
+        border: none;
+        border-radius: 18px;
+        padding: 1.75rem 2rem;
+        margin-bottom: 1.5rem;
+        color: #fff;
+        box-shadow: 0 8px 32px rgba(0, 127, 255, 0.12);
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        font-family: 'Space Grotesk', 'Inter', sans-serif;
+        font-size: 1.05rem;
+        letter-spacing: 0.01em;
+        transition: box-shadow 0.2s;
                 }
                 .comment-form-login a {
-                    color: white;
-                    font-weight: 600;
-                    text-decoration: underline;
+          color: #fff;
+          font-weight: 700;
+          text-decoration: underline;
+          transition: color 0.2s;
+        }
+        .comment-form-login a:hover {
+          color: #cbe7ff;
+        }
                 }
                 .comment-form {
                     background: #ffffff;
@@ -414,18 +464,16 @@ class CommentSystem {
   renderCommentForm() {
     if (!this.currentUser) {
       return `
-                <div class="comment-form-login">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <svg style="width: 2rem; height: 2rem;" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
-                        </svg>
-                        <div>
-                            <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem;">Join the conversation!</p>
-                            <p style="font-size: 0.9rem; opacity: 0.95;">Please <a href="login.html">login</a> to post comments and interact with the community.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
+        <div class="comment-form-login" aria-label="Login required to comment">
+          <svg style="min-width:2.5rem; height:2.5rem; margin-right:0.5rem; background:rgba(255,255,255,0.12); border-radius:50%; padding:0.3rem;" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
+          </svg>
+          <div>
+            <p style="font-size:1.15rem; font-weight:700; margin-bottom:0.25rem; color:#fff;">Join the conversation!</p>
+            <p style="font-size:1rem; opacity:0.98; color:#f3f7ff; font-weight:500;">Please <a href="login.html">login</a> to post comments and interact with the community.</p>
+          </div>
+        </div>
+      `;
     }
 
     return `
@@ -792,13 +840,25 @@ class CommentSystem {
   }
 
   async submitComment() {
+    console.log("CommentSystem: submitComment called");
     const commentText = document.getElementById("comment-text");
     const submitBtn = document.getElementById("submit-comment");
 
-    // Check authentication
+    // Always refresh auth before checking
+    this.refreshAuth();
+    const debugInfo = {
+      hasToken: !!this.authToken,
+      hasUser: !!this.currentUser,
+      user: this.currentUser,
+      token: this.authToken,
+    };
+    console.log("CommentSystem: Auth check (after refresh)", debugInfo);
+    this.updateDebugPanel({ submitComment: debugInfo });
+
     if (!this.currentUser || !this.authToken) {
+      console.log("CommentSystem: Auth check failed, showing login prompt");
+      this.updateDebugPanel({ error: "Not logged in" });
       this.showAlert("Please log in to post comments", "warning");
-      this.refreshAuth();
       return;
     }
 
@@ -821,8 +881,14 @@ class CommentSystem {
         }),
       });
 
+      let debugResult = {
+        status: response.status,
+        statusText: response.statusText,
+      };
       if (!response.ok) {
         const errorData = await response.json();
+        debugResult.error = errorData;
+        this.updateDebugPanel({ postResult: debugResult });
         if (response.status === 401 || response.status === 403) {
           this.showAlert("Please log in to post comments", "warning");
           this.refreshAuth();
@@ -834,6 +900,8 @@ class CommentSystem {
       }
 
       const newComment = await response.json();
+      debugResult.success = true;
+      this.updateDebugPanel({ postResult: debugResult });
 
       // Add new comment to the beginning
       this.comments.unshift(newComment);
@@ -847,10 +915,11 @@ class CommentSystem {
       this.showAlert("Comment posted successfully! 🎉", "success");
     } catch (error) {
       console.error("Error posting comment:", error);
+      this.updateDebugPanel({ error: error.message });
       this.showAlert(error.message, "error");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = "Post Comment";
+      submitBtn.innerHTML = "Post Comment";
     }
   }
 

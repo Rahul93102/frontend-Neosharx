@@ -768,22 +768,6 @@
                 hackathon@neosharx.com
               </div>
             </div>
-
-            <!-- Registration CTA -->
-            <div class="sidebar-card">
-              <h3 class="sidebar-title">
-                <span class="material-symbols-outlined">rocket_launch</span>
-                Ready to Participate?
-              </h3>
-              <p class="text-gray-600 mb-6 leading-relaxed">
-                Join this exciting hackathon and showcase your skills! Connect
-                with fellow developers and build something amazing.
-              </p>
-              <button class="cta-button">
-                <span class="material-symbols-outlined mr-2">login</span>
-                Register Now
-              </button>
-            </div>
           </div>
         </div>
 
@@ -806,6 +790,10 @@
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("nav-container").innerHTML = data;
+          // Load global auth script after navigation is loaded
+          const script = document.createElement("script");
+          script.src = "global-auth.js";
+          document.head.appendChild(script);
         })
         .catch((err) => console.error("Navigation load error:", err));
 
@@ -980,11 +968,11 @@
         if (window.CommentSystem) {
           try {
             const commentSystem = new CommentSystem(
-              "hackathon",
+              "sharxathon",
               hackathonData.slug,
               "comments-container",
               {
-                apiBaseUrl: "http://127.0.0.1:8000/api/auth",
+                apiBaseUrl: "http://localhost:8001/api/auth",
                 showLoginPrompt: true,
                 enableReplies: true,
                 enableLikes: true,

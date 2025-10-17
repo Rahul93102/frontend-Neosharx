@@ -162,12 +162,13 @@
           </div>
 
           <!-- Comments Section -->
-          <div
-            class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
-          >
+          <div class="mt-16 max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+              <i class="fas fa-comments text-primary"></i>
+              Comments
+            </h2>
             <div id="comments-container"></div>
           </div>
-
         </article>
       </main>
 
@@ -585,6 +586,10 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+          // Load global auth script after navigation is loaded
+          const script = document.createElement("script");
+          script.src = "global-auth.js";
+          document.head.appendChild(script);
         })
         .catch((err) => console.error("Navigation load error:", err));
 
@@ -601,7 +606,7 @@
             storySlug,
             "comments-container",
             {
-              apiBaseUrl: "http://localhost:8000/api/auth",
+              apiBaseUrl: "http://localhost:8001/api/auth",
               showLoginPrompt: true,
               enableReplies: true,
               enableLikes: true,

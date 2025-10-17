@@ -139,17 +139,6 @@
             class="prose prose-lg max-w-none mb-12"
           ></div>
 
-          <!-- Article Actions -->
-          <div class="mb-12 flex items-center justify-end">
-            <button
-              onclick="shareArticle()"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
-            >
-              <span class="material-symbols-outlined text-lg">share</span>
-              <span>Share</span>
-            </button>
-          </div>
-
           <!-- Related Articles -->
           <div id="related-section" class="mb-12">
             <h2 class="text-3xl font-extrabold tracking-tight mb-6">
@@ -167,6 +156,12 @@
           </div>
         </article>
       </main>
+      <!-- Comments Section -->
+      <div
+        class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+      >
+        <div id="comments-container"></div>
+      </div>
     </div>
 
     <script src="nav-loader.js"></script>
@@ -361,23 +356,6 @@
             );
           })
           .join("");
-      }
-
-      function shareArticle() {
-        if (navigator.share && currentArticle) {
-          navigator
-            .share({
-              title: currentArticle.title,
-              text: currentArticle.summary || currentArticle.description || "",
-              url: window.location.href,
-            })
-            .catch(function (err) {
-              console.log("Error sharing:", err);
-            });
-        } else {
-          navigator.clipboard.writeText(window.location.href);
-          alert("Link copied to clipboard!");
-        }
       }
 
       document.addEventListener("DOMContentLoaded", loadArticle);

@@ -7,7 +7,7 @@
   </head>
   <body>
     <script>
-      const API_BASE_URL = "http://localhost:8001/api/auth"; // Handle Google callback immediately
+      const API_BASE_URL = "http://localhost:8001/api"; // Handle Google callback immediately
       window.addEventListener("load", async function () {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get("code");
@@ -64,6 +64,13 @@
             localStorage.removeItem("google_state");
 
             console.log("Google authentication successful, redirecting...");
+
+            // Dispatch auth state change event for other components
+            document.dispatchEvent(
+              new CustomEvent("authStateChanged", {
+                detail: { action: "login", method: "google" },
+              })
+            );
 
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");

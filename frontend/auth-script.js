@@ -143,7 +143,16 @@ class AuthManager {
 
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("userId", response.user_id);
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            id: response.user_id,
+            username: response.username || "",
+            email: response.email || "",
+            phone_verified: response.phone_verified || false,
+            login_method: "email",
+          })
+        );
 
         this.showMessage("Login successful!", "success");
 
@@ -204,7 +213,16 @@ class AuthManager {
 
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-        localStorage.setItem("userId", response.user_id);
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            id: response.user_id,
+            username: response.username || "",
+            email: response.email || "",
+            phone_verified: response.phone_verified || false,
+            login_method: "email",
+          })
+        );
 
         this.showMessage("Account created successfully!", "success");
 
@@ -878,8 +896,16 @@ class AuthManager {
       if (response.ok) {
         // Store authentication token
         localStorage.setItem("authToken", data.token);
-        localStorage.setItem("userData", JSON.stringify(data.user));
-        localStorage.setItem("userId", data.user.id);
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify({
+            id: data.user.id,
+            username: data.user.username || data.user.name,
+            email: data.user.email,
+            phone_verified: data.user.phone_verified || false,
+            login_method: "google",
+          })
+        );
         localStorage.removeItem("google_state");
 
         this.showMessage("Google login successful! Redirecting...", "success");
@@ -904,8 +930,7 @@ class AuthManager {
   // Utility function to logout
   logout() {
     localStorage.removeItem("authToken");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userData");
+    localStorage.removeItem("currentUser");
     localStorage.removeItem("linkedin_state");
     localStorage.removeItem("google_state");
     window.location.href = "login.html";
