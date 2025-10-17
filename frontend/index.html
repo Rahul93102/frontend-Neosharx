@@ -1921,6 +1921,33 @@
       // API Configuration
   const API_BASE_URL = "http://127.0.0.1:8001/api/auth";
 
+      // FIRST: Check for auth data from OAuth callback (passed via URL)
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const authData = urlParams.get('auth');
+        
+        if (authData) {
+          try {
+            const decoded = JSON.parse(decodeURIComponent(authData));
+            console.log("===== RECEIVING AUTH DATA FROM CALLBACK =====");
+            console.log("Received auth data:", decoded);
+            
+            // Store in localStorage on port 3000
+            localStorage.setItem("authToken", decoded.token);
+            localStorage.setItem("currentUser", JSON.stringify(decoded.user));
+            
+            console.log("Saved to localStorage (port 3000):");
+            console.log("- authToken:", localStorage.getItem("authToken"));
+            console.log("- currentUser:", localStorage.getItem("currentUser"));
+            
+            // Remove auth parameter from URL for security
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.search.replace(/[?&]auth=[^&]+/, '').replace(/^&/, '?'));
+          } catch (e) {
+            console.error("Error parsing auth data:", e);
+          }
+        }
+      })();
+
       document.addEventListener("DOMContentLoaded", function () {
         // --- ABOUT US MODAL ---
         const aboutUsBtn = document.getElementById("aboutUsBtn");
