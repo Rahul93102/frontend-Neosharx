@@ -496,31 +496,6 @@
         prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
         prev.setAttribute("aria-label", "Previous featured story");
 
-        // Create next button
-        const next = document.createElement("button");
-        next.id = "nextFeatured";
-        next.className = "nav-btn";
-        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
-        next.setAttribute("aria-label", "Next featured story");
-
-        // Add click handlers
-        prev.onclick = () => {
-          const s = window._featuredState;
-          if (!s || !s.items) return;
-          s.index = (s.index - 1 + s.items.length) % s.items.length;
-          renderFeaturedItem();
-        };
-
-        next.onclick = () => {
-          const s = window._featuredState;
-          if (!s || !s.items) return;
-          s.index = (s.index + 1) % s.items.length;
-          renderFeaturedItem();
-        };
-
-        // Add to DOM
-        controlsDiv.appendChild(prev);
-        controlsDiv.appendChild(next);
       }
 
       function displayMoreStories() {

@@ -5,8 +5,10 @@ class GlobalAuthManager {
   }
 
   init() {
-    // Check auth state on page load
-    this.updateAuthUI();
+    // Wait for navigation to be loaded before checking auth state
+    this.waitForNavigation().then(() => {
+      this.updateAuthUI();
+    });
 
     // Listen for auth state changes
     document.addEventListener("authStateChanged", (e) => {
@@ -20,6 +22,26 @@ class GlobalAuthManager {
         console.log("GlobalAuthManager: Storage changed from other tab");
         this.updateAuthUI();
       }
+    });
+  }
+
+  waitForNavigation() {
+    return new Promise((resolve) => {
+      // Check if navigation is already loaded
+      if (document.getElementById("desktop-login-btn")) {
+        resolve();
+        return;
+      }
+
+      // Wait for navigation to be loaded
+      const checkNavigation = () => {
+        if (document.getElementById("desktop-login-btn")) {
+          resolve();
+        } else {
+          setTimeout(checkNavigation, 100);
+        }
+      };
+      checkNavigation();
     });
   }
 
@@ -47,7 +69,10 @@ class GlobalAuthManager {
     const isLoggedIn = this.isLoggedIn();
     const user = this.getCurrentUser();
 
-    console.log("GlobalAuthManager: Updating UI", { isLoggedIn, user });
+    console.log("GlobalAuthManager: Updating UI", { 
+      isLoggedIn, 
+      user: user ? { id: user.id, username: user.username, email: user.email } : null 
+    });
 
     // Update desktop navigation
     this.updateDesktopNav(isLoggedIn, user);
@@ -67,12 +92,16 @@ class GlobalAuthManager {
     // Find the existing login button
     const existingBtn = document.getElementById("desktop-login-btn");
 
-    if (existingBtn) {
-      // Replace the existing button
-      const authBtn = document.createElement("a");
-      authBtn.id = "desktop-login-btn"; // Keep the same ID
-      authBtn.className =
-        "ml-3 px-4 py-1.5 font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105";
+    if (!existingBtn) {
+      console.log("GlobalAuthManager: desktop-login-btn not found, skipping update");
+      return;
+    }
+
+    // Replace the existing button
+    const authBtn = document.createElement("a");
+    authBtn.id = "desktop-login-btn"; // Keep the same ID
+    authBtn.className =
+      "ml-3 px-4 py-1.5 font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105";
 
       if (isLoggedIn) {
         // Logged in - show logout button
@@ -115,7 +144,12 @@ class GlobalAuthManager {
     // Find the existing mobile login button
     const existingBtn = document.getElementById("mobile-login-btn");
 
-    if (existingBtn) {
+    if (!existingBtn) {
+      console.log("GlobalAuthManager: mobile-login-btn not found, skipping mobile update");
+      return;
+    }
+
+    if (isLoggedIn) {
       if (isLoggedIn) {
         // Replace with user info and logout button
         const authContainer = document.createElement("div");
