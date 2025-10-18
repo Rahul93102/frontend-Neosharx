@@ -23,34 +23,38 @@ localStorage.getItem("authToken"); // Returns null! Different origin!
 ## ✅ The Solution - Pass Auth Data via URL
 
 ### 1. Callback Page (Port 8001)
+
 Instead of saving to localStorage, we pass the auth data via URL:
 
 ```javascript
 // Encode auth data as URL parameter
-const authData = encodeURIComponent(JSON.stringify({
-  token: authToken,
-  user: userData
-}));
+const authData = encodeURIComponent(
+  JSON.stringify({
+    token: authToken,
+    user: userData,
+  })
+);
 
 // Redirect to frontend with auth data
 window.location.href = `http://localhost:3000/frontend/onboarding.html?auth=${authData}`;
 ```
 
 ### 2. Frontend Pages (Port 3000)
+
 Receive and save auth data to localStorage:
 
 ```javascript
 // Extract auth data from URL
 const urlParams = new URLSearchParams(window.location.search);
-const authData = urlParams.get('auth');
+const authData = urlParams.get("auth");
 
 if (authData) {
   const decoded = JSON.parse(decodeURIComponent(authData));
-  
+
   // NOW save to localStorage on port 3000
   localStorage.setItem("authToken", decoded.token);
   localStorage.setItem("currentUser", JSON.stringify(decoded.user));
-  
+
   // Clean up URL (remove auth parameter for security)
   window.history.replaceState({}, document.title, window.location.pathname);
 }
@@ -105,19 +109,23 @@ if (authData) {
 ## Files Modified
 
 ### 1. `/frontend/auth/google/callback.html` ✅
+
 - Removed localStorage save on port 8001
 - Encode auth data and pass via URL
 - Redirect to `http://localhost:3000/frontend/...?auth=...`
 
 ### 2. `/frontend/auth/linkedin/callback.html` ✅
+
 - Same changes as Google callback
 
 ### 3. `/frontend/onboarding.html` ✅
+
 - Added code to receive auth data from URL
 - Saves to localStorage on port 3000
 - Cleans up URL after saving
 
 ### 4. `/frontend/index.html` ✅
+
 - Added code to receive auth data from URL
 - Saves to localStorage on port 3000
 - Cleans up URL after saving
@@ -125,18 +133,22 @@ if (authData) {
 ## Testing the Complete Flow
 
 ### Step 1: Clear Everything
+
 ```javascript
 // In browser console
 localStorage.clear();
 ```
 
 ### Step 2: Login
+
 1. Go to `http://localhost:3000/frontend/login.html`
 2. Click "Continue with Google"
 3. Authorize the app
 
 ### Step 3: Watch Console on Callback (Port 8001)
+
 You should see:
+
 ```
 Auth data received from backend
 - authToken: abc123...
@@ -146,7 +158,9 @@ Redirecting to onboarding...
 ```
 
 ### Step 4: Watch Console on Onboarding (Port 3000)
+
 You should see:
+
 ```
 ===== RECEIVING AUTH DATA FROM CALLBACK =====
 Received auth data: {token: "abc123...", user: {...}}
@@ -156,13 +170,15 @@ Saved to localStorage (port 3000):
 ```
 
 ### Step 5: Verify
+
 ```javascript
 // In console on port 3000
-localStorage.getItem("authToken");  // Should show token ✅
-localStorage.getItem("currentUser");  // Should show user data ✅
+localStorage.getItem("authToken"); // Should show token ✅
+localStorage.getItem("currentUser"); // Should show user data ✅
 ```
 
 ### Step 6: Test Comments
+
 - Go to any detail page
 - Scroll to comments
 - You should be able to post comments ✅
@@ -170,12 +186,14 @@ localStorage.getItem("currentUser");  // Should show user data ✅
 ## Security Considerations
 
 ### ✅ Secure Aspects:
+
 1. **Short-lived URL parameter**: Auth data removed from URL immediately after saving
 2. **HTTPS in production**: Should use HTTPS in production
 3. **Token expiration**: Backend should implement token expiration
 4. **CORS properly configured**: Backend has CORS settings
 
 ### 🔒 Additional Security (Recommended):
+
 1. Use session storage instead of URL for sensitive data
 2. Implement token refresh mechanism
 3. Add CSRF protection
@@ -193,12 +211,14 @@ localStorage.getItem("currentUser");  // Should show user data ✅
 ## Debug Commands
 
 ### On Port 8001 (Callback):
+
 ```javascript
 // This will show empty (different origin):
 console.log(localStorage.getItem("authToken")); // null
 ```
 
 ### On Port 3000 (Frontend):
+
 ```javascript
 // This will show the token (correct origin):
 console.log(localStorage.getItem("authToken")); // "abc123..."
@@ -211,7 +231,8 @@ console.log(JSON.parse(localStorage.getItem("currentUser"))); // {id: 1, ...}
 
 ✅ **Solution**: Pass auth data from port 8001 → port 3000 via URL parameter
 
-✅ **Result**: 
+✅ **Result**:
+
 - Auth data correctly saved on port 3000 ✅
 - All frontend pages can access it ✅
 - Comments work ✅

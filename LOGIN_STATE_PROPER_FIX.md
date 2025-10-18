@@ -12,6 +12,7 @@ The login state was not being saved correctly because:
 ## Backend Response Structure
 
 The backend (Google/LinkedIn OAuth) returns:
+
 ```json
 {
   "token": "user_auth_token_here",
@@ -21,7 +22,7 @@ The backend (Google/LinkedIn OAuth) returns:
     "email": "john@example.com",
     "first_name": "John",
     "last_name": "Doe",
-    "google_id": "...",  // or linkedin_id
+    "google_id": "...", // or linkedin_id
     "picture": "..."
   }
 }
@@ -32,23 +33,28 @@ The backend (Google/LinkedIn OAuth) returns:
 ### 1. Fixed Data Access in `/frontend/auth/google/callback.html`
 
 #### ❌ Before (Incorrect):
+
 ```javascript
 localStorage.setItem("authToken", data.token);
-localStorage.setItem("currentUser", JSON.stringify({
-  id: data.user_id || data.user.id,  // Wrong!
-  username: data.username || data.user.username,  // Wrong!
-  email: data.email || data.user.email,  // Wrong!
-  // ...
-}));
+localStorage.setItem(
+  "currentUser",
+  JSON.stringify({
+    id: data.user_id || data.user.id, // Wrong!
+    username: data.username || data.user.username, // Wrong!
+    email: data.email || data.user.email, // Wrong!
+    // ...
+  })
+);
 ```
 
 #### ✅ After (Correct):
+
 ```javascript
 const authToken = data.token;
 const userData = {
-  id: data.user.id,  // Correct!
-  username: data.user.username,  // Correct!
-  email: data.user.email,  // Correct!
+  id: data.user.id, // Correct!
+  username: data.user.username, // Correct!
+  email: data.user.email, // Correct!
   first_name: data.user.first_name || "",
   last_name: data.user.last_name || "",
   phone_verified: false,
@@ -77,21 +83,23 @@ console.log("- currentUser:", localStorage.getItem("currentUser"));
 ### 3. Fixed Redirect URLs with Delay
 
 #### ❌ Before:
+
 ```javascript
 // Immediate redirect - might lose localStorage
 window.location.href = "http://localhost:3000/onboarding.html";
 ```
 
 #### ✅ After:
+
 ```javascript
 // Wait 500ms to ensure localStorage is saved
 setTimeout(() => {
   if (isSignup) {
     console.log("Redirecting to onboarding...");
-    window.location.href = "../../onboarding.html";  // Relative path
+    window.location.href = "../../onboarding.html"; // Relative path
   } else {
     console.log("Redirecting to home page...");
-    window.location.href = "../../index.html";  // Relative path
+    window.location.href = "../../index.html"; // Relative path
   }
 }, 500);
 ```
@@ -103,12 +111,15 @@ All the same fixes were applied to `/frontend/auth/linkedin/callback.html`
 ## Testing the Fix
 
 ### Step 1: Login
+
 1. Go to `http://localhost:3000/frontend/login.html`
 2. Click "Continue with Google"
 3. Authorize the app
 
 ### Step 2: Check Browser Console
+
 After redirect back to callback, you should see:
+
 ```
 ===== GOOGLE AUTH SUCCESS =====
 Backend response: {token: "...", user: {...}}
@@ -124,21 +135,25 @@ Redirecting to onboarding...
 ```
 
 ### Step 3: Verify on Onboarding Page
+
 Open browser console on onboarding page and type:
+
 ```javascript
-localStorage.getItem("authToken")
-localStorage.getItem("currentUser")
+localStorage.getItem("authToken");
+localStorage.getItem("currentUser");
 ```
 
 Both should return values! ✅
 
 ### Step 4: Complete Onboarding
+
 - Select interests and user type
 - Click Continue
 - Should redirect to home page
 - You should stay logged in
 
 ### Step 5: Test Comments
+
 - Go to any detail page (e.g., `neo-detail.html`)
 - Scroll to comments section
 - You should be able to post comments with your username
@@ -154,12 +169,15 @@ console.log("Current User:", JSON.parse(localStorage.getItem("currentUser")));
 
 // Manually set state (for testing)
 localStorage.setItem("authToken", "test_token_123");
-localStorage.setItem("currentUser", JSON.stringify({
-  id: 1,
-  username: "testuser",
-  email: "test@example.com",
-  login_method: "google"
-}));
+localStorage.setItem(
+  "currentUser",
+  JSON.stringify({
+    id: 1,
+    username: "testuser",
+    email: "test@example.com",
+    login_method: "google",
+  })
+);
 
 // Clear state
 localStorage.clear();
@@ -168,6 +186,7 @@ localStorage.clear();
 ## Files Modified
 
 1. ✅ `/frontend/auth/google/callback.html`
+
    - Fixed data structure access
    - Added comprehensive debug logging
    - Added 500ms delay before redirect
@@ -190,6 +209,7 @@ localStorage.clear();
 ## Expected Console Output
 
 ### Successful Login Flow:
+
 ```
 ===== GOOGLE AUTH SUCCESS =====
 Backend response: {token: "abc123...", user: {id: 1, username: "john", email: "john@example.com", first_name: "John", last_name: "Doe"}}
@@ -219,6 +239,7 @@ Redirecting to home page...
 **Last Updated**: October 17, 2025
 
 **Key Changes**:
+
 - Correct data structure access (`data.user.id` instead of `data.user_id`)
 - Added comprehensive debug logging
 - Added 500ms delay before redirect

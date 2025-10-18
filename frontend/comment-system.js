@@ -576,7 +576,9 @@ class CommentSystem {
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <div class="comment-header" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                            <span class="comment-author">${comment.user_name}</span>
+                            <span class="comment-author">${
+                              comment.user_name
+                            }</span>
                             ${
                               isAdmin
                                 ? '<span class="comment-badge admin-badge">Admin</span>'
@@ -1178,20 +1180,24 @@ class CommentSystem {
   toggleReplies(commentId, toggleBtn) {
     const repliesContainer = document.getElementById(`replies-${commentId}`);
     const replyCount = toggleBtn.dataset.replyCount;
-    
+
     if (repliesContainer) {
       const isHidden = repliesContainer.classList.contains("hidden");
-      
+
       if (isHidden) {
         // Show replies
         repliesContainer.classList.remove("hidden");
         toggleBtn.classList.add("expanded");
-        toggleBtn.querySelector("span").textContent = `Hide ${replyCount} ${replyCount === "1" ? "reply" : "replies"}`;
+        toggleBtn.querySelector("span").textContent = `Hide ${replyCount} ${
+          replyCount === "1" ? "reply" : "replies"
+        }`;
       } else {
         // Hide replies
         repliesContainer.classList.add("hidden");
         toggleBtn.classList.remove("expanded");
-        toggleBtn.querySelector("span").textContent = `${replyCount} ${replyCount === "1" ? "reply" : "replies"}`;
+        toggleBtn.querySelector("span").textContent = `${replyCount} ${
+          replyCount === "1" ? "reply" : "replies"
+        }`;
       }
     }
   }

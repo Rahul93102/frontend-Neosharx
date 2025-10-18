@@ -455,14 +455,6 @@
                 >
                   Featured Challenges
                 </h2>
-                <div class="slider-controls">
-                  <button class="nav-btn featured-prev">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                  </button>
-                  <button class="nav-btn featured-next">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                  </button>
-                </div>
               </div>
 
               <div id="featuredSlider" class="featured-slider">
@@ -526,12 +518,14 @@
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("nav-container").innerHTML = data;
-          
+
           // Load global-auth.js after navigation is loaded
           const authScript = document.createElement("script");
           authScript.src = "global-auth.js";
-          authScript.onload = () => console.log("Global auth loaded successfully");
-          authScript.onerror = () => console.error("Failed to load global-auth.js");
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
           document.head.appendChild(authScript);
         })
         .catch((err) => console.error("Navigation load error:", err));

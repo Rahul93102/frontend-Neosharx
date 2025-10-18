@@ -50,7 +50,7 @@
           if (response.ok) {
             console.log("===== GOOGLE AUTH SUCCESS =====");
             console.log("Backend response:", data);
-            
+
             // Store authentication data
             const authToken = data.token;
             const userData = {
@@ -62,7 +62,7 @@
               phone_verified: false,
               login_method: "google",
             };
-            
+
             localStorage.setItem("authToken", authToken);
             localStorage.setItem("currentUser", JSON.stringify(userData));
             localStorage.removeItem("google_state");
@@ -73,28 +73,32 @@
 
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");
-            
+
             console.log("State value:", state);
             console.log("Is signup flow:", isSignup);
 
             // Since callback is on port 8001 but frontend is on port 3000,
             // we can't use localStorage (different origins)
             // So we pass the auth data via URL parameters
-            const authData = encodeURIComponent(JSON.stringify({
-              token: authToken,
-              user: userData
-            }));
+            const authData = encodeURIComponent(
+              JSON.stringify({
+                token: authToken,
+                user: userData,
+              })
+            );
 
-            console.log("Passing auth data via URL to frontend on port 3000...");
+            console.log(
+              "Passing auth data via URL to frontend on port 3000..."
+            );
 
             if (isSignup) {
               // Redirect to onboarding for new users
               console.log("Redirecting to onboarding...");
-              window.location.href = `http://localhost:3000/frontend/onboarding.html?auth=${authData}`;
+              window.location.href = `http://localhost:3000/onboarding.html?auth=${authData}`;
             } else {
-              // Redirect to home page for existing users  
+              // Redirect to home page for existing users
               console.log("Redirecting to home page...");
-              window.location.href = `http://localhost:3000/frontend/index.html?auth=${authData}`;
+              window.location.href = `http://localhost:3000/index.html?auth=${authData}`;
             }
           } else {
             throw new Error(data.error || "Authentication failed");

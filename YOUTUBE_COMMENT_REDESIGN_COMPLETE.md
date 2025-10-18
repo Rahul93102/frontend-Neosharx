@@ -7,12 +7,15 @@ Completely redesigned the comment section to look exactly like YouTube with prop
 ## 🎯 Key Features Added
 
 ### 1. **Better Spacing Between Comments**
+
 - Increased margin between comments from `1rem` to `2.5rem`
 - Comments now have proper breathing room like YouTube
 - Replies are properly indented with left border
 
 ### 2. **Hide/Show Replies Toggle** ⭐
+
 When a comment has replies:
+
 - Shows a blue button: "👇 5 replies"
 - Click to expand: Shows all replies, button text changes to "Hide 5 replies"
 - Click again to collapse: Hides replies again
@@ -22,6 +25,7 @@ When a comment has replies:
 ### 3. **YouTube-Like Visual Design**
 
 #### **Layout:**
+
 ```
 ┌─────────────────────────────────────────────────┐
 │ 👤  Username • 2 hours ago                      │
@@ -39,6 +43,7 @@ When a comment has replies:
 ```
 
 #### **Colors (YouTube-inspired):**
+
 - Background: Transparent/white
 - Text: `#0f0f0f` (dark gray)
 - Username: `#0f0f0f` with medium weight
@@ -47,12 +52,14 @@ When a comment has replies:
 - Hover: `#f2f2f2` (light gray)
 
 #### **Typography:**
+
 - Username: `0.8125rem` (13px), weight 500
 - Timestamp: `0.75rem` (12px)
 - Comment text: `0.875rem` (14px)
 - Action buttons: `0.75rem` (12px)
 
 ### 4. **Improved Action Buttons**
+
 - Rounded pill-shaped buttons (18px border-radius)
 - Transparent background with hover state
 - Icons properly sized and aligned
@@ -60,6 +67,7 @@ When a comment has replies:
 - Active states for likes/dislikes
 
 ### 5. **Better Reply Nesting**
+
 - Replies indented by 40px from parent
 - Clear visual hierarchy
 - Left border on reply threads
@@ -70,6 +78,7 @@ When a comment has replies:
 ### `/frontend/comment-system.js` ✅
 
 #### **CSS Changes:**
+
 1. **.comment** - Increased spacing to 2.5rem
 2. **.comment-box** - Made transparent, removed borders
 3. **.replies** - Added indentation and styling
@@ -80,13 +89,16 @@ When a comment has replies:
 8. **.action-btn** - YouTube-style rounded buttons
 
 #### **JavaScript Changes:**
+
 1. **renderComment()** - Updated layout structure
+
    - Flex container for avatar and content
    - Better nesting of elements
    - Added replies toggle button
    - Conditional hiding of replies initially
 
 2. **toggleReplies()** - New method
+
    ```javascript
    toggleReplies(commentId, toggleBtn) {
      // Shows/hides replies container
@@ -105,6 +117,7 @@ When a comment has replies:
 ## 🎨 Visual Improvements
 
 ### Before:
+
 ```
 ┌─────────────────────────────┐
 │ ╔═══════════════════════╗   │
@@ -118,6 +131,7 @@ When a comment has replies:
 ```
 
 ### After (YouTube-style):
+
 ```
 ┌─────────────────────────────┐
 │ 👤 User • 2h ago            │
@@ -135,12 +149,14 @@ When a comment has replies:
 ## 🔧 Technical Details
 
 ### Spacing System:
+
 - Comment margin: `2.5rem` (40px)
 - Reply indent: `40px` + `1rem` padding
 - Action buttons gap: `0.5rem`
 - Avatar size: `40px` (parent), `32px` (replies)
 
 ### Color Palette:
+
 ```css
 --text-primary: #0f0f0f
 --text-secondary: #606060
@@ -150,6 +166,7 @@ When a comment has replies:
 ```
 
 ### Animation:
+
 - Slide in: 0.3s ease
 - Button hover: 0.2s ease
 - Icon rotation: 0.2s ease (toggle arrow)
@@ -157,6 +174,7 @@ When a comment has replies:
 ## 🧪 How to Test
 
 ### 1. **View Comments:**
+
 ```
 1. Go to any detail page (e.g., neo-detail.html)
 2. Scroll to comments section
@@ -165,6 +183,7 @@ When a comment has replies:
 ```
 
 ### 2. **Test Reply Toggle:**
+
 ```
 1. Find a comment with replies
 2. Click "👇 X replies" button
@@ -174,6 +193,7 @@ When a comment has replies:
 ```
 
 ### 3. **Test Actions:**
+
 ```
 1. Hover over like/dislike/reply buttons
 2. Notice smooth gray background hover ✅
@@ -182,6 +202,7 @@ When a comment has replies:
 ```
 
 ### 4. **Test Nested Replies:**
+
 ```
 1. Expand replies
 2. Notice proper indentation ✅
@@ -192,6 +213,7 @@ When a comment has replies:
 ## 📱 Responsive Design
 
 All improvements are responsive:
+
 - Avatars scale appropriately
 - Text remains readable
 - Buttons stack on mobile
@@ -200,6 +222,7 @@ All improvements are responsive:
 ## 🎯 Design Philosophy
 
 Following YouTube's design principles:
+
 1. **Minimalism** - No unnecessary borders or backgrounds
 2. **Hierarchy** - Clear visual structure with spacing
 3. **Scannability** - Easy to read and navigate
@@ -209,6 +232,7 @@ Following YouTube's design principles:
 ## 🚀 Future Enhancements (Optional)
 
 Could add:
+
 - [ ] Animated reply expand/collapse
 - [ ] "Show more" for long comments
 - [ ] Sort by (Top/Newest)
@@ -223,9 +247,11 @@ Could add:
 **COMPLETE** - All features implemented and working!
 
 **Files Modified:**
+
 - ✅ `/frontend/comment-system.js` - Complete redesign
 
 **Testing Status:**
+
 - ✅ Spacing improved
 - ✅ Hide/show replies working
 - ✅ YouTube-style design applied

@@ -126,6 +126,15 @@
                 <i class="fas fa-user-circle"></i>
                 <span class="font-medium"></span>
               </span>
+              <div id="owner-section" class="hidden flex items-center gap-2">
+                <i class="fas fa-crown text-yellow-500"></i>
+                <span class="font-medium">by </span>
+                <a
+                  id="owner-link"
+                  href="#"
+                  class="text-primary hover:text-primary/80 font-semibold transition-colors"
+                ></a>
+              </div>
               <span id="version-badge" class="flex items-center gap-2">
                 <i class="fas fa-code-branch"></i>
                 <span class="font-medium"></span>
@@ -171,6 +180,57 @@
                 Technology Stack
               </h2>
               <div id="tech-stack" class="flex flex-wrap gap-3"></div>
+            </div>
+
+            <div
+              id="owner-profile-section"
+              class="hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-user-circle text-primary"></i>
+                Project Owner
+              </h2>
+              <div class="flex items-start gap-6">
+                <img
+                  id="owner-avatar"
+                  src=""
+                  alt="Owner Avatar"
+                  class="w-20 h-20 rounded-full border-4 border-primary/20"
+                />
+                <div class="flex-1">
+                  <h3
+                    id="owner-name"
+                    class="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+                  ></h3>
+                  <p
+                    id="owner-title"
+                    class="text-lg text-gray-600 dark:text-gray-400 mb-2"
+                  ></p>
+                  <p
+                    id="owner-company"
+                    class="text-gray-700 dark:text-gray-300 mb-4"
+                  ></p>
+                  <p
+                    id="owner-bio"
+                    class="text-gray-600 dark:text-gray-400 mb-4"
+                  ></p>
+
+                  <div id="owner-links" class="flex flex-wrap gap-3 mb-4"></div>
+
+                  <div id="owner-skills" class="flex flex-wrap gap-2"></div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="project-links-section"
+              class="hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-link text-primary"></i>
+                Project Links
+              </h2>
+              <div id="project-links" class="grid md:grid-cols-2 gap-4"></div>
             </div>
 
             <div
@@ -360,20 +420,23 @@
         }
 
         try {
-          const response = await fetch(API_URL);
-          const data = await response.json();
-          const project = data.find(function (p) {
-            return p.slug === slug;
-          });
+          // Use the enhanced endpoint that includes owner information
+          const response = await fetch(`${API_URL}${slug}/full/`);
+          const project = await response.json();
 
-          if (!project) {
+          if (!response.ok) {
             showError();
             return;
           }
 
           currentProject = project;
           displayProject(project);
-          loadRelatedProjects(data, project.id);
+          displayOwner(project.owner);
+          displayAdditionalLinks(project.links || []);
+          loadRelatedProjects(
+            await fetch(API_URL).then((r) => r.json()),
+            project.id
+          );
 
           document.getElementById("loading").classList.add("hidden");
           document.getElementById("content").classList.remove("hidden");
@@ -592,6 +655,186 @@
         } else {
           document.getElementById("tags-section").classList.add("hidden");
         }
+
+        // Display owner information if available
+        if (p.owner) {
+          displayOwner(p.owner);
+        }
+
+        // Display project links if available
+        if (p.links && p.links.length > 0) {
+          displayAdditionalLinks(p.links);
+        }
+      }
+
+      function displayProjectLinks(links) {
+        const linksSection = document.getElementById("project-links-section");
+        linksSection.classList.remove("hidden");
+
+        const linksContainer = document.getElementById("project-links");
+        linksContainer.innerHTML = links
+          .map(function (link) {
+            const iconClass = getLinkIcon(link.link_type);
+            return (
+              '<a href="' +
+              link.url +
+              '" target="_blank" class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">' +
+              '<i class="' +
+              iconClass +
+              ' text-primary text-xl group-hover:scale-110 transition-transform"></i>' +
+              '<div class="flex-1">' +
+              '<h4 class="font-semibold text-gray-900 dark:text-white">' +
+              link.title +
+              "</h4>" +
+              '<p class="text-sm text-gray-600 dark:text-gray-400">' +
+              (link.description || link.url) +
+              "</p>" +
+              "</div>" +
+              '<i class="fas fa-external-link-alt text-gray-400 group-hover:text-primary transition-colors"></i>' +
+              "</a>"
+            );
+          })
+          .join("");
+      }
+
+      function displayOwner(owner) {
+        const ownerSection = document.getElementById("owner-profile-section");
+        ownerSection.classList.remove("hidden");
+
+        // Set owner avatar
+        const avatar = document.getElementById("owner-avatar");
+        avatar.src =
+          owner.avatar || "https://i.pravatar.cc/150?img=" + (owner.id || 1);
+
+        // Set owner details
+        document.getElementById("owner-name").textContent =
+          owner.name || "Anonymous";
+        document.getElementById("owner-title").textContent = owner.title || "";
+        document.getElementById("owner-company").textContent =
+          owner.company || "";
+        document.getElementById("owner-bio").textContent = owner.bio || "";
+
+        // Display owner social links
+        const linksContainer = document.getElementById("owner-links");
+        const socialLinks = [];
+
+        if (owner.linkedin_url) {
+          socialLinks.push({
+            title: "LinkedIn",
+            url: owner.linkedin_url,
+            type: "linkedin"
+          });
+        }
+        if (owner.github_url) {
+          socialLinks.push({
+            title: "GitHub",
+            url: owner.github_url,
+            type: "github"
+          });
+        }
+        if (owner.twitter_url) {
+          socialLinks.push({
+            title: "Twitter",
+            url: owner.twitter_url,
+            type: "twitter"
+          });
+        }
+        if (owner.website_url) {
+          socialLinks.push({
+            title: "Website",
+            url: owner.website_url,
+            type: "website"
+          });
+        }
+
+        if (socialLinks.length > 0) {
+          linksContainer.innerHTML = socialLinks
+            .map(function (link) {
+              const iconClass = getLinkIcon(link.type);
+              return (
+                '<a href="' +
+                link.url +
+                '" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">' +
+                '<i class="' +
+                iconClass +
+                '"></i>' +
+                link.title +
+                "</a>"
+              );
+            })
+            .join("");
+        } else {
+          linksContainer.innerHTML = "";
+        }
+
+        // Display owner skills
+        const skillsContainer = document.getElementById("owner-skills");
+        if (owner.skills && owner.skills.length > 0) {
+          skillsContainer.innerHTML = owner.skills
+            .map(function (skill) {
+              return (
+                '<span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium">' +
+                skill +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          skillsContainer.innerHTML = "";
+        }
+      }
+
+      function displayAdditionalLinks(links) {
+        if (!links || links.length === 0) return;
+
+        const linksSection = document.getElementById("project-links-section");
+        linksSection.classList.remove("hidden");
+
+        const linksContainer = document.getElementById("project-links");
+        linksContainer.innerHTML = links
+          .map(function (link) {
+            const iconClass = getLinkIcon(link.link_type);
+            return (
+              '<a href="' +
+              link.url +
+              '" target="_blank" class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">' +
+              '<i class="' +
+              iconClass +
+              ' text-primary text-xl group-hover:scale-110 transition-transform"></i>' +
+              '<div class="flex-1">' +
+              '<h4 class="font-semibold text-gray-900 dark:text-white">' +
+              link.title +
+              "</h4>" +
+              '<p class="text-sm text-gray-600 dark:text-gray-400">' +
+              (link.description || link.url) +
+              "</p>" +
+              "</div>" +
+              '<i class="fas fa-external-link-alt text-gray-400 group-hover:text-primary transition-colors"></i>' +
+              "</a>"
+            );
+          })
+          .join("");
+      }
+
+      function getLinkIcon(linkType) {
+        const icons = {
+          linkedin: "fab fa-linkedin",
+          github: "fab fa-github",
+          twitter: "fab fa-twitter",
+          website: "fas fa-globe",
+          portfolio: "fas fa-briefcase",
+          blog: "fas fa-blog",
+          youtube: "fab fa-youtube",
+          discord: "fab fa-discord",
+          telegram: "fab fa-telegram",
+          email: "fas fa-envelope",
+          demo: "fas fa-play-circle",
+          api: "fas fa-code",
+          documentation: "fas fa-book",
+          social: "fas fa-users",
+          other: "fas fa-external-link-alt",
+        };
+        return icons[linkType] || "fas fa-external-link-alt";
       }
 
       function formatCategory(cat) {
@@ -730,6 +973,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <script src="nav-loader.js"></script>
     <script src="comment-system.js"></script>
 
     <!-- Footer -->

@@ -44,6 +44,15 @@
           newStyle.textContent = style.textContent;
           document.head.appendChild(newStyle);
         });
+
+        // Load global-auth.js after navigation is loaded
+        const authScript = document.createElement("script");
+        authScript.src = "global-auth.js";
+        authScript.onload = () =>
+          console.log("Global auth loaded successfully");
+        authScript.onerror = () =>
+          console.error("Failed to load global-auth.js");
+        document.head.appendChild(authScript);
       })
       .catch((error) => {
         console.error("Error loading navigation:", error);

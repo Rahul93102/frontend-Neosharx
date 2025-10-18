@@ -3,6 +3,7 @@
 ## Problem Identified
 
 After successful OAuth login (Google/LinkedIn), the authentication state was not being saved properly, causing issues with:
+
 - ❌ Onboarding page not detecting logged-in user
 - ❌ Comment system not working (no auth token)
 - ❌ User getting redirected back to login page
@@ -13,6 +14,7 @@ After successful OAuth login (Google/LinkedIn), the authentication state was not
 The OAuth callback pages (`/frontend/auth/google/callback.html` and `/frontend/auth/linkedin/callback.html`) were redirecting to **incorrect URLs**:
 
 ### ❌ Before (Broken):
+
 ```javascript
 // Wrong URLs - missing /frontend/ path
 window.location.href = "http://localhost:3000/onboarding.html";
@@ -20,6 +22,7 @@ window.location.href = "http://localhost:3000/index.html";
 ```
 
 ### ✅ After (Fixed):
+
 ```javascript
 // Correct URLs - includes /frontend/ path
 window.location.href = "http://localhost:3000/frontend/onboarding.html";
@@ -36,11 +39,13 @@ window.location.href = "http://localhost:3000/frontend/index.html";
 ## Files Fixed
 
 ### 1. `/frontend/auth/google/callback.html`
+
 - ✅ Fixed redirect URLs to include `/frontend/` path
 - ✅ Ensures `authToken` and `currentUser` are saved correctly
 - ✅ Proper state preservation during redirect
 
 ### 2. `/frontend/auth/linkedin/callback.html`
+
 - ✅ Fixed redirect URLs to include `/frontend/` path
 - ✅ Consistent with Google OAuth flow
 - ✅ Maintains authentication state
@@ -78,13 +83,16 @@ After successful login, the following data is now properly saved and accessible:
 localStorage.setItem("authToken", "user_token_here");
 
 // Current User Data
-localStorage.setItem("currentUser", JSON.stringify({
-  id: user_id,
-  username: "user_name",
-  email: "user@email.com",
-  phone_verified: false,
-  login_method: "google" // or "linkedin"
-}));
+localStorage.setItem(
+  "currentUser",
+  JSON.stringify({
+    id: user_id,
+    username: "user_name",
+    email: "user@email.com",
+    phone_verified: false,
+    login_method: "google", // or "linkedin"
+  })
+);
 ```
 
 ## Testing Steps
@@ -92,6 +100,7 @@ localStorage.setItem("currentUser", JSON.stringify({
 ### Test Login State:
 
 1. **Login Test**:
+
    ```bash
    # Open browser console
    # Go to http://localhost:3000/frontend/login.html
@@ -103,6 +112,7 @@ localStorage.setItem("currentUser", JSON.stringify({
    ```
 
 2. **Onboarding Test**:
+
    - After login, you should see the onboarding page
    - Select interests and user type
    - Click Continue
@@ -110,6 +120,7 @@ localStorage.setItem("currentUser", JSON.stringify({
    - User should stay logged in ✅
 
 3. **Comment Test**:
+
    - Go to any detail page (e.g., neo-detail.html)
    - Scroll to comments section
    - Input box should be visible
@@ -144,12 +155,15 @@ console.log("Current User:", JSON.parse(localStorage.getItem("currentUser")));
 
 // Force login (for testing)
 localStorage.setItem("authToken", "test_token");
-localStorage.setItem("currentUser", JSON.stringify({
-  id: 1,
-  username: "testuser",
-  email: "test@example.com",
-  login_method: "google"
-}));
+localStorage.setItem(
+  "currentUser",
+  JSON.stringify({
+    id: 1,
+    username: "testuser",
+    email: "test@example.com",
+    login_method: "google",
+  })
+);
 
 // Clear login state
 localStorage.removeItem("authToken");
@@ -173,5 +187,6 @@ localStorage.removeItem("userPreferences");
 **Last Updated**: October 17, 2025
 
 **Files Modified**:
+
 - `/frontend/auth/google/callback.html`
 - `/frontend/auth/linkedin/callback.html`
