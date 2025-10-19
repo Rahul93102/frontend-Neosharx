@@ -47,9 +47,11 @@ class GlobalAuthManager {
     const isLoggedIn = this.isLoggedIn();
     const user = this.getCurrentUser();
 
-    console.log("GlobalAuthManager: Updating UI", { 
-      isLoggedIn, 
-      user: user ? { id: user.id, username: user.username, email: user.email } : null 
+    console.log("GlobalAuthManager: Updating UI", {
+      isLoggedIn,
+      user: user
+        ? { id: user.id, username: user.username, email: user.email }
+        : null,
     });
 
     // Update desktop navigation

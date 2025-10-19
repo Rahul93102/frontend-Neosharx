@@ -505,13 +505,18 @@
       }
 
       .mentor-links a::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
         transition: left 0.5s;
       }
 
@@ -959,46 +964,75 @@
 
         let html = "";
         for (const mentor of mentors) {
-          const avatar = mentor.avatar || "https://i.pravatar.cc/150?img=" + (mentor.id || 1);
+          const avatar =
+            mentor.avatar ||
+            "https://i.pravatar.cc/150?img=" + (mentor.id || 1);
           const socialLinks = [];
 
-          if (mentor.linkedin_url) socialLinks.push({ type: 'linkedin', url: mentor.linkedin_url });
-          if (mentor.github_url) socialLinks.push({ type: 'github', url: mentor.github_url });
-          if (mentor.twitter_url) socialLinks.push({ type: 'twitter', url: mentor.twitter_url });
-          if (mentor.website_url) socialLinks.push({ type: 'website', url: mentor.website_url });
+          if (mentor.linkedin_url)
+            socialLinks.push({ type: "linkedin", url: mentor.linkedin_url });
+          if (mentor.github_url)
+            socialLinks.push({ type: "github", url: mentor.github_url });
+          if (mentor.twitter_url)
+            socialLinks.push({ type: "twitter", url: mentor.twitter_url });
+          if (mentor.website_url)
+            socialLinks.push({ type: "website", url: mentor.website_url });
 
           // Add additional links
           if (mentor.links) {
-            mentor.links.forEach(link => {
+            mentor.links.forEach((link) => {
               if (link.is_active) {
-                socialLinks.push({ type: link.link_type, url: link.url, title: link.title });
+                socialLinks.push({
+                  type: link.link_type,
+                  url: link.url,
+                  title: link.title,
+                });
               }
             });
           }
 
-          const linksHtml = socialLinks.length > 0 ? `
+          const linksHtml =
+            socialLinks.length > 0
+              ? `
             <div class="mentor-links mt-4 flex flex-wrap gap-3">
-              ${socialLinks.map(link => `
+              ${socialLinks
+                .map(
+                  (link) => `
                 <a href="${link.url}" target="_blank" rel="noopener noreferrer"
-                   class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${getLinkStyle(link.type)}">
+                   class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-md ${getLinkStyle(
+                     link.type
+                   )}">
                   <i class="${getLinkIcon(link.type)} text-base"></i>
-                  <span class="hidden sm:inline">${link.title || getLinkLabel(link.type)}</span>
+                  <span class="hidden sm:inline">${
+                    link.title || getLinkLabel(link.type)
+                  }</span>
                   <span class="sm:hidden">${getLinkShortLabel(link.type)}</span>
                 </a>
-              `).join('')}
+              `
+                )
+                .join("")}
             </div>
-          ` : '';
+          `
+              : "";
 
           html += `
             <div class="judge-card">
               <div class="judge-avatar">
-                <img src="${avatar}" alt="${mentor.name}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://i.pravatar.cc/150?img=${mentor.id || 1}'">
+                <img src="${avatar}" alt="${
+            mentor.name
+          }" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://i.pravatar.cc/150?img=${
+            mentor.id || 1
+          }'">
               </div>
               <div class="judge-info">
                 <h3 class="judge-name">${mentor.name}</h3>
-                <p class="judge-role">${mentor.title || 'Mentor'}</p>
-                <p class="judge-company">${mentor.company || ''}</p>
-                ${mentor.bio ? `<p class="judge-bio text-sm text-gray-600 mt-2">${mentor.bio}</p>` : ''}
+                <p class="judge-role">${mentor.title || "Mentor"}</p>
+                <p class="judge-company">${mentor.company || ""}</p>
+                ${
+                  mentor.bio
+                    ? `<p class="judge-bio text-sm text-gray-600 mt-2">${mentor.bio}</p>`
+                    : ""
+                }
                 ${linksHtml}
               </div>
             </div>
