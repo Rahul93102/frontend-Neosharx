@@ -26,49 +26,41 @@ class CommentSystem {
       <b>Extra:</b> <code>${JSON.stringify(extra)}</code>`;
   }
   constructor(contentType, contentSlug, containerId, options = {}) {
-    console.log("CommentSystem: Constructor called with", {
+    console.log("CommentSystem: Initializing", {
       contentType,
       contentSlug,
       containerId,
-      options
     });
-    try {
-      this.contentType = contentType;
-      this.contentSlug = contentSlug;
-      this.containerId = containerId;
-      this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
-      this.authToken = localStorage.getItem("authToken") || null;
-      this.currentUser = JSON.parse(
-        localStorage.getItem("currentUser") || "null"
-      );
+    this.contentType = contentType;
+    this.contentSlug = contentSlug;
+    this.containerId = containerId;
+    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
+    this.authToken = localStorage.getItem("authToken") || null;
+    this.currentUser = JSON.parse(
+      localStorage.getItem("currentUser") || "null"
+    );
 
-      console.log("CommentSystem: Initial auth state", {
-        hasToken: !!this.authToken,
-        hasUser: !!this.currentUser,
-        user: this.currentUser,
-      });
-      this.comments = [];
-      this.isLoading = false;
-      this.options = {
-        showLoginPrompt: true,
-        enableReplies: true,
-        enableLikes: true,
-        enableFlags: true,
-        maxDepth: 3,
-        ...options,
-      };
+    console.log("CommentSystem: Initial auth state", {
+      hasToken: !!this.authToken,
+      hasUser: !!this.currentUser,
+      user: this.currentUser,
+    });
+    this.comments = [];
+    this.isLoading = false;
+    this.options = {
+      showLoginPrompt: true,
+      enableReplies: true,
+      enableLikes: true,
+      enableFlags: true,
+      maxDepth: 3,
+      ...options,
+    };
 
-      console.log("CommentSystem: About to call init()");
-      this.init();
-      // Force auth refresh on page load
-      setTimeout(() => {
-        this.refreshAuth();
-      }, 100);
-      console.log("CommentSystem: Constructor completed successfully");
-    } catch (error) {
-      console.error("CommentSystem: Constructor failed", error);
-      throw error;
-    }
+    this.init();
+    // Force auth refresh on page load
+    setTimeout(() => {
+      this.refreshAuth();
+    }, 100);
   }
 
   init() {
@@ -108,15 +100,12 @@ class CommentSystem {
   }
 
   renderContainer() {
-    console.log("CommentSystem: renderContainer called, looking for container:", this.containerId);
     const container = document.getElementById(this.containerId);
-    console.log("CommentSystem: Container found:", !!container);
     if (!container) {
       console.error(`Comment container ${this.containerId} not found`);
       return;
     }
 
-    console.log("CommentSystem: Rendering container HTML");
     container.innerHTML = `
             <style>
                 .comments-section {
@@ -1337,4 +1326,3 @@ class CommentSystem {
 
 // Make CommentSystem available globally
 window.CommentSystem = CommentSystem;
-console.log("CommentSystem script loaded successfully, CommentSystem available:", typeof window.CommentSystem);

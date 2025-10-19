@@ -74,7 +74,9 @@
         height: 100%;
         z-index: 1000;
         overflow: hidden;
-        display: none; /* Hide loader permanently */
+        display: flex; /* Show loader initially */
+        align-items: center;
+        justify-content: center;
       }
       .panel {
         position: absolute;
@@ -243,7 +245,11 @@
         display: none;
       }
       #main-content {
-        opacity: 1; /* Show content immediately */
+        opacity: 0; /* Hide content initially */
+        transition: opacity 0.5s ease-in-out;
+      }
+      #main-content.loaded {
+        opacity: 1; /* Show content after loader */
       }
       @keyframes fade-in-main {
         from {
@@ -1503,7 +1509,22 @@
                 </div>
                 <div
                   class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2"
-                ></div>
+                >
+                  <button
+                    class="carousel-prev bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                  </button>
+                  <button
+                    class="carousel-next bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
             </div>
@@ -1556,7 +1577,22 @@
                 </div>
                 <div
                   class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2"
-                ></div>
+                >
+                  <button
+                    class="carousel-prev bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                  </button>
+                  <button
+                    class="carousel-next bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
             </div>
@@ -1601,7 +1637,22 @@
                 </div>
                 <div
                   class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2"
-                ></div>
+                >
+                  <button
+                    class="carousel-prev bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                  </button>
+                  <button
+                    class="carousel-next bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
+                  >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
             </div>
@@ -1962,11 +2013,26 @@
           })
           .catch((err) => console.error("Navigation load error:", err));
 
-        // --- SIMPLE LOADER SCRIPT ---
-        // Loader removed - content shows normally
+        // --- LOADER SCRIPT ---
+        // Wait for all loader animations to complete (6 seconds total)
+        setTimeout(() => {
+          const loader = document.getElementById('loader-wrapper');
+          const mainContent = document.getElementById('main-content');
+
+          // Hide loader
+          loader.style.display = 'none';
+
+          // Show main content with fade-in
+          mainContent.classList.add('loaded');
+
+          // Initialize animations after content is visible
+          initializeAnimations();
+        }, 6000); // 6 seconds for all loader panels
       });
 
-      // --- ANIMATION ON SCROLL ---
+      // --- ANIMATION INITIALIZATION ---
+      function initializeAnimations() {
+        // --- ANIMATION ON SCROLL ---
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -2414,6 +2480,7 @@
       console.log("API Base URL:", API_BASE_URL);
       fetchEvents();
       fetchYouTubeVideos();
+      }
 
       // --- COMMUNITY MODAL FUNCTIONALITY ---
       const communityBtn = document.getElementById("community-btn");

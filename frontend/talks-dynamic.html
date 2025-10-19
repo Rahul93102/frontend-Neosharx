@@ -604,13 +604,7 @@
         prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
         prev.setAttribute("aria-label", "Previous featured episode");
 
-        // Create next button
-        const next = document.createElement("button");
-        next.id = "nextFeatured";
-        next.className = "nav-btn";
-        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
-        next.setAttribute("aria-label", "Next featured episode");
-
+       
         // Add click handlers
         prev.onclick = () => {
           const s = window._featuredState;

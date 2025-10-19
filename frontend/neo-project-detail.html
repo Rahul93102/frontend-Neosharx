@@ -9,7 +9,6 @@
       rel="stylesheet"
     />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="comment-system.js"></script>
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -443,10 +442,7 @@
           document.getElementById("content").classList.remove("hidden");
 
           // Initialize comment system after project is loaded
-          console.log("Initializing comment system...");
-          console.log("CommentSystem defined:", typeof CommentSystem);
           if (typeof CommentSystem !== "undefined") {
-            console.log("Creating CommentSystem instance...");
             const commentSystem = new CommentSystem(
               "neo_project",
               slug,
@@ -458,9 +454,6 @@
                 enableLikes: true,
               }
             );
-            console.log("CommentSystem initialized:", commentSystem);
-          } else {
-            console.error("CommentSystem is not defined");
           }
         } catch (error) {
           console.error("Error:", error);
@@ -975,7 +968,7 @@
         .catch((err) => console.error("Navigation load error:", err));
 
       document.addEventListener("DOMContentLoaded", loadProject);
-    </script>
+    <script src="comment-system.js"></script>
 
     <!-- Footer -->
     <footer class="bg-black text-white">

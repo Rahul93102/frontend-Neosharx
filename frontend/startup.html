@@ -483,19 +483,25 @@
       }
 
       function setupFeaturedControls() {
-        const controlsDiv = document.querySelector(".slider-controls");
-        if (!controlsDiv) return;
 
-        // Clear existing controls
-        controlsDiv.innerHTML = "";
+        // Add click handlers
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
 
-        // Create prev button
-        const prev = document.createElement("button");
-        prev.id = "prevFeatured";
-        prev.className = "nav-btn";
-        prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
-        prev.setAttribute("aria-label", "Previous featured story");
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
 
+        // Add to DOM
+        controlsDiv.appendChild(prev);
+        controlsDiv.appendChild(next);
       }
 
       function displayMoreStories() {
