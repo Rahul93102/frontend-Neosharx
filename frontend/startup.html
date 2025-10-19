@@ -354,6 +354,10 @@
           </p>
         </div>
       </main>
+    <!-- Comments Section -->
+    <div class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20">
+      <div id="comments-container"></div>
+    </div>
 
     <script>
       const API_BASE_URL = "http://localhost:8001";
@@ -479,25 +483,6 @@
       }
 
       function setupFeaturedControls() {
-        const controlsDiv = document.querySelector(".slider-controls");
-        if (!controlsDiv) return;
-
-        // Clear existing controls
-        controlsDiv.innerHTML = "";
-
-        // Create prev button
-        const prev = document.createElement("button");
-        prev.id = "prevFeatured";
-        prev.className = "nav-btn";
-        prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
-        prev.setAttribute("aria-label", "Previous featured story");
-
-        // Create next button
-        const next = document.createElement("button");
-        next.id = "nextFeatured";
-        next.className = "nav-btn";
-        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
-        next.setAttribute("aria-label", "Next featured story");
 
         // Add click handlers
         prev.onclick = () => {
@@ -614,6 +599,13 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+          
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () => console.log("Global auth loaded successfully");
+          authScript.onerror = () => console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
         })
         .catch((err) => console.error("Navigation load error:", err));
     </script>

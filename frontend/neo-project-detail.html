@@ -126,6 +126,15 @@
                 <i class="fas fa-user-circle"></i>
                 <span class="font-medium"></span>
               </span>
+              <div id="owner-section" class="hidden flex items-center gap-2">
+                <i class="fas fa-crown text-yellow-500"></i>
+                <span class="font-medium">by </span>
+                <a
+                  id="owner-link"
+                  href="#"
+                  class="text-primary hover:text-primary/80 font-semibold transition-colors"
+                ></a>
+              </div>
               <span id="version-badge" class="flex items-center gap-2">
                 <i class="fas fa-code-branch"></i>
                 <span class="font-medium"></span>
@@ -171,6 +180,57 @@
                 Technology Stack
               </h2>
               <div id="tech-stack" class="flex flex-wrap gap-3"></div>
+            </div>
+
+            <div
+              id="owner-profile-section"
+              class="hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-user-circle text-primary"></i>
+                Project Owner
+              </h2>
+              <div class="flex items-start gap-6">
+                <img
+                  id="owner-avatar"
+                  src=""
+                  alt="Owner Avatar"
+                  class="w-20 h-20 rounded-full border-4 border-primary/20"
+                />
+                <div class="flex-1">
+                  <h3
+                    id="owner-name"
+                    class="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+                  ></h3>
+                  <p
+                    id="owner-title"
+                    class="text-lg text-gray-600 dark:text-gray-400 mb-2"
+                  ></p>
+                  <p
+                    id="owner-company"
+                    class="text-gray-700 dark:text-gray-300 mb-4"
+                  ></p>
+                  <p
+                    id="owner-bio"
+                    class="text-gray-600 dark:text-gray-400 mb-4"
+                  ></p>
+
+                  <div id="owner-links" class="flex flex-wrap gap-3 mb-4"></div>
+
+                  <div id="owner-skills" class="flex flex-wrap gap-2"></div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="project-links-section"
+              class="hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-link text-primary"></i>
+                Project Links
+              </h2>
+              <div id="project-links" class="grid md:grid-cols-2 gap-4"></div>
             </div>
 
             <div
@@ -337,49 +397,39 @@
         </div>
 
         <!-- Comments Section -->
-        <div class="mt-16 max-w-4xl mx-auto">
-          <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
-            <i class="fas fa-comments text-primary"></i>
-            Comments
-          </h2>
+        <div
+          class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+        >
           <div id="comments-container"></div>
         </div>
       </div>
     </article>
 
     <script>
-      const API_URL = "http://localhost:8001/api/auth/neo-projects/";
-      let currentProject = null;
-      let hasStarred = false;
+        const API_URL = "http://localhost:8001/api/auth/neo-projects/";
+        let currentProject = null;
+        let hasStarred = false;
 
-      async function loadProject() {
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get("slug");
+        async function loadProject() {
+          const params = new URLSearchParams(window.location.search);
+          const slug = params.get("slug");
 
-        if (!slug) {
-          window.location.href = "neo-projects.html";
-          return;
-        }
-
-        try {
-          const response = await fetch(API_URL);
-          const data = await response.json();
-          const project = data.find(function (p) {
-            return p.slug === slug;
-          });
-
-          if (!project) {
-            showError();
+          if (!slug) {
+            window.location.href = "neo-projects.html";
             return;
           }
 
-          currentProject = project;
-          displayProject(project);
-          loadRelatedProjects(data, project.id);
+          try {
+            // Use the enhanced endpoint that includes owner information
+            const response = await fetch(`${API_URL}${slug}/full/`);
+            const project = await response.json();
 
-          document.getElementById("loading").classList.add("hidden");
-          document.getElementById("content").classList.remove("hidden");
+            if (!response.ok) {
+              showError();
+              return;
+            }
 
+<<<<<<< HEAD
           // Initialize comment system after project is loaded
           if (typeof CommentSystem !== "undefined") {
             const commentSystem = new CommentSystem(
@@ -392,343 +442,549 @@
                 enableReplies: true,
                 enableLikes: true,
               }
+=======
+            currentProject = project;
+            displayProject(project);
+            displayOwner(project.owner);
+            displayAdditionalLinks(project.links || []);
+            loadRelatedProjects(
+              await fetch(API_URL).then((r) => r.json()),
+              project.id
+>>>>>>> 082fbeb
             );
+
+            document.getElementById("loading").classList.add("hidden");
+            document.getElementById("content").classList.remove("hidden");
+
+            // Initialize comment system after project is loaded
+            if (typeof CommentSystem !== "undefined") {
+              const commentSystem = new CommentSystem(
+                "neo_project",
+                slug,
+                "comments-container",
+                {
+                  apiBaseUrl: "http://localhost:8001/api/auth",
+                  showLoginPrompt: true,
+                  enableReplies: true,
+                  enableLikes: true,
+                }
+              );
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            showError();
           }
-        } catch (error) {
-          console.error("Error:", error);
-          showError();
         }
-      }
 
-      function showError() {
-        document.getElementById("loading").classList.add("hidden");
-        document.getElementById("error").classList.remove("hidden");
-      }
+        function showError() {
+          document.getElementById("loading").classList.add("hidden");
+          document.getElementById("error").classList.remove("hidden");
+        }
 
-      function displayProject(p) {
-        document.title = p.title + " - NeoSharX Neo Projects";
+        function displayProject(p) {
+          document.title = p.title + " - NeoSharX Neo Projects";
 
-        document.getElementById("hero-image").style.backgroundImage =
-          "url(" +
-          (p.featured_image ||
-            "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200") +
-          ")";
-        document.getElementById("project-title").textContent = p.title;
-        document.getElementById("project-description").textContent =
-          p.description;
+          document.getElementById("hero-image").style.backgroundImage =
+            "url(" +
+            (p.featured_image ||
+              "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200") +
+            ")";
+          document.getElementById("project-title").textContent = p.title;
+          document.getElementById("project-description").textContent =
+            p.description;
 
-        const categoryColors = {
-          ai_ml: "bg-purple-600 text-white",
-          blockchain: "bg-yellow-600 text-white",
-          iot: "bg-green-600 text-white",
-          ar_vr: "bg-pink-600 text-white",
-          data_science: "bg-blue-600 text-white",
-        };
-        const catColor = categoryColors[p.category] || "bg-gray-600 text-white";
-        document.getElementById("category-badge").className =
-          "px-4 py-2 rounded-full text-sm font-bold badge " + catColor;
-        document.getElementById("category-badge").textContent = formatCategory(
-          p.category
-        );
+          const categoryColors = {
+            ai_ml: "bg-purple-600 text-white",
+            blockchain: "bg-yellow-600 text-white",
+            iot: "bg-green-600 text-white",
+            ar_vr: "bg-pink-600 text-white",
+            data_science: "bg-blue-600 text-white",
+          };
+          const catColor = categoryColors[p.category] || "bg-gray-600 text-white";
+          document.getElementById("category-badge").className =
+            "px-4 py-2 rounded-full text-sm font-bold badge " + catColor;
+          document.getElementById("category-badge").textContent = formatCategory(
+            p.category
+          );
 
-        const statusColors = {
-          completed: "bg-green-600 text-white",
-          in_development: "bg-yellow-600 text-white",
-          beta: "bg-blue-600 text-white",
-          maintained: "bg-emerald-600 text-white",
-        };
-        const statusColor = statusColors[p.status] || "bg-gray-600 text-white";
-        document.getElementById("status-badge").className =
-          "px-4 py-2 rounded-full text-sm font-bold badge " + statusColor;
-        document.getElementById("status-badge").textContent = formatStatus(
-          p.status
-        );
+          const statusColors = {
+            completed: "bg-green-600 text-white",
+            in_development: "bg-yellow-600 text-white",
+            beta: "bg-blue-600 text-white",
+            maintained: "bg-emerald-600 text-white",
+          };
+          const statusColor = statusColors[p.status] || "bg-gray-600 text-white";
+          document.getElementById("status-badge").className =
+            "px-4 py-2 rounded-full text-sm font-bold badge " + statusColor;
+          document.getElementById("status-badge").textContent = formatStatus(
+            p.status
+          );
 
-        document.getElementById("license-badge").textContent =
-          p.license || "MIT";
+          document.getElementById("license-badge").textContent =
+            p.license || "MIT";
 
-        if (p.is_open_source) {
+          if (p.is_open_source) {
+            document
+              .getElementById("opensource-badge")
+              .classList.remove("hidden");
+          }
+
+          document.getElementById("developer").querySelector("span").textContent =
+            p.developer_name || "NeoSharX Team";
           document
-            .getElementById("opensource-badge")
-            .classList.remove("hidden");
-        }
+            .getElementById("version-badge")
+            .querySelector("span").textContent = "v" + (p.version || "1.0.0");
 
-        document.getElementById("developer").querySelector("span").textContent =
-          p.developer_name || "NeoSharX Team";
-        document
-          .getElementById("version-badge")
-          .querySelector("span").textContent = "v" + (p.version || "1.0.0");
+          document.getElementById("detailed-description").innerHTML =
+            formatContent(p.detailed_description || p.description);
 
-        document.getElementById("detailed-description").innerHTML =
-          formatContent(p.detailed_description || p.description);
-
-        if (p.features && p.features.length > 0) {
-          document.getElementById("features-list").innerHTML = p.features
-            .map(function (f) {
-              return (
-                '<li class="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">' +
-                '<i class="fas fa-check-circle text-primary text-xl mt-1 flex-shrink-0"></i>' +
-                '<span class="text-gray-700 dark:text-gray-300 text-lg">' +
-                f +
-                "</span>" +
-                "</li>"
-              );
-            })
-            .join("");
-        } else {
-          document.getElementById("features-section").classList.add("hidden");
-        }
-
-        if (p.technology_list && p.technology_list.length > 0) {
-          document.getElementById("tech-stack").innerHTML = p.technology_list
-            .map(function (tech) {
-              return (
-                '<span class="badge px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold text-base border-2 border-primary/20">' +
-                tech +
-                "</span>"
-              );
-            })
-            .join("");
-        } else {
-          document.getElementById("tech-stack-section").classList.add("hidden");
-        }
-
-        if (p.screenshots && p.screenshots.length > 0) {
-          document.getElementById("screenshots-grid").innerHTML = p.screenshots
-            .map(function (img) {
-              return (
-                '<div class="group relative overflow-hidden rounded-xl cursor-pointer" onclick="window.open(' +
-                "'" +
-                img +
-                "'" +
-                ", " +
-                "'_blank'" +
-                ')">' +
-                '<img src="' +
-                img +
-                '" class="w-full h-64 object-cover transition-transform group-hover:scale-110" />' +
-                '<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">' +
-                '<i class="fas fa-expand text-white text-3xl"></i>' +
-                "</div>" +
-                "</div>"
-              );
-            })
-            .join("");
-        } else {
-          document
-            .getElementById("screenshots-section")
-            .classList.add("hidden");
-        }
-
-        if (p.installation_instructions) {
-          document.getElementById("installation-content").innerHTML =
-            formatInstructions(p.installation_instructions);
-        } else {
-          document
-            .getElementById("installation-section")
-            .classList.add("hidden");
-        }
-
-        if (p.usage_instructions) {
-          document.getElementById("usage-content").innerHTML =
-            formatInstructions(p.usage_instructions);
-        } else {
-          document.getElementById("usage-section").classList.add("hidden");
-        }
-
-        if (p.github_url) {
-          document.getElementById("github-link").href = p.github_url;
-          document.getElementById("github-link").classList.remove("hidden");
-        }
-
-        if (p.demo_url) {
-          document.getElementById("demo-link").href = p.demo_url;
-          document.getElementById("demo-link").classList.remove("hidden");
-        }
-
-        document.getElementById("status-text").textContent = formatStatus(
-          p.status
-        );
-        document.getElementById("difficulty-text").textContent =
-          formatDifficulty(p.difficulty_level);
-        document.getElementById("version-text").textContent =
-          p.version || "1.0.0";
-        document.getElementById("license-text").textContent =
-          p.license || "MIT";
-
-        if (p.collaborator_list && p.collaborator_list.length > 0) {
-          document.getElementById("collaborators-list").innerHTML =
-            p.collaborator_list
-              .map(function (collab, idx) {
+          if (p.features && p.features.length > 0) {
+            document.getElementById("features-list").innerHTML = p.features
+              .map(function (f) {
                 return (
-                  '<div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">' +
-                  '<img src="https://i.pravatar.cc/150?img=' +
-                  (idx + 10) +
-                  '" class="w-12 h-12 rounded-full border-2 border-primary" />' +
-                  "<div>" +
-                  '<p class="font-bold text-gray-900 dark:text-white">' +
-                  collab +
-                  "</p>" +
-                  '<p class="text-sm text-gray-600 dark:text-gray-400">Contributor</p>' +
+                  '<li class="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">' +
+                  '<i class="fas fa-check-circle text-primary text-xl mt-1 flex-shrink-0"></i>' +
+                  '<span class="text-gray-700 dark:text-gray-300 text-lg">' +
+                  f +
+                  "</span>" +
+                  "</li>"
+                );
+              })
+              .join("");
+          } else {
+            document.getElementById("features-section").classList.add("hidden");
+          }
+
+          if (p.technology_list && p.technology_list.length > 0) {
+            document.getElementById("tech-stack").innerHTML = p.technology_list
+              .map(function (tech) {
+                return (
+                  '<span class="badge px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold text-base border-2 border-primary/20">' +
+                  tech +
+                  "</span>"
+                );
+              })
+              .join("");
+          } else {
+            document.getElementById("tech-stack-section").classList.add("hidden");
+          }
+
+          if (p.screenshots && p.screenshots.length > 0) {
+            document.getElementById("screenshots-grid").innerHTML = p.screenshots
+              .map(function (img) {
+                return (
+                  '<div class="group relative overflow-hidden rounded-xl cursor-pointer" onclick="window.open(' +
+                  "'" +
+                  img +
+                  "'" +
+                  ", " +
+                  "'_blank'" +
+                  ')">' +
+                  '<img src="' +
+                  img +
+                  '" class="w-full h-64 object-cover transition-transform group-hover:scale-110" />' +
+                  '<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">' +
+                  '<i class="fas fa-expand text-white text-3xl"></i>' +
                   "</div>" +
                   "</div>"
                 );
               })
               .join("");
-        } else {
-          document
-            .getElementById("collaborators-section")
-            .classList.add("hidden");
+          } else {
+            document
+              .getElementById("screenshots-section")
+              .classList.add("hidden");
+          }
+
+          if (p.installation_instructions) {
+            document.getElementById("installation-content").innerHTML =
+              formatInstructions(p.installation_instructions);
+          } else {
+            document
+              .getElementById("installation-section")
+              .classList.add("hidden");
+          }
+
+          if (p.usage_instructions) {
+            document.getElementById("usage-content").innerHTML =
+              formatInstructions(p.usage_instructions);
+          } else {
+            document.getElementById("usage-section").classList.add("hidden");
+          }
+
+          if (p.github_url) {
+            document.getElementById("github-link").href = p.github_url;
+            document.getElementById("github-link").classList.remove("hidden");
+          }
+
+          if (p.demo_url) {
+            document.getElementById("demo-link").href = p.demo_url;
+            document.getElementById("demo-link").classList.remove("hidden");
+          }
+
+          document.getElementById("status-text").textContent = formatStatus(
+            p.status
+          );
+          document.getElementById("difficulty-text").textContent =
+            formatDifficulty(p.difficulty_level);
+          document.getElementById("version-text").textContent =
+            p.version || "1.0.0";
+          document.getElementById("license-text").textContent =
+            p.license || "MIT";
+
+          if (p.collaborator_list && p.collaborator_list.length > 0) {
+            document.getElementById("collaborators-list").innerHTML =
+              p.collaborator_list
+                .map(function (collab, idx) {
+                  return (
+                    '<div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">' +
+                    '<img src="https://i.pravatar.cc/150?img=' +
+                    (idx + 10) +
+                    '" class="w-12 h-12 rounded-full border-2 border-primary" />' +
+                    "<div>" +
+                    '<p class="font-bold text-gray-900 dark:text-white">' +
+                    collab +
+                    "</p>" +
+                    '<p class="text-sm text-gray-600 dark:text-gray-400">Contributor</p>' +
+                    "</div>" +
+                    "</div>"
+                  );
+                })
+                .join("");
+          } else {
+            document
+              .getElementById("collaborators-section")
+              .classList.add("hidden");
+          }
+
+          if (p.tag_list && p.tag_list.length > 0) {
+            document.getElementById("tags-list").innerHTML = p.tag_list
+              .map(function (tag) {
+                return (
+                  '<span class="badge px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">' +
+                  tag +
+                  "</span>"
+                );
+              })
+              .join("");
+          } else {
+            document.getElementById("tags-section").classList.add("hidden");
+          }
+
+          // Display owner information if available
+          if (p.owner) {
+            displayOwner(p.owner);
+          }
+
+          // Display project links if available
+          if (p.links && p.links.length > 0) {
+            displayAdditionalLinks(p.links);
+          }
         }
 
-        if (p.tag_list && p.tag_list.length > 0) {
-          document.getElementById("tags-list").innerHTML = p.tag_list
-            .map(function (tag) {
+        function displayProjectLinks(links) {
+          const linksSection = document.getElementById("project-links-section");
+          linksSection.classList.remove("hidden");
+
+          const linksContainer = document.getElementById("project-links");
+          linksContainer.innerHTML = links
+            .map(function (link) {
+              const iconClass = getLinkIcon(link.link_type);
               return (
-                '<span class="badge px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">' +
-                tag +
-                "</span>"
+                '<a href="' +
+                link.url +
+                '" target="_blank" class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">' +
+                '<i class="' +
+                iconClass +
+                ' text-primary text-xl group-hover:scale-110 transition-transform"></i>' +
+                '<div class="flex-1">' +
+                '<h4 class="font-semibold text-gray-900 dark:text-white">' +
+                link.title +
+                "</h4>" +
+                '<p class="text-sm text-gray-600 dark:text-gray-400">' +
+                (link.description || link.url) +
+                "</p>" +
+                "</div>" +
+                '<i class="fas fa-external-link-alt text-gray-400 group-hover:text-primary transition-colors"></i>' +
+                "</a>"
               );
             })
             .join("");
-        } else {
-          document.getElementById("tags-section").classList.add("hidden");
         }
-      }
 
-      function formatCategory(cat) {
-        const names = {
-          ai_ml: "AI & Machine Learning",
-          blockchain: "Blockchain",
-          iot: "Internet of Things",
-          ar_vr: "AR/VR",
-          data_science: "Data Science",
-        };
-        return names[cat] || cat;
-      }
+        function displayOwner(owner) {
+          const ownerSection = document.getElementById("owner-profile-section");
+          ownerSection.classList.remove("hidden");
 
-      function formatStatus(status) {
-        return (status || "")
-          .replace("_", " ")
-          .split(" ")
-          .map(function (w) {
-            return w.charAt(0).toUpperCase() + w.slice(1);
-          })
-          .join(" ");
-      }
+          // Set owner avatar
+          const avatar = document.getElementById("owner-avatar");
+          avatar.src =
+            owner.avatar || "https://i.pravatar.cc/150?img=" + (owner.id || 1);
 
-      function formatDifficulty(diff) {
-        return (
-          (diff || "intermediate").charAt(0).toUpperCase() +
-          (diff || "intermediate").slice(1)
-        );
-      }
+          // Set owner details
+          document.getElementById("owner-name").textContent =
+            owner.name || "Anonymous";
+          document.getElementById("owner-title").textContent = owner.title || "";
+          document.getElementById("owner-company").textContent =
+            owner.company || "";
+          document.getElementById("owner-bio").textContent = owner.bio || "";
 
-      function formatNumber(num) {
-        if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
-        if (num >= 1000) return (num / 1000).toFixed(1) + "K";
-        return num.toString();
-      }
+          // Display owner social links
+          const linksContainer = document.getElementById("owner-links");
+          const socialLinks = [];
 
-      function formatContent(content) {
-        if (!content)
-          return '<p class="text-gray-500">No detailed description available.</p>';
-
-        var formatted = content.replace(/\n\n/g, '</p><p class="mb-4">');
-        formatted = '<p class="mb-4">' + formatted + "</p>";
-        formatted = formatted.replace(
-          /\*\*(.*?)\*\*/g,
-          '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>'
-        );
-        formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");
-
-        return formatted;
-      }
-
-      function formatInstructions(text) {
-        if (!text)
-          return '<p class="text-gray-500">No instructions available.</p>';
-
-        var lines = text.split("\n");
-        var formatted = '<ol class="list-decimal list-inside space-y-2">';
-        lines.forEach(function (line) {
-          if (line.trim()) {
-            formatted +=
-              '<li class="text-gray-700 dark:text-gray-300 pl-2">' +
-              line.replace(/^\d+\.\s*/, "") +
-              "</li>";
+          if (owner.linkedin_url) {
+            socialLinks.push({
+              title: "LinkedIn",
+              url: owner.linkedin_url,
+              type: "linkedin"
+            });
           }
-        });
-        formatted += "</ol>";
+          if (owner.github_url) {
+            socialLinks.push({
+              title: "GitHub",
+              url: owner.github_url,
+              type: "github"
+            });
+          }
+          if (owner.twitter_url) {
+            socialLinks.push({
+              title: "Twitter",
+              url: owner.twitter_url,
+              type: "twitter"
+            });
+          }
+          if (owner.website_url) {
+            socialLinks.push({
+              title: "Website",
+              url: owner.website_url,
+              type: "website"
+            });
+          }
 
-        return formatted;
-      }
+          if (socialLinks.length > 0) {
+            linksContainer.innerHTML = socialLinks
+              .map(function (link) {
+                const iconClass = getLinkIcon(link.type);
+                return (
+                  '<a href="' +
+                  link.url +
+                  '" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">' +
+                  '<i class="' +
+                  iconClass +
+                  '"></i>' +
+                  link.title +
+                  "</a>"
+                );
+              })
+              .join("");
+          } else {
+            linksContainer.innerHTML = "";
+          }
 
-      function loadRelatedProjects(allProjects, currentId) {
-        const related = allProjects
-          .filter(function (p) {
-            return p.id !== currentId && p.category === currentProject.category;
-          })
-          .slice(0, 3);
+          // Display owner skills
+          const skillsContainer = document.getElementById("owner-skills");
+          if (owner.skills && owner.skills.length > 0) {
+            skillsContainer.innerHTML = owner.skills
+              .map(function (skill) {
+                return (
+                  '<span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium">' +
+                  skill +
+                  "</span>"
+                );
+              })
+              .join("");
+          } else {
+            skillsContainer.innerHTML = "";
+          }
+        }
 
-        if (related.length === 0) {
-          const anyOther = allProjects
+        function displayAdditionalLinks(links) {
+          if (!links || links.length === 0) return;
+
+          const linksSection = document.getElementById("project-links-section");
+          linksSection.classList.remove("hidden");
+
+          const linksContainer = document.getElementById("project-links");
+          linksContainer.innerHTML = links
+            .map(function (link) {
+              const iconClass = getLinkIcon(link.link_type);
+              return (
+                '<a href="' +
+                link.url +
+                '" target="_blank" class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">' +
+                '<i class="' +
+                iconClass +
+                ' text-primary text-xl group-hover:scale-110 transition-transform"></i>' +
+                '<div class="flex-1">' +
+                '<h4 class="font-semibold text-gray-900 dark:text-white">' +
+                link.title +
+                "</h4>" +
+                '<p class="text-sm text-gray-600 dark:text-gray-400">' +
+                (link.description || link.url) +
+                "</p>" +
+                "</div>" +
+                '<i class="fas fa-external-link-alt text-gray-400 group-hover:text-primary transition-colors"></i>' +
+                "</a>"
+              );
+            })
+            .join("");
+        }
+
+        function getLinkIcon(linkType) {
+          const icons = {
+            linkedin: "fab fa-linkedin",
+            github: "fab fa-github",
+            twitter: "fab fa-twitter",
+            website: "fas fa-globe",
+            portfolio: "fas fa-briefcase",
+            blog: "fas fa-blog",
+            youtube: "fab fa-youtube",
+            discord: "fab fa-discord",
+            telegram: "fab fa-telegram",
+            email: "fas fa-envelope",
+            demo: "fas fa-play-circle",
+            api: "fas fa-code",
+            documentation: "fas fa-book",
+            social: "fas fa-users",
+            other: "fas fa-external-link-alt",
+          };
+          return icons[linkType] || "fas fa-external-link-alt";
+        }
+
+        function formatCategory(cat) {
+          const names = {
+            ai_ml: "AI & Machine Learning",
+            blockchain: "Blockchain",
+            iot: "Internet of Things",
+            ar_vr: "AR/VR",
+            data_science: "Data Science",
+          };
+          return names[cat] || cat;
+        }
+
+        function formatStatus(status) {
+          return (status || "")
+            .replace("_", " ")
+            .split(" ")
+            .map(function (w) {
+              return w.charAt(0).toUpperCase() + w.slice(1);
+            })
+            .join(" ");
+        }
+
+        function formatDifficulty(diff) {
+          return (
+            (diff || "intermediate").charAt(0).toUpperCase() +
+            (diff || "intermediate").slice(1)
+          );
+        }
+
+        function formatNumber(num) {
+          if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+          if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+          return num.toString();
+        }
+
+        function formatContent(content) {
+          if (!content)
+            return '<p class="text-gray-500">No detailed description available.</p>';
+
+          var formatted = content.replace(/\n\n/g, '</p><p class="mb-4">');
+          formatted = '<p class="mb-4">' + formatted + "</p>";
+          formatted = formatted.replace(
+            /\*\*(.*?)\*\*/g,
+            '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>'
+          );
+          formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");
+
+          return formatted;
+        }
+
+        function formatInstructions(text) {
+          if (!text)
+            return '<p class="text-gray-500">No instructions available.</p>';
+
+          var lines = text.split("\n");
+          var formatted = '<ol class="list-decimal list-inside space-y-2">';
+          lines.forEach(function (line) {
+            if (line.trim()) {
+              formatted +=
+                '<li class="text-gray-700 dark:text-gray-300 pl-2">' +
+                line.replace(/^\d+\.\s*/, "") +
+                "</li>";
+            }
+          });
+          formatted += "</ol>";
+
+          return formatted;
+        }
+
+        function loadRelatedProjects(allProjects, currentId) {
+          const related = allProjects
             .filter(function (p) {
-              return p.id !== currentId;
+              return p.id !== currentId && p.category === currentProject.category;
             })
             .slice(0, 3);
-          if (anyOther.length > 0) {
-            displayRelated(anyOther);
+
+          if (related.length === 0) {
+            const anyOther = allProjects
+              .filter(function (p) {
+                return p.id !== currentId;
+              })
+              .slice(0, 3);
+            if (anyOther.length > 0) {
+              displayRelated(anyOther);
+            } else {
+              document.getElementById("related-section").classList.add("hidden");
+            }
           } else {
-            document.getElementById("related-section").classList.add("hidden");
+            displayRelated(related);
           }
-        } else {
-          displayRelated(related);
         }
-      }
 
-      function displayRelated(projects) {
-        document.getElementById("related-grid").innerHTML = projects
-          .map(function (p) {
-            return (
-              '<a href="neo-project-detail.html?slug=' +
-              p.slug +
-              '" class="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border border-gray-100 dark:border-gray-700">' +
-              '<div class="aspect-video bg-cover bg-center" style="background-image: url(' +
-              (p.featured_image || "https://via.placeholder.com/400x300") +
-              ')"></div>' +
-              '<div class="p-5">' +
-              '<span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">' +
-              formatCategory(p.category) +
-              "</span>" +
-              '<h3 class="text-xl font-bold mt-3 mb-2 group-hover:text-primary transition-colors line-clamp-2">' +
-              p.title +
-              "</h3>" +
-              '<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">' +
-              p.description +
-              "</p>" +
-              "</div>" +
-              "</a>"
-            );
+        function displayRelated(projects) {
+          document.getElementById("related-grid").innerHTML = projects
+            .map(function (p) {
+              return (
+                '<a href="neo-project-detail.html?slug=' +
+                p.slug +
+                '" class="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border border-gray-100 dark:border-gray-700">' +
+                '<div class="aspect-video bg-cover bg-center" style="background-image: url(' +
+                (p.featured_image || "https://via.placeholder.com/400x300") +
+                ')"></div>' +
+                '<div class="p-5">' +
+                '<span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">' +
+                formatCategory(p.category) +
+                "</span>" +
+                '<h3 class="text-xl font-bold mt-3 mb-2 group-hover:text-primary transition-colors line-clamp-2">' +
+                p.title +
+                "</h3>" +
+                '<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">' +
+                p.description +
+                "</p>" +
+                "</div>" +
+                "</a>"
+              );
+            })
+            .join("");
+        }
+
+        // Load shared navigation
+        fetch("navigation.html")
+          .then((res) => res.text())
+          .then((html) => {
+            document.getElementById("nav-container").innerHTML = html;
+            // Load global auth script after navigation is loaded
+            const script = document.createElement("script");
+            script.src = "global-auth.js";
+            document.head.appendChild(script);
           })
-          .join("");
-      }
+          .catch((err) => console.error("Navigation load error:", err));
 
-      // Load shared navigation
-      fetch("navigation.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("nav-container").innerHTML = html;
-        })
-        .catch((err) => console.error("Navigation load error:", err));
-
-      document.addEventListener("DOMContentLoaded", loadProject);
+        document.addEventListener("DOMContentLoaded", loadProject);
+      <script src="comment-system.js">
     </script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <script src="comment-system.js"></script>
 
     <!-- Footer -->
     <footer class="bg-black text-white">

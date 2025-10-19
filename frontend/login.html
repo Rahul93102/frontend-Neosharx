@@ -165,7 +165,7 @@
           button.disabled = true;
 
           const response = await fetch(
-            "http://localhost:8001/api/auth/auth/google/login-url/"
+            "http://localhost:8001/api/auth/google/login-url/"
           );
           const data = await response.json();
 
@@ -213,9 +213,7 @@
         )
           .then(() => {
             // LinkedIn seems reachable, proceed with OAuth
-            return fetch(
-              "http://localhost:8001/api/auth/auth/linkedin/login-url/"
-            );
+            return fetch("http://localhost:8001/api/auth/linkedin/login-url/");
           })
           .catch(() => {
             // LinkedIn is likely down, show user-friendly message

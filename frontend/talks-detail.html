@@ -155,6 +155,12 @@
           </div>
         </article>
       </main>
+      <!-- Comments Section -->
+      <div
+        class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+      >
+        <div id="comments-container"></div>
+      </div>
 
       <!-- Footer -->
       <footer class="bg-black text-white">
@@ -551,6 +557,15 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
         })
         .catch((err) => console.error("Navigation load error:", err));
 

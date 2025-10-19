@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Owner API</title>
+  </head>
+  <body>
+    <h1>Testing Owner API</h1>
+    <div id="result"></div>
+
+    <script>
+      fetch("http://localhost:8002/api/auth/neo-projects/full/")
+        .then((response) => response.json())
+        .then((data) => {
+          const result = document.getElementById("result");
+          if (data && data.length > 0) {
+            const project = data[0];
+            result.innerHTML = `
+                        <h2>✓ API Working!</h2>
+                        <p><strong>Project:</strong> ${
+                          project.title || "No title"
+                        }</p>
+                        <p><strong>Owner:</strong> ${
+                          project.owner
+                            ? project.owner.name || "No name"
+                            : "No owner"
+                        }</p>
+                        <p><strong>Owner Links:</strong> ${
+                          project.owner && project.owner.links
+                            ? project.owner.links.length
+                            : 0
+                        }</p>
+                        <p><strong>Project Links:</strong> ${
+                          project.links ? project.links.length : 0
+                        }</p>
+                    `;
+          } else {
+            result.innerHTML = "<p>✗ No data returned</p>";
+          }
+        })
+        .catch((error) => {
+          document.getElementById(
+            "result"
+          ).innerHTML = `<p>✗ Error: ${error.message}</p>`;
+        });
+    </script>
+  </body>
+</html>

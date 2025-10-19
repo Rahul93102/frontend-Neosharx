@@ -604,13 +604,7 @@
         prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
         prev.setAttribute("aria-label", "Previous featured episode");
 
-        // Create next button
-        const next = document.createElement("button");
-        next.id = "nextFeatured";
-        next.className = "nav-btn";
-        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
-        next.setAttribute("aria-label", "Next featured episode");
-
+       
         // Add click handlers
         prev.onclick = () => {
           const s = window._featuredState;
@@ -732,6 +726,13 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+          
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () => console.log("Global auth loaded successfully");
+          authScript.onerror = () => console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
         })
         .catch((err) => console.error("Navigation load error:", err));
 

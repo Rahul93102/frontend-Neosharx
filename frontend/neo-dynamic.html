@@ -499,6 +499,13 @@
             <!-- Stories will be loaded here -->
           </div>
 
+          <!-- Comments Section -->
+          <div
+            class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+          >
+            <div id="comments-container"></div>
+          </div>
+
           <!-- Empty State -->
           <div id="emptyState" class="hidden text-center py-12">
             <p style="font-size: 1.2rem; color: var(--gray-medium)">
@@ -1050,6 +1057,10 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+          // Load global auth script after navigation is loaded
+          const script = document.createElement("script");
+          script.src = "global-auth.js";
+          document.head.appendChild(script);
         })
         .catch((err) => console.error("Navigation load error:", err));
 
