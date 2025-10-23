@@ -3,236 +3,406 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RoboSharX - NeoSharX</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <title>Neo Project - NeoSharX</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
-            colors: {
-              "background-light": "#ffffff",
-              "background-dark": "#000000",
-              "content-light": "#000000",
-              "content-dark": "#ffffff",
-              "subtle-light": "#666666",
-              "subtle-dark": "#999999",
-            },
-            fontFamily: {
-              display: ["Newsreader"],
-            },
+            colors: { primary: "#067ff9" },
+            fontFamily: { display: ["Space Grotesk"] },
           },
         },
       };
     </script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
     <style>
       .prose {
-        color: #000000;
-        max-width: 65ch;
-      }
-      .dark .prose {
-        color: #ffffff;
-      }
-      .prose h2 {
-        font-size: 2rem;
-        font-weight: 800;
-        margin-top: 2.5rem;
-        margin-bottom: 1.5rem;
-        line-height: 1.3;
-      }
-      .prose h3 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-top: 2rem;
-        margin-bottom: 1.25rem;
+        max-width: none;
+        line-height: 1.8;
       }
       .prose p {
-        margin-bottom: 1.5rem;
-        line-height: 1.75;
-        font-size: 1.125rem;
-      }
-      .prose img,
-      .prose video {
-        margin: 2.5rem 0;
-        border-radius: 0.75rem;
-        width: 100%;
+        margin-bottom: 1.25em;
       }
       .prose ul,
       .prose ol {
-        margin: 1.5rem 0;
-        padding-left: 1.75rem;
+        margin: 1.25em 0;
+        padding-left: 1.5em;
       }
       .prose li {
-        margin-bottom: 0.75rem;
-        line-height: 1.75;
+        margin-bottom: 0.5em;
+      }
+      .badge {
+        transition: all 0.3s ease;
+      }
+      .badge:hover {
+        transform: scale(1.05);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.8s ease-out;
+      }
+      .animate-slide-up {
+        animation: slideUp 0.6s ease-out;
       }
     </style>
   </head>
-  <body
-    class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark"
-    data-page="robotics-detail"
-  >
-    <div class="relative flex flex-col min-h-screen w-full">
-      <div id="nav-placeholder"></div>
+  <body class="bg-gray-50 dark:bg-gray-900 font-display">
+    <!-- Shared Navigation -->
+    <div id="nav-container"></div>
 
-      <!-- Main Content -->
-      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Loading State -->
-        <div id="loading" class="text-center py-12">
-          <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-black dark:border-white border-t-transparent"
-          ></div>
-          <p class="mt-4 text-subtle-light dark:text-subtle-dark">
-            Loading article...
-          </p>
-        </div>
-
-        <!-- Error State -->
-        <div id="error" class="hidden text-center py-12">
-          <p class="text-red-500 text-lg mb-4">Article not found</p>
-          <a
-            href="robotics-news.html"
-            class="inline-block bg-black dark:bg-white text-white dark:text-black font-bold px-6 py-3 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
-          >
-            Back to Robotics News
-          </a>
-        </div>
-
-        <!-- Article Content -->
-        <article id="content" class="max-w-4xl mx-auto hidden">
-          <!-- Hero Image -->
-          <div
-            id="hero-image"
-            class="w-full h-96 bg-cover bg-center rounded-2xl mb-8"
-          ></div>
-
-          <!-- Article Header -->
-          <div class="mb-8">
-            <div class="flex items-center gap-4 mb-4">
-              <span
-                id="category-badge"
-                class="px-3 py-1 bg-black/10 dark:bg-white/10 text-black dark:text-white text-sm font-bold rounded-full uppercase tracking-wider"
-              ></span>
-            </div>
-            <h1
-              id="article-title"
-              class="text-5xl font-extrabold tracking-tight mb-4"
-            ></h1>
-            <p
-              id="article-summary"
-              class="text-2xl text-subtle-light dark:text-subtle-dark mb-6"
-            ></p>
-          </div>
-
-          <!-- Article Content -->
-          <div
-            id="article-content"
-            class="prose prose-lg max-w-none mb-12"
-          ></div>
-
-          <!-- Related Articles -->
-          <div id="related-section" class="mb-12">
-            <h2 class="text-3xl font-extrabold tracking-tight mb-6">
-              Related Articles
-            </h2>
-            <div id="related-articles" class="grid md:grid-cols-3 gap-6"></div>
-          </div>
-
-          <!-- Comments Section -->
-          <div class="mb-12">
-            <h2 class="text-3xl font-extrabold tracking-tight mb-6">
-              Comments
-            </h2>
-            <div id="comments-container"></div>
-          </div>
-        </article>
-      </main>
-      <!-- Comments Section -->
-      <div
-        class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
-      >
-        <div id="comments-container"></div>
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+      <div class="text-center">
+        <div
+          class="animate-spin rounded-full h-20 w-20 border-b-4 border-primary mx-auto"
+        ></div>
+        <p class="mt-6 text-gray-600 dark:text-gray-400 text-lg font-semibold">
+          Loading project details...
+        </p>
       </div>
     </div>
 
-    <script src="nav-loader.js"></script>
+    <div
+      id="error"
+      class="hidden flex items-center justify-center min-h-screen"
+    >
+      <div class="text-center max-w-md mx-auto px-6">
+        <i class="fas fa-exclamation-triangle text-7xl text-red-500 mb-6"></i>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          Article Not Found
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+          The robotics article you are looking for does not exist or has been
+          removed.
+        </p>
+        <a
+          href="robotics-news.html"
+          class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+        >
+          <i class="fas fa-arrow-left"></i>
+          Back to Robotics News
+        </a>
+      </div>
+    </div>
 
-    <!-- Simple Auth Button Fix -->
-    <script>
-      // Simple auth button handler for this page
-      function updateAuthButton() {
-        const authToken = localStorage.getItem("authToken");
-        const currentUser = localStorage.getItem("currentUser");
-        const loginBtn = document.getElementById("desktop-login-btn");
-
-        if (loginBtn) {
-          if (authToken && currentUser) {
-            // User is logged in - show red logout button
-            loginBtn.innerHTML = `
-              <span class="flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                </svg>
-                Logout
+    <article id="content" class="hidden animate-fade-in">
+      <div
+        class="relative h-screen max-h-[600px] bg-cover bg-center transform transition-all duration-1000"
+        id="hero-image"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"
+        ></div>
+        <div class="absolute inset-0 flex items-end">
+          <div class="w-full max-w-7xl mx-auto px-6 pb-12 animate-slide-up">
+            <div class="flex items-center gap-3 mb-4 flex-wrap">
+              <span
+                id="category-badge"
+                class="px-4 py-2 rounded-full text-sm font-bold transform hover:scale-105 transition-transform duration-300"
+              ></span>
+              <span
+                id="status-badge"
+                class="px-4 py-2 rounded-full text-sm font-bold transform hover:scale-105 transition-transform duration-300"
+              ></span>
+              <span
+                id="license-badge"
+                class="px-4 py-2 rounded-full text-sm font-bold bg-gray-700 text-white transform hover:scale-105 transition-transform duration-300"
+              ></span>
+              <span
+                id="opensource-badge"
+                class="hidden px-4 py-2 rounded-full text-sm font-bold bg-green-600 text-white transform hover:scale-105 transition-transform duration-300"
+              >
+                <i class="fas fa-code-branch mr-1"></i>Open Source
               </span>
-            `;
-            loginBtn.className =
-              "ml-3 px-4 py-1.5 bg-red-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:bg-red-700 transition-all duration-300 transform hover:scale-105";
-            loginBtn.href = "#";
-            loginBtn.onclick = function (e) {
-              e.preventDefault();
-              if (confirm("Are you sure you want to logout?")) {
-                localStorage.removeItem("authToken");
-                localStorage.removeItem("currentUser");
-                location.reload();
-              }
-            };
-          } else {
-            // User is logged out - show blue login button
-            loginBtn.innerHTML = `
-              <span class="flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-                </svg>
-                Login
+            </div>
+            <h1
+              id="project-title"
+              class="text-5xl md:text-6xl font-bold text-white mb-4 leading-tight drop-shadow-lg"
+            ></h1>
+            <p
+              id="project-description"
+              class="text-xl text-white/90 mb-6 max-w-4xl drop-shadow-md"
+            ></p>
+            <div
+              class="flex items-center gap-8 text-white/90 text-base flex-wrap"
+            >
+              <span
+                id="developer"
+                class="flex items-center gap-2 hover:text-white transition-colors duration-300"
+              >
+                <i class="fas fa-user-circle"></i>
+                <span class="font-medium"></span>
               </span>
-            `;
-            loginBtn.className =
-              "ml-3 px-4 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105";
-            loginBtn.href = "signup.html";
-            loginBtn.onclick = null;
-          }
-        }
-      }
+              <span
+                id="version-badge"
+                class="flex items-center gap-2 hover:text-white transition-colors duration-300"
+              >
+                <i class="fas fa-code-branch"></i>
+                <span class="font-medium"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      // Update auth button when page loads and when auth state changes
-      document.addEventListener("DOMContentLoaded", function () {
-        // Wait a bit for navigation to load, then update auth button
-        setTimeout(updateAuthButton, 1000);
-      });
+      <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 space-y-8">
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-info-circle text-primary"></i>
+                About This Project
+              </h2>
+              <div
+                id="detailed-description"
+                class="prose dark:prose-invert text-gray-700 dark:text-gray-300 text-lg"
+              ></div>
+            </div>
 
-      // Listen for auth state changes
-      window.addEventListener("storage", function (e) {
-        if (e.key === "authToken" || e.key === "currentUser") {
-          updateAuthButton();
-        }
-      });
-    </script>
+            <div
+              id="features-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-star text-yellow-500"></i>
+                Key Features
+              </h2>
+              <ul id="features-list" class="space-y-3"></ul>
+            </div>
+
+            <div
+              id="tech-stack-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-code text-primary"></i>
+                Technology Stack
+              </h2>
+              <div id="tech-stack" class="flex flex-wrap gap-3"></div>
+            </div>
+
+            <div
+              id="screenshots-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-images text-primary"></i>
+                Screenshots
+              </h2>
+              <div
+                id="screenshots-grid"
+                class="grid md:grid-cols-2 gap-4"
+              ></div>
+            </div>
+
+            <div
+              id="installation-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-download text-green-600"></i>
+                Installation Instructions
+              </h2>
+              <div
+                id="installation-content"
+                class="prose dark:prose-invert text-gray-700 dark:text-gray-300"
+              ></div>
+            </div>
+
+            <div
+              id="usage-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-play-circle text-blue-600"></i>
+                Usage Instructions
+              </h2>
+              <div
+                id="usage-content"
+                class="prose dark:prose-invert text-gray-700 dark:text-gray-300"
+              ></div>
+            </div>
+
+            <div
+              id="video-section"
+              class="hidden bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700"
+            >
+              <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-video text-red-600"></i>
+                Video
+              </h2>
+              <div class="aspect-video bg-black rounded-xl overflow-hidden">
+                <iframe
+                  id="video-iframe"
+                  width="100%"
+                  height="100%"
+                  frameborder="0"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div
+              class="bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-xl p-6 text-white"
+            >
+              <h3 class="text-2xl font-bold mb-4">Quick Actions</h3>
+              <div class="space-y-3">
+                <a
+                  id="github-link"
+                  href="#"
+                  target="_blank"
+                  class="hidden flex items-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-xl p-4"
+                >
+                  <i class="fab fa-github text-2xl"></i>
+                  <div>
+                    <p class="font-bold">View Source</p>
+                    <p class="text-sm opacity-90">GitHub Repository</p>
+                  </div>
+                </a>
+                <a
+                  id="demo-link"
+                  href="#"
+                  target="_blank"
+                  class="hidden flex items-center gap-3 bg-white/20 hover:bg-white/30 transition-colors rounded-xl p-4"
+                >
+                  <i class="fas fa-external-link-alt text-2xl"></i>
+                  <div>
+                    <p class="font-bold">Live Demo</p>
+                    <p class="text-sm opacity-90">Try it now</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-chart-bar text-primary"></i>
+                Project Stats
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-signal"></i>
+                    Status
+                  </span>
+                  <span id="status-text" class="font-bold"></span>
+                </div>
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-layer-group"></i>
+                    Difficulty
+                  </span>
+                  <span id="difficulty-text" class="font-bold"></span>
+                </div>
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-tag"></i>
+                    Version
+                  </span>
+                  <span id="version-text" class="font-bold"></span>
+                </div>
+                <div
+                  class="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
+                >
+                  <span
+                    class="text-gray-600 dark:text-gray-400 flex items-center gap-2"
+                  >
+                    <i class="fas fa-balance-scale"></i>
+                    License
+                  </span>
+                  <span id="license-text" class="font-bold"></span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="collaborators-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-users text-primary"></i>
+                Collaborators
+              </h3>
+              <div id="collaborators-list" class="space-y-3"></div>
+            </div>
+
+            <div
+              id="tags-section"
+              class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-gray-700"
+            >
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-tags text-primary"></i>
+                Tags
+              </h3>
+              <div id="tags-list" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="related-section" class="mt-16">
+          <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+            <i class="fas fa-layer-group text-primary"></i>
+            Related Articles
+          </h2>
+          <div id="related-grid" class="grid md:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-16 max-w-4xl mx-auto">
+          <h2 class="text-4xl font-bold mb-8 flex items-center gap-3">
+            <i class="fas fa-comments text-primary"></i>
+            Comments
+          </h2>
+          <div id="comments-container"></div>
+        </div>
+      </div>
+    </article>
 
     <script>
       const API_URL = "http://localhost:8001/api/auth/robotics-news/";
-      let currentArticle = null;
+      let currentProject = null;
+      let hasStarred = false;
 
-      async function loadArticle() {
+      async function loadProject() {
         const params = new URLSearchParams(window.location.search);
         const slug = params.get("slug");
 
@@ -244,34 +414,35 @@
         try {
           const response = await fetch(API_URL);
           const data = await response.json();
-
-          // Handle different possible response structures
-          let allArticles =
-            data.results ||
-            data.articles ||
-            data.tech_news ||
-            data.news ||
-            (Array.isArray(data) ? data : []);
-
-          const article = allArticles.find(function (item) {
-            return item.slug === slug;
+          const project = data.results.find(function (p) {
+            return p.slug === slug;
           });
-
-          if (!article) {
+          if (!project) {
             showError();
             return;
           }
 
-          currentArticle = article;
-          displayArticle(article);
-          loadRelatedArticles(allArticles, article.id);
+          currentProject = project;
+          displayProject(project);
+          loadRelatedProjects(data.results, project.id);
 
           document.getElementById("loading").classList.add("hidden");
           document.getElementById("content").classList.remove("hidden");
 
-          // Initialize comment system after article is loaded
-          if (article.slug) {
-            initializeCommentSystem(article.slug);
+          // Initialize comment system after project is loaded
+          if (typeof CommentSystem !== "undefined") {
+            const commentSystem = new CommentSystem(
+              "robotics_news",
+              slug,
+              "comments-container",
+              {
+                apiBaseUrl: "http://localhost:8001/api/auth",
+                showLoginPrompt: true,
+                enableReplies: true,
+                enableLikes: true,
+                theme: "light",
+              }
+            );
           }
         } catch (error) {
           console.error("Error:", error);
@@ -284,114 +455,412 @@
         document.getElementById("error").classList.remove("hidden");
       }
 
-      function displayArticle(article) {
-        document.title = article.title + " - NeoSharX";
+      function displayProject(p) {
+        document.title = p.title + " - NeoSharX Robotics News";
 
         document.getElementById("hero-image").style.backgroundImage =
           "url(" +
-          (article.featured_image ||
-            article.image_url ||
-            "https://via.placeholder.com/1200x400") +
+          (p.featured_image ||
+            "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200") +
           ")";
-        document.getElementById("article-title").textContent = article.title;
+        document.getElementById("project-title").textContent = p.title;
+        document.getElementById("project-description").textContent =
+          p.description || p.excerpt || "No description available";
 
-        // Display summary if available
-        if (article.summary || article.description) {
-          document.getElementById("article-summary").textContent =
-            article.summary || article.description;
-        } else {
-          document.getElementById("article-summary").style.display = "none";
+        const categoryColors = {
+          ai_ml: "bg-purple-600 text-white",
+          blockchain: "bg-yellow-600 text-white",
+          iot: "bg-green-600 text-white",
+          ar_vr: "bg-pink-600 text-white",
+          data_science: "bg-blue-600 text-white",
+        };
+        const catColor = categoryColors[p.category] || "bg-gray-600 text-white";
+        document.getElementById("category-badge").className =
+          "px-4 py-2 rounded-full text-sm font-bold badge " + catColor;
+        document.getElementById("category-badge").textContent = formatCategory(
+          p.category
+        );
+
+        const statusColors = {
+          completed: "bg-green-600 text-white",
+          in_development: "bg-yellow-600 text-white",
+          beta: "bg-blue-600 text-white",
+          maintained: "bg-emerald-600 text-white",
+        };
+        const statusColor = statusColors[p.status] || "bg-gray-600 text-white";
+        document.getElementById("status-badge").className =
+          "px-4 py-2 rounded-full text-sm font-bold badge " + statusColor;
+        document.getElementById("status-badge").textContent = formatStatus(
+          p.status
+        );
+
+        document.getElementById("license-badge").textContent =
+          p.license || "MIT";
+
+        if (p.is_open_source) {
+          document
+            .getElementById("opensource-badge")
+            .classList.remove("hidden");
         }
 
-        document.getElementById("category-badge").textContent =
-          article.category || "Tech News";
+        document.getElementById("developer").querySelector("span").textContent =
+          p.developer_name || "NeoSharX Team";
+        document
+          .getElementById("version-badge")
+          .querySelector("span").textContent = "v" + (p.version || "1.0.0");
 
-        const contentDiv = document.getElementById("article-content");
-        contentDiv.innerHTML = formatContent(article.content);
+        document.getElementById("detailed-description").innerHTML =
+          formatContent(p.content || p.detailed_description || p.description);
+
+        // Display video if available
+        if (p.youtube_video || p.video_url) {
+          const videoIframe = document.getElementById("video-iframe");
+          const videoUrl = p.youtube_video || p.video_url;
+          videoIframe.src =
+            "https://www.youtube.com/embed/" + getYouTubeVideoId(videoUrl);
+          document.getElementById("video-section").classList.remove("hidden");
+        }
+
+        if (p.features && p.features.length > 0) {
+          document.getElementById("features-list").innerHTML = p.features
+            .map(function (f) {
+              return (
+                '<li class="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">' +
+                '<i class="fas fa-check-circle text-primary text-xl mt-1 flex-shrink-0"></i>' +
+                '<span class="text-gray-700 dark:text-gray-300 text-lg">' +
+                f +
+                "</span>" +
+                "</li>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("features-section").classList.add("hidden");
+        }
+
+        if (p.technology_list && p.technology_list.length > 0) {
+          document.getElementById("tech-stack").innerHTML = p.technology_list
+            .map(function (tech) {
+              return (
+                '<span class="badge px-4 py-2 bg-primary/10 text-primary rounded-xl font-semibold text-base border-2 border-primary/20">' +
+                tech +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("tech-stack-section").classList.add("hidden");
+        }
+
+        if (p.screenshots && p.screenshots.length > 0) {
+          document.getElementById("screenshots-grid").innerHTML = p.screenshots
+            .map(function (img) {
+              return (
+                '<div class="group relative overflow-hidden rounded-xl cursor-pointer" onclick="window.open(' +
+                "'" +
+                img +
+                "'" +
+                ", " +
+                "'_blank'" +
+                ')">' +
+                '<img src="' +
+                img +
+                '" class="w-full h-64 object-cover transition-transform group-hover:scale-110" />' +
+                '<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">' +
+                '<i class="fas fa-expand text-white text-3xl"></i>' +
+                "</div>" +
+                "</div>"
+              );
+            })
+            .join("");
+        } else {
+          document
+            .getElementById("screenshots-section")
+            .classList.add("hidden");
+        }
+
+        if (p.installation_instructions) {
+          document.getElementById("installation-content").innerHTML =
+            formatInstructions(p.installation_instructions);
+        } else {
+          document
+            .getElementById("installation-section")
+            .classList.add("hidden");
+        }
+
+        if (p.usage_instructions) {
+          document.getElementById("usage-content").innerHTML =
+            formatInstructions(p.usage_instructions);
+        } else {
+          document.getElementById("usage-section").classList.add("hidden");
+        }
+
+        if (p.github_url) {
+          document.getElementById("github-link").href = p.github_url;
+          document.getElementById("github-link").classList.remove("hidden");
+        }
+
+        if (p.demo_url) {
+          document.getElementById("demo-link").href = p.demo_url;
+          document.getElementById("demo-link").classList.remove("hidden");
+        }
+
+        document.getElementById("status-text").textContent = formatStatus(
+          p.status
+        );
+        document.getElementById("difficulty-text").textContent =
+          formatDifficulty(p.difficulty_level);
+        document.getElementById("version-text").textContent =
+          p.version || "1.0.0";
+        document.getElementById("license-text").textContent =
+          p.license || "MIT";
+
+        if (p.collaborator_list && p.collaborator_list.length > 0) {
+          document.getElementById("collaborators-list").innerHTML =
+            p.collaborator_list
+              .map(function (collab, idx) {
+                return (
+                  '<div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">' +
+                  '<img src="https://i.pravatar.cc/150?img=' +
+                  (idx + 10) +
+                  '" class="w-12 h-12 rounded-full border-2 border-primary" />' +
+                  "<div>" +
+                  '<p class="font-bold text-gray-900 dark:text-white">' +
+                  collab +
+                  "</p>" +
+                  '<p class="text-sm text-gray-600 dark:text-gray-400">Contributor</p>' +
+                  "</div>" +
+                  "</div>"
+                );
+              })
+              .join("");
+        } else {
+          document
+            .getElementById("collaborators-section")
+            .classList.add("hidden");
+        }
+
+        if (p.tag_list && p.tag_list.length > 0) {
+          document.getElementById("tags-list").innerHTML = p.tag_list
+            .map(function (tag) {
+              return (
+                '<span class="badge px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">' +
+                tag +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          document.getElementById("tags-section").classList.add("hidden");
+        }
+      }
+
+      function formatCategory(cat) {
+        const names = {
+          ai_ml: "AI & Machine Learning",
+          blockchain: "Blockchain",
+          iot: "Internet of Things",
+          ar_vr: "AR/VR",
+          data_science: "Data Science",
+        };
+        return names[cat] || cat;
+      }
+
+      function formatStatus(status) {
+        return (status || "")
+          .replace("_", " ")
+          .split(" ")
+          .map(function (w) {
+            return w.charAt(0).toUpperCase() + w.slice(1);
+          })
+          .join(" ");
+      }
+
+      function formatDifficulty(diff) {
+        return (
+          (diff || "intermediate").charAt(0).toUpperCase() +
+          (diff || "intermediate").slice(1)
+        );
+      }
+
+      function formatNumber(num) {
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+        if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+        return num.toString();
       }
 
       function formatContent(content) {
-        if (!content) return "<p>Content not available.</p>";
+        if (!content)
+          return '<p class="text-gray-500">No detailed description available.</p>';
 
-        var formatted = content.replace(/\n\n/g, "</p><p>");
-        formatted = "<p>" + formatted + "</p>";
+        // Check if content is already HTML (contains HTML tags)
+        if (/<[a-z][\s\S]*>/i.test(content)) {
+          return content; // Return HTML as-is
+        }
 
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        // Format plain text content
+        var formatted = content.replace(/\n\n/g, '</p><p class="mb-4">');
+        formatted = '<p class="mb-4">' + formatted + "</p>";
+        formatted = formatted.replace(
+          /\*\*(.*?)\*\*/g,
+          '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>'
+        );
         formatted = formatted.replace(/\*(.*?)\*/g, "<em>$1</em>");
-
-        formatted = formatted.replace(/^### (.*$)/gm, "<h3>$1</h3>");
-        formatted = formatted.replace(/^## (.*$)/gm, "<h2>$1</h2>");
-        formatted = formatted.replace(/^# (.*$)/gm, "<h1>$1</h1>");
 
         return formatted;
       }
 
-      function loadRelatedArticles(allArticles, currentId) {
-        const related = allArticles
-          .filter(function (a) {
-            return a.id !== currentId;
+      function getYouTubeVideoId(url) {
+        const regExp =
+          /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return match && match[2].length == 11 ? match[2] : null;
+      }
+
+      function formatInstructions(text) {
+        if (!text)
+          return '<p class="text-gray-500">No instructions available.</p>';
+
+        var lines = text.split("\n");
+        var formatted = '<ol class="list-decimal list-inside space-y-2">';
+        lines.forEach(function (line) {
+          if (line.trim()) {
+            formatted +=
+              '<li class="text-gray-700 dark:text-gray-300 pl-2">' +
+              line.replace(/^\d+\.\s*/, "") +
+              "</li>";
+          }
+        });
+        formatted += "</ol>";
+
+        return formatted;
+      }
+
+      function loadRelatedProjects(allProjects, currentId) {
+        const related = allProjects
+          .filter(function (p) {
+            return p.id !== currentId && p.category === currentProject.category;
           })
           .slice(0, 3);
 
         if (related.length === 0) {
-          document.getElementById("related-section").classList.add("hidden");
-          return;
+          const anyOther = allProjects
+            .filter(function (p) {
+              return p.id !== currentId;
+            })
+            .slice(0, 3);
+          if (anyOther.length > 0) {
+            displayRelated(anyOther);
+          } else {
+            document.getElementById("related-section").classList.add("hidden");
+          }
+        } else {
+          displayRelated(related);
         }
+      }
 
-        const relatedDiv = document.getElementById("related-articles");
-        relatedDiv.innerHTML = related
-          .map(function (article) {
+      function displayRelated(projects) {
+        document.getElementById("related-grid").innerHTML = projects
+          .map(function (p) {
             return (
-              '<div class="group bg-white dark:bg-black rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-600 transition-all cursor-pointer" onclick="window.location.href=' +
-              "'robotics-detail.html?slug=" +
-              article.slug +
-              "'" +
-              '">' +
+              '<a href="robotics-detail.html?slug=' +
+              p.slug +
+              '" class="group block bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-2 border border-gray-100 dark:border-gray-700">' +
               '<div class="aspect-video bg-cover bg-center" style="background-image: url(' +
-              (article.featured_image ||
-                article.image_url ||
-                "https://via.placeholder.com/400x300") +
+              (p.featured_image || "https://via.placeholder.com/400x300") +
               ')"></div>' +
-              '<div class="p-4">' +
-              '<span class="text-xs px-2 py-1 rounded-full bg-black/10 dark:bg-white/10 text-black dark:text-white font-medium uppercase tracking-wider">' +
-              (article.category || "Tech") +
+              '<div class="p-5">' +
+              '<span class="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold">' +
+              formatCategory(p.category) +
               "</span>" +
-              '<h3 class="text-lg font-bold mt-2 mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors line-clamp-2">' +
-              article.title +
+              '<h3 class="text-xl font-bold mt-3 mb-2 group-hover:text-primary transition-colors line-clamp-2">' +
+              p.title +
               "</h3>" +
-              '<p class="text-sm text-subtle-light dark:text-subtle-dark line-clamp-2">' +
-              (article.summary || article.description || "") +
+              '<p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">' +
+              p.description +
               "</p>" +
               "</div>" +
-              "</div>"
+              "</a>"
             );
           })
           .join("");
       }
 
-      document.addEventListener("DOMContentLoaded", loadArticle);
-    </script>
-    <script src="comment-system.js"></script>
-    <script>
-      function initializeCommentSystem(slug) {
-        try {
-          const commentSystem = new CommentSystem(
-            "robotics_news",
-            slug,
-            "comments-container",
-            {
-              apiBaseUrl: "http://localhost:8001/api",
-              showLoginPrompt: true,
-              enableReplies: true,
-              enableLikes: true,
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
             }
-          );
-          console.log("Comment system initialized for slug:", slug);
-        } catch (error) {
-          console.error("Error initializing comment system:", error);
-        }
-      }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      document.addEventListener("DOMContentLoaded", loadProject);
     </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="comment-system-light.js"></script>
 
     <!-- Footer -->
     <footer class="bg-black text-white">
@@ -611,7 +1080,17 @@
               />© 2025 NeoSharX. All rights reserved.
             </p>
             <div class="flex items-center gap-2">
-              <img src="logo27.png" alt="NeoSharX Logo" class="h-5 w-5" />
+              <svg
+                class="h-5 w-5 text-blue-400"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                />
+              </svg>
               <span class="text-gray-400 text-sm"
                 >Built with ❤️ for innovators</span
               >

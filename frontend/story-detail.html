@@ -235,9 +235,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="comment-system.js"></script>
-
-    <script src="nav-loader.js"></script>
+    <script src="comment-system-light.js"></script>
 
     <!-- Simple Auth Button Fix -->
     <script>
@@ -412,6 +410,9 @@
             tagsContainer.appendChild(tagElement);
           });
         }
+
+        // Initialize comment system
+        initializeCommentSystem(story.slug);
       }
 
       function showError() {
@@ -421,24 +422,88 @@
 
       // Initialize comment system
       function initializeCommentSystem(slug) {
-        // Initialize comment system for startup stories
-        commentSystem = new CommentSystem(
-          "startup_story",
-          slug,
-          "comments-container",
-          {
+        if (typeof CommentSystem !== "undefined") {
+          new CommentSystem("startup_story", slug, "comments-container", {
             apiBaseUrl: API_BASE,
             showLoginPrompt: true,
             enableReplies: true,
             enableLikes: true,
-            enableFlags: true,
-          }
-        );
+            theme: "light",
+          });
+        }
       }
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === 'function') {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton = document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target) && isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+          
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () => console.log("Global auth loaded successfully");
+          authScript.onerror = () => console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
 
       // Initialize
       document.addEventListener("DOMContentLoaded", loadStory);
     </script>
+
+    <!-- Comments Section -->
+    <div
+      class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+    >
+      <div id="comments-container"></div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-black text-white">

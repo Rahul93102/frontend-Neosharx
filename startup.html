@@ -369,6 +369,70 @@
         </div>
       </main>
       <!-- Comments Section -->
+      <!-- Neo Projects Section -->
+      <section class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Neo Projects
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            >
+              Innovative projects and developments from our community - from web
+              apps to AI solutions
+            </p>
+          </div>
+
+          <!-- Featured Neo Projects -->
+          <div class="mb-12">
+            <h3
+              class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200"
+            >
+              Featured Projects
+            </h3>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              id="featured-neo-projects-container"
+            >
+              <!-- Loading placeholder -->
+              <div class="col-span-full text-center py-8">
+                <div
+                  class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
+                ></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">
+                  Loading featured projects...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- All Neo Projects -->
+          <div>
+            <h3
+              class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200"
+            >
+              More Projects
+            </h3>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              id="neo-projects-container"
+            >
+              <!-- Loading placeholder -->
+              <div class="col-span-full text-center py-8">
+                <div
+                  class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
+                ></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">
+                  Loading projects...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comments Section -->
       <div
         class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
       >
@@ -429,9 +493,214 @@
     </div>
 
     <script>
-      const API_BASE_URL = "http://localhost:8000";
+      const API_BASE_URL = "http://localhost:8001";
       let allStories = [];
       let originalStories = [];
+      let allNeoProjects = [];
+      let originalNeoProjects = [];
+
+      // Fetch neo projects from backend
+      async function loadNeoProjects() {
+        try {
+          // Load featured neo projects
+          const featuredResponse = await fetch(
+            `${API_BASE_URL}/api/auth/neo-projects/featured/`
+          );
+          let featuredProjects = [];
+          if (featuredResponse.ok) {
+            featuredProjects = await featuredResponse.json();
+          }
+
+          // Load all neo projects
+          const allResponse = await fetch(
+            `${API_BASE_URL}/api/auth/neo-projects/`
+          );
+          if (!allResponse.ok) {
+            throw new Error("Failed to fetch neo projects");
+          }
+
+          allNeoProjects = await allResponse.json();
+          originalNeoProjects = [...allNeoProjects];
+
+          // Display featured projects
+          displayFeaturedNeoProjects(featuredProjects);
+
+          // Display more projects (excluding featured ones)
+          displayMoreNeoProjects();
+        } catch (error) {
+          console.error("Error loading neo projects:", error);
+          // Show error state for both containers
+          const featuredContainer = document.getElementById(
+            "featured-neo-projects-container"
+          );
+          const projectsContainer = document.getElementById(
+            "neo-projects-container"
+          );
+
+          if (featuredContainer) {
+            featuredContainer.innerHTML = `
+              <div class="col-span-full text-center py-8 text-red-600">
+                <p>Failed to load featured projects</p>
+              </div>
+            `;
+          }
+
+          if (projectsContainer) {
+            projectsContainer.innerHTML = `
+              <div class="col-span-full text-center py-8 text-red-600">
+                <p>Failed to load projects</p>
+              </div>
+            `;
+          }
+        }
+      }
+
+      function displayFeaturedNeoProjects(projects) {
+        const container = document.getElementById(
+          "featured-neo-projects-container"
+        );
+
+        if (!container) return;
+
+        if (projects.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-8 text-gray-600">
+              <p>No featured projects available</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = projects
+          .slice(0, 3)
+          .map(
+            (project) => `
+          <div class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="window.open('${
+            project.demo_url || project.github_url || "#"
+          }', '_blank')">
+            <div class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
+              ${
+                project.featured_image
+                  ? `
+                <img src="${project.featured_image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              `
+                  : `
+                <div class="w-full h-full flex items-center justify-center">
+                  <div class="text-white text-4xl opacity-50">
+                    <span class="material-symbols-outlined">code</span>
+                  </div>
+                </div>
+              `
+              }
+              <div class="absolute top-3 right-3">
+                <span class="bg-primary text-white text-xs px-2 py-1 rounded-full font-medium">
+                  ${project.category.replace("_", " ").toUpperCase()}
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
+                ${project.title}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                ${project.description}
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded">
+                    ${project.difficulty_level}
+                  </span>
+                  <span class="text-xs bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 px-2 py-1 rounded">
+                    ${project.status.replace("_", " ")}
+                  </span>
+                </div>
+                ${
+                  project.github_url
+                    ? `
+                  <a href="${project.github_url}" target="_blank" class="text-primary hover:text-primary/80 transition-colors">
+                    <span class="material-symbols-outlined text-lg">open_in_new</span>
+                  </a>
+                `
+                    : ""
+                }
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function displayMoreNeoProjects() {
+        const projects = allNeoProjects
+          .filter((project) => !project.is_featured)
+          .slice(0, 6);
+        const container = document.getElementById("neo-projects-container");
+
+        if (!container) return;
+
+        if (projects.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-8 text-gray-600">
+              <p>No projects available</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = projects
+          .map(
+            (project) => `
+          <div class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="window.open('${
+            project.demo_url || project.github_url || "#"
+          }', '_blank')">
+            <div class="relative h-40 bg-gradient-to-br from-gray-400 to-gray-600 overflow-hidden">
+              ${
+                project.featured_image
+                  ? `
+                <img src="${project.featured_image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              `
+                  : `
+                <div class="w-full h-full flex items-center justify-center">
+                  <div class="text-white text-3xl opacity-50">
+                    <span class="material-symbols-outlined">build</span>
+                  </div>
+                </div>
+              `
+              }
+              <div class="absolute top-2 right-2">
+                <span class="bg-primary text-white text-xs px-2 py-1 rounded-full font-medium">
+                  ${project.category.replace("_", " ").toUpperCase()}
+                </span>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                ${project.title}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">
+                ${project.description}
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
+                  ${project.difficulty_level}
+                </span>
+                ${
+                  project.github_url
+                    ? `
+                  <a href="${project.github_url}" target="_blank" class="text-primary hover:text-primary/80 transition-colors">
+                    <span class="material-symbols-outlined text-base">code</span>
+                  </a>
+                `
+                    : ""
+                }
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
 
       // Fetch startup stories from backend
       async function loadStartupStories() {
@@ -659,6 +928,7 @@
 
       // Load stories on page load
       loadStartupStories();
+      loadNeoProjects();
 
       // Load navigation
       fetch("navigation.html")

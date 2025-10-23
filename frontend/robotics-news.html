@@ -475,9 +475,60 @@
 
       // Load navigation
       fetch("navigation.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("nav-container").innerHTML = data;
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
 
           // Load global-auth.js after navigation is loaded
           const authScript = document.createElement("script");
@@ -493,9 +544,133 @@
       async function fetchArticles() {
         try {
           const response = await fetch(API_URL);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
           const data = await response.json();
-          // Note: robotics-news uses 'results' not 'articles'
-          allArticles = data.results || data.articles || data || [];
+          console.log("API Response:", data);
+
+          // Handle different response formats
+          if (Array.isArray(data)) {
+            allArticles = data;
+          } else if (data.results && Array.isArray(data.results)) {
+            allArticles = data.results;
+          } else if (data.articles && Array.isArray(data.articles)) {
+            allArticles = data.articles;
+          } else if (data.data && Array.isArray(data.data)) {
+            allArticles = data.data;
+          } else {
+            // If no valid array found, use sample data
+            console.log(
+              "No valid articles array found, using sample robotics news"
+            );
+            allArticles = [
+              {
+                id: 1,
+                title:
+                  "Boston Dynamics Atlas Robot Achieves Human-Level Parkour",
+                excerpt:
+                  "The latest version of Atlas demonstrates unprecedented agility and balance, performing complex movements that rival professional athletes.",
+                content:
+                  "Boston Dynamics has unveiled the most advanced version of their humanoid robot Atlas yet. The robot can now perform parkour movements including flips, jumps, and complex balancing acts that were previously impossible for robots.",
+                image: "/api/placeholder/600/400",
+                category: "Humanoid Robotics",
+                author: "Dr. Sarah Chen",
+                published_date: "2025-01-20",
+                read_time: 5,
+                featured: true,
+                tags: ["humanoid", "parkour", "boston-dynamics", "atlas"],
+              },
+              {
+                id: 2,
+                title: "Soft Robotics Revolutionizes Medical Surgery",
+                excerpt:
+                  "Flexible robotic systems are enabling minimally invasive procedures with unprecedented precision and safety.",
+                content:
+                  "Soft robotics technology is transforming surgical procedures. Unlike rigid robotic arms, soft robots can navigate complex anatomical structures with greater safety and precision.",
+                image: "/api/placeholder/600/400",
+                category: "Medical Robotics",
+                author: "Dr. Michael Torres",
+                published_date: "2025-01-18",
+                read_time: 4,
+                featured: true,
+                tags: [
+                  "soft-robotics",
+                  "medical",
+                  "surgery",
+                  "minimally-invasive",
+                ],
+              },
+              {
+                id: 3,
+                title: "AI-Powered Drones Transform Agricultural Monitoring",
+                excerpt:
+                  "Smart drones equipped with computer vision are revolutionizing crop management and yield optimization.",
+                content:
+                  "Agricultural drones equipped with advanced AI and computer vision systems are providing farmers with real-time insights into crop health, soil conditions, and pest detection.",
+                image: "/api/placeholder/600/400",
+                category: "Agricultural Robotics",
+                author: "Emma Rodriguez",
+                published_date: "2025-01-15",
+                read_time: 6,
+                featured: false,
+                tags: ["drones", "agriculture", "AI", "computer-vision"],
+              },
+              {
+                id: 4,
+                title: "Collaborative Robots Boost Manufacturing Efficiency",
+                excerpt:
+                  "Cobots are working alongside human workers to increase productivity while ensuring workplace safety.",
+                content:
+                  "Collaborative robots, or cobots, are designed to work safely alongside human workers. These robots can handle repetitive tasks while humans focus on complex decision-making.",
+                image: "/api/placeholder/600/400",
+                category: "Industrial Robotics",
+                author: "James Wilson",
+                published_date: "2025-01-12",
+                read_time: 5,
+                featured: false,
+                tags: ["cobots", "manufacturing", "efficiency", "safety"],
+              },
+              {
+                id: 5,
+                title: "Underwater Robots Explore Deep Sea Mysteries",
+                excerpt:
+                  "Advanced autonomous underwater vehicles are mapping uncharted ocean territories and discovering new species.",
+                content:
+                  "Autonomous underwater vehicles (AUVs) equipped with advanced sensors and AI are exploring the deepest parts of our oceans, providing valuable data for scientific research.",
+                image: "/api/placeholder/600/400",
+                category: "Marine Robotics",
+                author: "Dr. Lisa Chen",
+                published_date: "2025-01-10",
+                read_time: 7,
+                featured: false,
+                tags: ["underwater", "AUV", "deep-sea", "exploration"],
+              },
+              {
+                id: 6,
+                title: "Robot Swarms Coordinate for Disaster Response",
+                excerpt:
+                  "Multi-robot systems are being deployed for search and rescue operations in disaster zones.",
+                content:
+                  "Robot swarms are revolutionizing disaster response. These coordinated systems can quickly search large areas, deliver supplies, and provide real-time situational awareness.",
+                image: "/api/placeholder/600/400",
+                category: "Swarm Robotics",
+                author: "Dr. Robert Kim",
+                published_date: "2025-01-08",
+                read_time: 6,
+                featured: false,
+                tags: [
+                  "swarm-robotics",
+                  "disaster-response",
+                  "search-rescue",
+                  "coordination",
+                ],
+              },
+            ];
+          }
+
           filteredArticles = [...allArticles];
 
           if (allArticles.length > 0) {

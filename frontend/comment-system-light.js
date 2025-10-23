@@ -9,11 +9,12 @@ class CommentSystem {
     this.contentType = contentType;
     this.contentSlug = contentSlug;
     this.containerId = containerId;
-    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8000/api/auth";
+    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
     );
+
     this.comments = [];
     this.isLoading = false;
     this.options = {
@@ -25,7 +26,24 @@ class CommentSystem {
       ...options,
     };
 
+    console.log("=== COMMENT SYSTEM INITIALIZED ===");
+    console.log("Content Type:", this.contentType);
+    console.log("Content Slug:", this.contentSlug);
+    console.log("API Base URL:", this.apiBaseUrl);
+    console.log("Auth Token:", this.authToken ? "Present ✓" : "Missing ✗");
+    console.log(
+      "Current User:",
+      this.currentUser
+        ? this.currentUser.username || this.currentUser.email
+        : "Not logged in"
+    );
+    console.log("==================================");
+
     this.init();
+    // Force auth refresh on page load
+    setTimeout(() => {
+      this.refreshAuth();
+    }, 100);
   }
 
   init() {
@@ -35,29 +53,68 @@ class CommentSystem {
 
     // Listen for auth state changes
     document.addEventListener("authStateChanged", (e) => {
-      console.log("CommentSystem: Auth state changed", e.detail);
       this.refreshAuth();
     });
+
+    // Listen for storage changes (for cross-tab auth updates)
+    window.addEventListener("storage", (e) => {
+      if (e.key === "authToken" || e.key === "currentUser") {
+        this.refreshAuth();
+      }
+    });
+
+    // Check auth state on page load
+    setTimeout(() => {
+      const currentAuth = localStorage.getItem("authToken");
+      const currentUserStr = localStorage.getItem("currentUser");
+      if (currentAuth && currentUserStr && !this.currentUser) {
+        console.log("CommentSystem: Auth detected on load, refreshing");
+        this.refreshAuth();
+      }
+    }, 500);
   }
 
   // Refresh authentication state
   refreshAuth() {
+    const prevToken = this.authToken;
+    const prevUser = this.currentUser;
+
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
     );
 
-    console.log("CommentSystem: Refreshing auth state", {
-      hasToken: !!this.authToken,
-      hasUser: !!this.currentUser,
-      userDetails: this.currentUser,
-    });
+    console.log("=== COMMENT SYSTEM: REFRESHING AUTH ===");
+    console.log("Previous Auth:", prevToken ? "Had token" : "No token");
+    console.log("Current Auth:", this.authToken ? "Has token ✓" : "No token ✗");
+    console.log(
+      "Previous User:",
+      prevUser ? prevUser.username || prevUser.email : "Not logged in"
+    );
+    console.log(
+      "Current User:",
+      this.currentUser
+        ? this.currentUser.username || this.currentUser.email
+        : "Not logged in"
+    );
+    console.log(
+      "Auth Changed:",
+      !!prevToken !== !!this.authToken ? "YES" : "NO"
+    );
+    console.log("========================================");
 
-    // Re-render the comment form with updated auth state
     const formContainer = document.getElementById("comment-form-container");
     if (formContainer) {
       formContainer.innerHTML = this.renderCommentForm();
       this.bindCommentFormEvents();
+    } else {
+      console.warn("Comment form container not found!");
+    }
+
+    // Re-render comments to show appropriate actions
+    if (this.comments && this.comments.length > 0) {
+      console.log("Re-rendering comments...");
+      this.renderComments();
     }
   }
 
@@ -90,65 +147,78 @@ class CommentSystem {
                     color: #666666;
                 }
                 .comment-form-login {
-                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
+                    background: #ffffff;
                     border: none;
                     border-radius: 12px;
-                    padding: 1.5rem;
+                    padding: 1.5rem 2rem;
                     margin-bottom: 1.5rem;
-                    color: white;
-                    box-shadow: 0 4px 6px rgba(0, 127, 255, 0.2);
+                    color: #0f0f0f;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    font-family: 'Roboto', 'Inter', sans-serif;
+                    font-size: 0.95rem;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                }
+                .comment-form-login:hover {
+                    background: #f8f9fa;
                 }
                 .comment-form-login a {
-                    color: white;
-                    font-weight: 600;
+                    color: #067ff9;
+                    font-weight: 500;
+                    text-decoration: none;
+                }
+                .comment-form-login a:hover {
                     text-decoration: underline;
+                }
+        }
                 }
                 .comment-form {
                     background: #ffffff;
-                    border: 2px solid #007fff;
+                    border: none;
                     border-radius: 12px;
-                    padding: 1.5rem;
+                    padding: 1rem;
                     margin-bottom: 1.5rem;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                    transition: all 0.3s ease;
-                }
-                .comment-form:hover {
-                    border-color: #0056b3;
-                    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.15);
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
                 }
                 .comment-form textarea {
                     width: 100%;
-                    padding: 0.875rem;
-                    border: 1px solid #cccccc;
+                    padding: 0.75rem;
+                    border: none;
                     border-radius: 8px;
                     background: #f8f9fa;
-                    color: #000000;
+                    color: #0f0f0f;
                     font-size: 0.95rem;
                     resize: none;
-                    transition: all 0.2s ease;
+                    font-family: 'Roboto', 'Inter', sans-serif;
+                    transition: background-color 0.2s ease;
                 }
                 .comment-form textarea:focus {
                     outline: none;
-                    border-color: #007fff;
                     background: #ffffff;
-                    box-shadow: 0 0 0 3px rgba(0, 127, 255, 0.1);
+                    box-shadow: 0 0 0 2px rgba(6, 127, 249, 0.1);
                 }
                 .user-avatar {
                     width: 40px;
                     height: 40px;
                     border-radius: 50%;
-                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
+                    background: #f3f3f3;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    color: white;
-                    font-weight: 700;
+                    color: #606060;
+                    font-weight: 500;
                     font-size: 0.9rem;
                     flex-shrink: 0;
                 }
                 .comment {
-                    margin-bottom: 1rem;
+                    margin-bottom: 1.5rem;
                     animation: slideIn 0.3s ease;
+                    padding: 1rem 0;
+                    border-bottom: none;
+                }
+                .comment:last-child {
+                    border-bottom: none;
                 }
                 @keyframes slideIn {
                     from {
@@ -162,31 +232,71 @@ class CommentSystem {
                 }
                 .comment-box {
                     background: #ffffff;
-                    border: 1px solid #007fff;
+                    border: none;
                     border-radius: 12px;
-                    padding: 1.25rem;
-                    transition: all 0.2s ease;
+                    padding: 1rem;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                    transition: box-shadow 0.2s ease;
                 }
                 .comment-box:hover {
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-                    border-color: #0056b3;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                }
+                .comment-reply {
+                    margin-top: 1rem;
                 }
                 .comment-reply .comment-box {
-                    background: #f0f8ff;
+                    background: transparent;
+                    padding: 0;
+                }
+                .replies {
+                    margin-top: 1rem;
+                    margin-left: 40px;
+                    padding-left: 1rem;
+                }
+                .replies-toggle {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin-top: 0.75rem;
+                    padding: 0.5rem 1rem;
+                    background: transparent;
+                    color: #067ff9;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    border: none;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+                .replies-toggle:hover {
+                    background: rgba(6, 127, 249, 0.1);
+                }
+                .replies-toggle svg {
+                    width: 1rem;
+                    height: 1rem;
+                    transition: transform 0.2s ease;
+                }
+                .replies-toggle.expanded svg {
+                    transform: rotate(180deg);
+                }
+                .replies.hidden {
+                    display: none;
                 }
                 .comment-header {
                     display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                    margin-bottom: 0.75rem;
+                    align-items: flex-start;
+                    gap: 1rem;
+                    margin-bottom: 0.5rem;
                 }
                 .comment-author {
-                    font-weight: 600;
-                    color: #000000;
+                    font-weight: 500;
+                    color: #067ff9;
+                    font-size: 0.8125rem;
                 }
                 .comment-time {
-                    font-size: 0.85rem;
-                    color: #666666;
+                    font-size: 0.75rem;
+                    color: #606060;
+                    margin-left: 0.25rem;
                 }
                 .comment-badge {
                     font-size: 0.75rem;
@@ -197,57 +307,60 @@ class CommentSystem {
                     font-weight: 600;
                 }
                 .admin-badge {
-                    background: #cce7ff;
-                    color: #0056b3;
+                    background: rgba(6, 127, 249, 0.1);
+                    color: #067ff9;
                 }
-                .comment-text {
-                    color: #000000;
-                    line-height: 1.6;
-                    margin-bottom: 0.875rem;
+                                .comment-text {
+                    color: #030303;
+                    line-height: 1.5;
+                    margin-bottom: 0.75rem;
+                    margin-left: 48px;
                     word-wrap: break-word;
+                    font-size: 0.875rem;
                 }
                 .comment-actions {
                     display: flex;
                     align-items: center;
                     gap: 1rem;
-                    flex-wrap: wrap;
+                    margin-left: 48px;
                 }
                 .action-btn {
                     display: inline-flex;
                     align-items: center;
                     gap: 0.375rem;
-                    padding: 0.375rem 0.75rem;
+                    padding: 0.5rem 0.75rem;
                     border: none;
                     background: transparent;
-                    color: #666666;
-                    font-size: 0.875rem;
+                    color: #606060;
+                    font-size: 0.75rem;
                     font-weight: 500;
                     cursor: pointer;
-                    border-radius: 6px;
+                    border-radius: 18px;
                     transition: all 0.2s ease;
                 }
                 .action-btn:hover {
-                    background: #e6f3ff;
-                    color: #000000;
+                    background: #f2f2f2;
+                    color: #030303;
                 }
                 .action-btn svg {
                     width: 1rem;
                     height: 1rem;
                 }
                 .like-btn.active {
-                    color: #007fff;
-                    background: #e6f3ff;
+                    color: #0f0f0f;
+                    font-weight: 600;
                 }
                 .dislike-btn.active {
-                    color: #cc0000;
-                    background: #ffe6e6;
+                    color: #0f0f0f;
+                    font-weight: 600;
                 }
                 .reply-btn {
-                    color: #007fff;
+                    color: #0f0f0f;
+                    font-weight: 600;
                 }
                 .reply-btn:hover {
-                    background: #e6f3ff;
-                    color: #0056b3;
+                    background: #f2f2f2;
+                    color: #0f0f0f;
                 }
                 .delete-btn {
                     color: #cc0000;
@@ -264,19 +377,18 @@ class CommentSystem {
                     color: #cc7a00;
                 }
                 .submit-btn {
-                    padding: 0.625rem 1.5rem;
-                    background: linear-gradient(135deg, #007fff 0%, #0056b3 100%);
+                    padding: 0.5rem 1rem;
+                    background: #065fd4;
                     color: white;
                     border: none;
-                    border-radius: 8px;
-                    font-weight: 600;
+                    border-radius: 18px;
+                    font-weight: 500;
+                    font-size: 0.85rem;
                     cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 2px 4px rgba(0, 127, 255, 0.3);
+                    transition: background-color 0.2s ease;
                 }
                 .submit-btn:hover:not(:disabled) {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(0, 127, 255, 0.4);
+                    background: #0d7df7;
                 }
                 .submit-btn:disabled {
                     opacity: 0.6;
@@ -414,18 +526,16 @@ class CommentSystem {
   renderCommentForm() {
     if (!this.currentUser) {
       return `
-                <div class="comment-form-login">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <svg style="width: 2rem; height: 2rem;" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
-                        </svg>
-                        <div>
-                            <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem;">Join the conversation!</p>
-                            <p style="font-size: 0.9rem; opacity: 0.95;">Please <a href="login.html">login</a> to post comments and interact with the community.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
+        <div class="comment-form-login" aria-label="Login required to comment">
+          <svg style="min-width:2.5rem; height:2.5rem; margin-right:0.5rem; background:rgba(255,255,255,0.12); border-radius:50%; padding:0.3rem;" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
+          </svg>
+          <div>
+            <p style="font-size:1.15rem; font-weight:700; margin-bottom:0.25rem; color:#fff;">Join the conversation!</p>
+            <p style="font-size:1rem; opacity:0.98; color:#f3f7ff; font-weight:500;">Please <a href="login.html">login</a> to post comments and interact with the community.</p>
+          </div>
+        </div>
+      `;
     }
 
     return `
@@ -477,33 +587,34 @@ class CommentSystem {
     return `
             <div class="comment ${
               level > 0 ? "comment-reply" : ""
-            }" data-comment-id="${comment.id}" style="margin-left: ${
-      level * 30
-    }px;">
-                <div class="comment-box">
-                    <div class="comment-header">
-                        <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">
-                            ${this.getInitials(comment.user_name)}
+            }" data-comment-id="${comment.id}">
+                <div class="comment-box" style="display: flex; gap: 12px;">
+                    <div class="user-avatar" style="width: 40px; height: 40px; font-size: 0.875rem; flex-shrink: 0;">
+                        ${this.getInitials(comment.user_name)}
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="comment-header" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <span class="comment-author">${
+                              comment.user_name
+                            }</span>
+                            ${
+                              isAdmin
+                                ? '<span class="comment-badge admin-badge">Admin</span>'
+                                : ""
+                            }
+                            <span class="comment-time">${timeAgo}</span>
+                            ${
+                              comment.is_flagged
+                                ? '<span class="comment-badge">Flagged</span>'
+                                : ""
+                            }
                         </div>
-                        <span class="comment-author">${comment.user_name}</span>
-                        ${
-                          isAdmin
-                            ? '<span class="comment-badge admin-badge">Admin</span>'
-                            : ""
-                        }
-                        <span class="comment-time">${timeAgo}</span>
-                        ${
-                          comment.is_flagged
-                            ? '<span class="comment-badge">Flagged</span>'
-                            : ""
-                        }
-                    </div>
-                    
-                    <div class="comment-text">
-                        ${this.formatCommentText(comment.text)}
-                    </div>
-                    
-                    <div class="comment-actions">
+                        
+                        <div class="comment-text" style="margin-left: 0; margin-bottom: 0.5rem;">
+                            ${this.formatCommentText(comment.text)}
+                        </div>
+                        
+                        <div class="comment-actions" style="margin-left: 0;">
                         ${this.renderLikeButtons(comment)}
                         
                         ${
@@ -547,16 +658,36 @@ class CommentSystem {
                         `
                             : ""
                         }
-                    </div>
-                    
-                    <div id="reply-form-${
-                      comment.id
-                    }" class="reply-form" style="display: none;">
-                        ${this.renderReplyForm(comment.id)}
+                        </div>
+                        
+                        <div id="reply-form-${
+                          comment.id
+                        }" class="reply-form" style="display: none;">
+                            ${this.renderReplyForm(comment.id)}
+                        </div>
                     </div>
                 </div>
                 
-                <div class="replies">
+                ${
+                  comment.replies && comment.replies.length > 0 && level === 0
+                    ? `
+                    <button class="replies-toggle" data-comment-id="${
+                      comment.id
+                    }" data-reply-count="${comment.replies.length}">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                        <span>${comment.replies.length} ${
+                        comment.replies.length === 1 ? "reply" : "replies"
+                      }</span>
+                    </button>
+                `
+                    : ""
+                }
+                
+                <div class="replies${
+                  level === 0 ? " hidden" : ""
+                }" id="replies-${comment.id}">
                     ${
                       comment.replies
                         ? comment.replies
@@ -701,6 +832,14 @@ class CommentSystem {
           ? e.target
           : e.target.closest(".flag-btn");
         this.flagComment(btn.dataset.commentId);
+      } else if (
+        e.target.classList.contains("replies-toggle") ||
+        e.target.closest(".replies-toggle")
+      ) {
+        const btn = e.target.classList.contains("replies-toggle")
+          ? e.target
+          : e.target.closest(".replies-toggle");
+        this.toggleReplies(btn.dataset.commentId, btn);
       } else if (e.target.id === "load-more-btn") {
         this.loadMoreComments();
       }
@@ -731,12 +870,11 @@ class CommentSystem {
     }
 
     try {
-      const response = await fetch(
-        `${this.apiBaseUrl}/comments/?content_type=${this.contentType}&content_slug=${this.contentSlug}&limit=10&offset=${offset}`,
-        {
-          headers: this.getHeaders(),
-        }
-      );
+      const url = `${this.apiBaseUrl}/comments/?content_type=${this.contentType}&content_slug=${this.contentSlug}&limit=10&offset=${offset}`;
+      console.log("CommentSystem: Loading comments from URL:", url);
+      const response = await fetch(url, {
+        headers: this.getHeaders(),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -792,13 +930,21 @@ class CommentSystem {
   }
 
   async submitComment() {
+    console.log("CommentSystem: submitComment called");
     const commentText = document.getElementById("comment-text");
     const submitBtn = document.getElementById("submit-comment");
 
-    // Check authentication
+    // Always refresh auth before checking
+    this.refreshAuth();
+    const debugInfo = {
+      hasToken: !!this.authToken,
+      hasUser: !!this.currentUser,
+      user: this.currentUser,
+      token: this.authToken,
+    };
+
     if (!this.currentUser || !this.authToken) {
       this.showAlert("Please log in to post comments", "warning");
-      this.refreshAuth();
       return;
     }
 
@@ -821,6 +967,10 @@ class CommentSystem {
         }),
       });
 
+      let debugResult = {
+        status: response.status,
+        statusText: response.statusText,
+      };
       if (!response.ok) {
         const errorData = await response.json();
         if (response.status === 401 || response.status === 403) {
@@ -850,7 +1000,7 @@ class CommentSystem {
       this.showAlert(error.message, "error");
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = "Post Comment";
+      submitBtn.innerHTML = "Post Comment";
     }
   }
 
@@ -1032,6 +1182,31 @@ class CommentSystem {
     if (replyForm) {
       replyForm.style.display = "none";
       replyForm.querySelector("textarea").value = "";
+    }
+  }
+
+  toggleReplies(commentId, toggleBtn) {
+    const repliesContainer = document.getElementById(`replies-${commentId}`);
+    const replyCount = toggleBtn.dataset.replyCount;
+
+    if (repliesContainer) {
+      const isHidden = repliesContainer.classList.contains("hidden");
+
+      if (isHidden) {
+        // Show replies
+        repliesContainer.classList.remove("hidden");
+        toggleBtn.classList.add("expanded");
+        toggleBtn.querySelector("span").textContent = `Hide ${replyCount} ${
+          replyCount === "1" ? "reply" : "replies"
+        }`;
+      } else {
+        // Hide replies
+        repliesContainer.classList.add("hidden");
+        toggleBtn.classList.remove("expanded");
+        toggleBtn.querySelector("span").textContent = `${replyCount} ${
+          replyCount === "1" ? "reply" : "replies"
+        }`;
+      }
     }
   }
 

@@ -28,9 +28,13 @@
         }
 
         try {
-          console.log("Processing Google OAuth callback...");
+          console.log("🔄 Processing Google OAuth callback...");
+          console.log("📋 Code:", code.substring(0, 20) + "...");
+          console.log("🔑 State:", state);
+          console.log("🌐 API URL:", `${API_BASE_URL}/auth/google/callback/`);
 
           // Send code to backend for processing
+          console.log("📡 Sending request to backend...");
           const response = await fetch(
             `${API_BASE_URL}/auth/google/callback/`,
             {
@@ -45,53 +49,19 @@
             }
           );
 
+          console.log(
+            "📥 Response received:",
+            response.status,
+            response.statusText
+          );
           const data = await response.json();
+          console.log("📦 Response data:", data);
 
           if (response.ok) {
             console.log("===== GOOGLE AUTH SUCCESS =====");
             console.log("Backend response:", data);
 
             // Store authentication data
-<<<<<<< HEAD
-            const userData = {
-              id: data.user_id || data.user.id,
-              username: data.username || data.user.username || data.user.name,
-              email: data.email || data.user.email,
-              phone_verified:
-                data.phone_verified || data.user.phone_verified || false,
-              login_method: "google",
-            };
-            
-            console.log("=== GOOGLE LOGIN SUCCESS ===");
-            console.log("Token:", data.token ? "Received ✓" : "Missing ✗");
-            console.log("User Data:", userData);
-            console.log("Saving to localStorage...");
-            
-            localStorage.setItem("authToken", data.token);
-            localStorage.setItem("currentUser", JSON.stringify(userData));
-            localStorage.removeItem("google_state");
-
-            console.log("Verification - Token in localStorage:", localStorage.getItem("authToken") ? "✓" : "✗");
-            console.log("Verification - User in localStorage:", localStorage.getItem("currentUser") ? "✓" : "✗");
-            console.log("============================");
-
-            // Dispatch auth state change event for any listening components
-            try {
-              console.log("Dispatching authStateChanged event...");
-              window.dispatchEvent(
-                new CustomEvent("authStateChanged", {
-                  detail: {
-                    isAuthenticated: true,
-                    user: userData,
-                    token: data.token,
-                  },
-                })
-              );
-              console.log("Event dispatched successfully ✓");
-            } catch (e) {
-              console.error("Could not dispatch authStateChanged event:", e);
-            }
-=======
             const authToken = data.token;
             const userData = {
               id: data.user.id,
@@ -110,24 +80,10 @@
             console.log("Auth data received from backend");
             console.log("- authToken:", authToken);
             console.log("- userData:", userData);
->>>>>>> 082fbeb
 
             // Check if this is a signup flow
             const isSignup = state && state.startsWith("signup_");
 
-<<<<<<< HEAD
-            // Small delay to allow localStorage to persist
-            setTimeout(() => {
-              console.log("Redirecting to:", isSignup ? "onboarding" : "home");
-              if (isSignup) {
-                // Redirect to onboarding for new users
-                window.location.href = "http://localhost:3000/frontend/onboarding.html";
-              } else {
-                // Redirect to home page for existing users
-                window.location.href = "http://localhost:3000/frontend/index.html";
-              }
-            }, 300);
-=======
             console.log("State value:", state);
             console.log("Is signup flow:", isSignup);
 
@@ -142,24 +98,30 @@
             );
 
             console.log(
-              "Passing auth data via URL to frontend on port 3000..."
+              "🔄 Passing auth data via URL to frontend on port 3000..."
             );
+            console.log("📋 Auth data length:", authData.length);
+            console.log("👤 User data:", userData);
 
             if (isSignup) {
-              // Redirect to onboarding for new users
-              console.log("Redirecting to onboarding...");
-              window.location.href = `http://localhost:3000/onboarding.html?auth=${authData}`;
+              console.log("📝 Redirecting to onboarding...");
+              const redirectUrl = `http://localhost:3000/onboarding.html?auth=${authData}`;
+              console.log("🎯 Redirect URL:", redirectUrl);
+              window.location.href = redirectUrl;
             } else {
-              // Redirect to home page for existing users
-              console.log("Redirecting to home page...");
-              window.location.href = `http://localhost:3000/index.html?auth=${authData}`;
+              console.log("🏠 Redirecting to home page...");
+              const redirectUrl = `http://localhost:3000/index.html?auth=${authData}`;
+              console.log("🎯 Redirect URL:", redirectUrl);
+              window.location.href = redirectUrl;
             }
->>>>>>> 082fbeb
           } else {
+            console.error("❌ Backend returned error:", response.status, data);
             throw new Error(data.error || "Authentication failed");
           }
         } catch (error) {
-          console.error("Google callback error:", error);
+          console.error("💥 Google callback error:", error);
+          console.error("Error details:", error.message);
+          console.error("Error stack:", error.stack);
           showError(`Login failed: ${error.message}`);
         }
       });

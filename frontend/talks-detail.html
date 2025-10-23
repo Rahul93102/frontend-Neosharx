@@ -122,6 +122,16 @@
                 >
                 <span id="publishedDate"></span>
               </div>
+              <button
+                id="refreshBtn"
+                onclick="refreshEpisode()"
+                class="flex items-center gap-2 px-3 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-full transition-colors"
+                title="Refresh episode data"
+                style="display: none"
+              >
+                <span class="material-symbols-outlined text-sm">refresh</span>
+                <span class="hidden sm:inline">Refresh</span>
+              </button>
             </div>
           </div>
 
@@ -413,6 +423,14 @@
         const loadingState = document.getElementById("loadingState");
         const errorState = document.getElementById("errorState");
         const episodeContent = document.getElementById("episodeContent");
+        const refreshBtn = document.getElementById("refreshBtn");
+
+        // Show loading state
+        if (refreshBtn) {
+          refreshBtn.disabled = true;
+          refreshBtn.innerHTML =
+            '<span class="material-symbols-outlined text-sm animate-spin">refresh</span><span class="hidden sm:inline"> Loading...</span>';
+        }
 
         try {
           const slug = getSlugFromURL();
@@ -443,10 +461,50 @@
           console.error("Error loading episode:", error);
           loadingState.classList.add("hidden");
           errorState.classList.remove("hidden");
+        } finally {
+          // Reset refresh button
+          if (refreshBtn) {
+            refreshBtn.disabled = false;
+            refreshBtn.innerHTML =
+              '<span class="material-symbols-outlined text-sm">refresh</span><span class="hidden sm:inline">Refresh</span>';
+          }
         }
       }
 
+      // Global refresh function
+      function refreshEpisode() {
+        console.log("Refreshing episode data...");
+
+        // Show success message briefly
+        const refreshBtn = document.getElementById("refreshBtn");
+        const originalHTML = refreshBtn.innerHTML;
+
+        loadEpisode()
+          .then(() => {
+            // Show success state briefly
+            refreshBtn.innerHTML =
+              '<span class="material-symbols-outlined text-sm text-green-600">check_circle</span><span class="hidden sm:inline text-green-600"> Updated!</span>';
+            setTimeout(() => {
+              refreshBtn.innerHTML = originalHTML;
+            }, 2000);
+          })
+          .catch(() => {
+            // Show error state briefly
+            refreshBtn.innerHTML =
+              '<span class="material-symbols-outlined text-sm text-red-600">error</span><span class="hidden sm:inline text-red-600"> Failed</span>';
+            setTimeout(() => {
+              refreshBtn.innerHTML = originalHTML;
+            }, 2000);
+          });
+      }
+
       function renderEpisode(episode) {
+        // Show refresh button
+        const refreshBtn = document.getElementById("refreshBtn");
+        if (refreshBtn) {
+          refreshBtn.style.display = "flex";
+        }
+
         // Video Player
         const videoContainer = document.getElementById("videoContainer");
         videoContainer.innerHTML = `<iframe src="${episode.youtube_embed_url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
@@ -548,8 +606,29 @@
             showLoginPrompt: true,
             enableReplies: true,
             enableLikes: true,
+            theme: "light",
           });
         }
+      }
+
+      // Function to update social media button colors based on login status
+      function updateSocialButtonColors() {
+        const isLoggedIn =
+          localStorage.getItem("authToken") &&
+          localStorage.getItem("currentUser");
+        const socialButtons = document.querySelectorAll(".bg-gray-800");
+
+        socialButtons.forEach((button) => {
+          if (isLoggedIn) {
+            // Change to red background when logged in
+            button.classList.remove("bg-gray-800");
+            button.classList.add("bg-red-600");
+          } else {
+            // Keep gray background when not logged in
+            button.classList.remove("bg-red-600");
+            button.classList.add("bg-gray-800");
+          }
+        });
       }
 
       // Load navigation
@@ -557,6 +636,57 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
 
           // Load global-auth.js after navigation is loaded
           const authScript = document.createElement("script");
@@ -569,11 +699,22 @@
         })
         .catch((err) => console.error("Navigation load error:", err));
 
-      // Load episode on page load
-      document.addEventListener("DOMContentLoaded", loadEpisode);
+      // Update button colors on page load and auth changes
+      document.addEventListener("DOMContentLoaded", () => {
+        loadEpisode();
+        updateSocialButtonColors();
+      });
+
+      // Listen for auth state changes
+      document.addEventListener("authStateChanged", updateSocialButtonColors);
+      window.addEventListener("storage", (e) => {
+        if (e.key === "authToken" || e.key === "currentUser") {
+          updateSocialButtonColors();
+        }
+      });
     </script>
 
     <!-- Comment System -->
-    <script src="comment-system.js"></script>
+    <script src="comment-system-light.js"></script>
   </body>
 </html>

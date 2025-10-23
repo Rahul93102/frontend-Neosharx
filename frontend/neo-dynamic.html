@@ -389,10 +389,6 @@
                 >
                   <!-- Single featured item will render here -->
                 </div>
-                <div class="slider-controls">
-                  <button id="prevFeatured" class="nav-btn">&lt;</button>
-                  <button id="nextFeatured" class="nav-btn">&gt;</button>
-                </div>
                 <div class="dots" id="featuredDots"></div>
               </div>
             </div>
@@ -497,13 +493,6 @@
             "
           >
             <!-- Stories will be loaded here -->
-          </div>
-
-          <!-- Comments Section -->
-          <div
-            class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
-          >
-            <div id="comments-container"></div>
           </div>
 
           <!-- Empty State -->
@@ -815,6 +804,201 @@
           allStories = await response.json();
           console.log("Data received:", allStories);
           console.log("allStories length:", allStories.length);
+
+          // If no data from API, use sample startup stories
+          if (!allStories || allStories.length === 0) {
+            console.log("No data from API, using sample startup stories");
+            allStories = [
+              {
+                id: 1,
+                slug: "tech-startup-journey-from-garage-to-unicorn",
+                header: "From Garage to Unicorn: A Tech Startup Journey",
+                introduction:
+                  "How a small team of passionate developers built a billion-dollar company from scratch, overcoming challenges and embracing innovation.",
+                author_name: "Sarah Chen",
+                category: "Startup Stories",
+                read_time: 8,
+                views_count: 2450,
+                published_date: "2025-01-15",
+                tags: "startup,tech,innovation,entrepreneurship",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "It all started in a small garage in Silicon Valley back in 2018. Three friends with a shared vision decided to quit their jobs and pursue their dream of revolutionizing the way people interact with technology.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "The journey wasn't easy. We faced countless rejections, technical challenges, and moments of doubt. But our persistence and belief in our vision kept us going.",
+                  },
+                ],
+              },
+              {
+                id: 2,
+                slug: "sustainable-tech-greener-future",
+                header: "Building Sustainable Tech for a Greener Future",
+                introduction:
+                  "How our startup is using AI and IoT to reduce carbon emissions and create a more sustainable planet for future generations.",
+                author_name: "Marcus Rodriguez",
+                category: "Startup Stories",
+                read_time: 6,
+                views_count: 1890,
+                published_date: "2025-01-10",
+                tags: "sustainability,tech,environment,AI",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Climate change is the biggest challenge of our generation. At EcoTech Solutions, we believe technology can be part of the solution, not just the problem.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "Our platform uses AI-powered analytics to help businesses reduce their carbon footprint by up to 40%. From smart energy management to waste reduction, we're making sustainability accessible and profitable.",
+                  },
+                ],
+              },
+              {
+                id: 3,
+                slug: "fintech-revolution-mobile-banking",
+                header: "The FinTech Revolution: Democratizing Mobile Banking",
+                introduction:
+                  "How we're making financial services accessible to everyone, everywhere, with our innovative mobile banking platform.",
+                author_name: "Priya Patel",
+                category: "Startup Stories",
+                read_time: 7,
+                views_count: 3120,
+                published_date: "2025-01-08",
+                tags: "fintech,banking,mobile,financial-inclusion",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Financial inclusion is not just a buzzword for us—it's our mission. In many parts of the world, traditional banking systems leave millions behind.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "Our mobile-first approach eliminates barriers to financial services. With just a smartphone, anyone can open an account, send money, and access credit—all with the security and convenience they deserve.",
+                  },
+                ],
+              },
+              {
+                id: 4,
+                slug: "healthtech-ai-medical-diagnosis",
+                header:
+                  "AI-Powered Medical Diagnosis: Saving Lives Through Technology",
+                introduction:
+                  "How our AI platform is helping doctors make faster, more accurate diagnoses, revolutionizing healthcare delivery.",
+                author_name: "Dr. James Wilson",
+                category: "Startup Stories",
+                read_time: 9,
+                views_count: 2780,
+                published_date: "2025-01-05",
+                tags: "healthtech,AI,medical,diagnosis",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "In the medical field, time is often the difference between life and death. Our AI-powered diagnostic platform helps doctors make critical decisions faster and more accurately.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "By analyzing medical images, patient data, and historical cases, our system provides doctors with evidence-based insights, reducing diagnostic errors and improving patient outcomes.",
+                  },
+                ],
+              },
+              {
+                id: 5,
+                slug: "edtech-learning-personalized-education",
+                header: "Personalized Learning: The Future of Education",
+                introduction:
+                  "How adaptive learning technology is transforming education, making it more effective and engaging for every student.",
+                author_name: "Dr. Lisa Thompson",
+                category: "Startup Stories",
+                read_time: 5,
+                views_count: 1650,
+                published_date: "2025-01-03",
+                tags: "edtech,education,personalized-learning,AI",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Every student learns differently. Traditional one-size-fits-all education often leaves many students behind. Our platform adapts to each student's learning style and pace.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "Using advanced AI algorithms, we create personalized learning paths that maximize engagement and knowledge retention, helping students achieve their full potential.",
+                  },
+                ],
+              },
+              {
+                id: 6,
+                slug: "agritech-smart-farming-solutions",
+                header: "Smart Farming: Feeding the World with Technology",
+                introduction:
+                  "How IoT and AI are revolutionizing agriculture, making farming more efficient and sustainable for farmers worldwide.",
+                author_name: "Carlos Mendoza",
+                category: "Startup Stories",
+                read_time: 6,
+                views_count: 1980,
+                published_date: "2025-01-01",
+                tags: "agritech,IoT,smart-farming,sustainability",
+                image: "/api/placeholder/400/250",
+                featured_screen: {
+                  url: "/api/placeholder/800/500",
+                  type: "image",
+                  is_featured: true,
+                },
+                sections: [
+                  {
+                    type: "text",
+                    content:
+                      "Agriculture feeds the world, but traditional farming methods are inefficient and environmentally taxing. Our smart farming solutions are changing that.",
+                  },
+                  {
+                    type: "text",
+                    content:
+                      "From soil sensors to drone-based crop monitoring, our IoT platform helps farmers optimize water usage, reduce pesticide application, and increase yields by up to 30%.",
+                  },
+                ],
+              },
+            ];
+          }
+
           filteredStories = [...allStories];
 
           // Load featured screens from stories that have them
@@ -1024,26 +1208,6 @@
         renderStories();
       }
 
-      function initializeCommentSystem() {
-        const commentsSection = document.getElementById("comments-section");
-        commentsSection.innerHTML = '<div id="comments-container"></div>';
-
-        // Initialize comment system for Neo Stories
-        if (typeof CommentSystem !== "undefined") {
-          new CommentSystem(
-            "neo_story",
-            "neo-stories-page",
-            "comments-container",
-            {
-              apiBaseUrl: API_BASE_URL,
-              showLoginPrompt: true,
-              enableReplies: true,
-              enableLikes: true,
-            }
-          );
-        }
-      }
-
       // Event listeners
       document
         .getElementById("categoryFilter")
@@ -1057,18 +1221,71 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
-          // Load global auth script after navigation is loaded
-          const script = document.createElement("script");
-          script.src = "global-auth.js";
-          document.head.appendChild(script);
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
         })
         .catch((err) => console.error("Navigation load error:", err));
 
       // Load stories on page load
       loadStories();
     </script>
-
-    <!-- Comment System -->
-    <script src="comment-system.js"></script>
   </body>
 </html>

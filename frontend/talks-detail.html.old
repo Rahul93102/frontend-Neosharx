@@ -242,7 +242,7 @@
 
     <script src="comment-system.js"></script>
     <script>
-      const API_BASE_URL = "http://localhost:8000/api/auth";
+      const API_BASE_URL = "http://localhost:8001/api/auth";
 
       // Get slug from URL
       const urlParams = new URLSearchParams(window.location.search);
@@ -384,7 +384,7 @@
           slug,
           'comments-container',
           {
-            apiBaseUrl: 'http://localhost:8000/api/auth',
+            apiBaseUrl: 'http://localhost:8001/api/auth',
             showLoginPrompt: true,
             enableReplies: true,
             enableLikes: true,

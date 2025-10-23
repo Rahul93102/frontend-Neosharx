@@ -288,7 +288,7 @@
       rel="stylesheet"
     />
   </head>
-  <body class="bg-background-light font-display text-content-light">
+  <body class="bg-background-light font-display text-content-light" data-page="talks">
     <div class="relative flex flex-col min-h-screen w-full">
       <div id="nav-container"></div>
 
@@ -296,25 +296,12 @@
         <div class="max-w-6xl mx-auto">
           <div class="text-center mb-8 mt-12">
             <h1
-              class="text-5xl font-bold tracking-tight mb-4"
+              class="text-6xl font-bold tracking-tight mb-4"
               style="color: #007fff"
             >
               NeoSharX Talks
             </h1>
-            <div
-              style="
-                font-size: 1.125rem;
-                color: #007fff;
-                min-height: 48px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-              "
-            >
-              <span id="typingText"></span>
-              <span id="cursor" style="animation: blink 1s infinite">|</span>
-            </div>
+           
             <p class="text-lg text-gray-600 max-w-2xl mx-auto font-normal">
               Conversations that inspire innovation. Join industry leaders and
               innovators as they share insights on technology, entrepreneurship,
@@ -360,7 +347,6 @@
                 >
                   <!-- Single featured item will render here -->
                 </div>
-                <div class="slider-controls"></div>
                 <div id="featuredDots" class="dots"></div>
               </div>
             </div>
@@ -513,7 +499,7 @@
         section.classList.remove("hidden");
 
         renderFeaturedItem();
-        setupFeaturedControls();
+        // setupFeaturedControls(); // Removed chevron navigation
       }
 
       function renderFeaturedItem() {
@@ -601,10 +587,16 @@
         const prev = document.createElement("button");
         prev.id = "prevFeatured";
         prev.className = "nav-btn";
-        prev.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
+        prev.innerHTML = '<span class="material-symbols-outlined">_lechevronft</span>';
         prev.setAttribute("aria-label", "Previous featured episode");
 
-       
+        // Create next button
+        const next = document.createElement("button");
+        next.id = "nextFeatured";
+        next.className = "nav-btn";
+        next.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
+        next.setAttribute("aria-label", "Next featured episode");
+
         // Add click handlers
         prev.onclick = () => {
           const s = window._featuredState;
@@ -726,6 +718,40 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === 'function') {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton = document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+              }
+            }
+          }, 100);
           
           // Load global-auth.js after navigation is loaded
           const authScript = document.createElement("script");
@@ -741,39 +767,7 @@
     </script>
     <script>
       (function () {
-        const taglines = [
-          "In-depth conversations about tech and startups...",
-          "Lessons from founders, engineers and makers...",
-          "Stories that spark new ideas and actions...",
-        ];
-        let ti = 0,
-          ci = 0,
-          del = false;
-        function step() {
-          const el = document.getElementById("typingText");
-          if (!el) return;
-          const txt = taglines[ti];
-          if (!del) {
-            el.textContent = txt.slice(0, ci + 1);
-            ci++;
-            if (ci === txt.length) {
-              del = true;
-              setTimeout(step, 2000);
-              return;
-            }
-          } else {
-            el.textContent = txt.slice(0, ci - 1);
-            ci--;
-            if (ci === 0) {
-              del = false;
-              ti = (ti + 1) % taglines.length;
-              setTimeout(step, 500);
-              return;
-            }
-          }
-          setTimeout(step, del ? 50 : 100);
-        }
-        window.addEventListener("load", () => setTimeout(step, 500));
+        // Typing animation removed - now using static text
       })();
 
       // Load episodes on page load

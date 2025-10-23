@@ -9,7 +9,7 @@ class CommentSystem {
     this.contentType = contentType;
     this.contentSlug = contentSlug;
     this.containerId = containerId;
-    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8000/api/auth";
+    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
@@ -30,7 +30,12 @@ class CommentSystem {
     console.log("Content Slug:", this.contentSlug);
     console.log("API Base URL:", this.apiBaseUrl);
     console.log("Auth Token:", this.authToken ? "Present ✓" : "Missing ✗");
-    console.log("Current User:", this.currentUser ? this.currentUser.username || this.currentUser.email : "Not logged in");
+    console.log(
+      "Current User:",
+      this.currentUser
+        ? this.currentUser.username || this.currentUser.email
+        : "Not logged in"
+    );
     console.log("==================================");
 
     this.init();
@@ -70,7 +75,7 @@ class CommentSystem {
   refreshAuth() {
     const prevToken = this.authToken;
     const prevUser = this.currentUser;
-    
+
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
@@ -79,9 +84,20 @@ class CommentSystem {
     console.log("=== COMMENT SYSTEM: REFRESHING AUTH ===");
     console.log("Previous Auth:", prevToken ? "Had token" : "No token");
     console.log("Current Auth:", this.authToken ? "Has token ✓" : "No token ✗");
-    console.log("Previous User:", prevUser ? prevUser.username || prevUser.email : "Not logged in");
-    console.log("Current User:", this.currentUser ? this.currentUser.username || this.currentUser.email : "Not logged in");
-    console.log("Auth Changed:", (!!prevToken !== !!this.authToken) ? "YES" : "NO");
+    console.log(
+      "Previous User:",
+      prevUser ? prevUser.username || prevUser.email : "Not logged in"
+    );
+    console.log(
+      "Current User:",
+      this.currentUser
+        ? this.currentUser.username || this.currentUser.email
+        : "Not logged in"
+    );
+    console.log(
+      "Auth Changed:",
+      !!prevToken !== !!this.authToken ? "YES" : "NO"
+    );
     console.log("========================================");
 
     // Re-render the comment form with updated auth state

@@ -34,11 +34,7 @@ class CommentSystem {
     this.contentType = contentType;
     this.contentSlug = contentSlug;
     this.containerId = containerId;
-<<<<<<< HEAD
-    this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api";
-=======
     this.apiBaseUrl = options.apiBaseUrl || "http://localhost:8001/api/auth";
->>>>>>> 082fbeb
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
@@ -65,7 +61,12 @@ class CommentSystem {
     console.log("Content Slug:", this.contentSlug);
     console.log("API Base URL:", this.apiBaseUrl);
     console.log("Auth Token:", this.authToken ? "Present ✓" : "Missing ✗");
-    console.log("Current User:", this.currentUser ? this.currentUser.username || this.currentUser.email : "Not logged in");
+    console.log(
+      "Current User:",
+      this.currentUser
+        ? this.currentUser.username || this.currentUser.email
+        : "Not logged in"
+    );
     console.log("==================================");
 
     this.init();
@@ -109,7 +110,7 @@ class CommentSystem {
   refreshAuth() {
     const prevToken = this.authToken;
     const prevUser = this.currentUser;
-    
+
     this.authToken = localStorage.getItem("authToken") || null;
     this.currentUser = JSON.parse(
       localStorage.getItem("currentUser") || "null"
@@ -118,15 +119,24 @@ class CommentSystem {
     console.log("=== COMMENT SYSTEM: REFRESHING AUTH ===");
     console.log("Previous Auth:", prevToken ? "Had token" : "No token");
     console.log("Current Auth:", this.authToken ? "Has token ✓" : "No token ✗");
-    console.log("Previous User:", prevUser ? prevUser.username || prevUser.email : "Not logged in");
-    console.log("Current User:", this.currentUser ? this.currentUser.username || this.currentUser.email : "Not logged in");
-    console.log("Auth Changed:", (!!prevToken !== !!this.authToken) ? "YES" : "NO");
+    console.log(
+      "Previous User:",
+      prevUser ? prevUser.username || prevUser.email : "Not logged in"
+    );
+    console.log(
+      "Current User:",
+      this.currentUser
+        ? this.currentUser.username || this.currentUser.email
+        : "Not logged in"
+    );
+    console.log(
+      "Auth Changed:",
+      !!prevToken !== !!this.authToken ? "YES" : "NO"
+    );
     console.log("========================================");
 
-    // Update debug panel in UI
     this.updateDebugPanel();
 
-    // Re-render the comment form with updated auth state
     const formContainer = document.getElementById("comment-form-container");
     if (formContainer) {
       console.log("Re-rendering comment form...");
@@ -222,8 +232,8 @@ class CommentSystem {
                 }
                 .comment-form textarea:focus {
                     outline: none;
-                    border-color: #065fd4;
-                    box-shadow: 0 0 0 1px #065fd4;
+                    border-color: #9ca3af;
+                    box-shadow: 0 0 0 1px #9ca3af;
                 }
                 .user-avatar {
                     width: 40px;
@@ -896,12 +906,11 @@ class CommentSystem {
     }
 
     try {
-      const response = await fetch(
-        `${this.apiBaseUrl}/comments/?content_type=${this.contentType}&content_slug=${this.contentSlug}&limit=10&offset=${offset}`,
-        {
-          headers: this.getHeaders(),
-        }
-      );
+      const url = `${this.apiBaseUrl}/comments/?content_type=${this.contentType}&content_slug=${this.contentSlug}&limit=10&offset=${offset}`;
+      console.log("CommentSystem: Loading comments from URL:", url);
+      const response = await fetch(url, {
+        headers: this.getHeaders(),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

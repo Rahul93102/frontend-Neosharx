@@ -19,6 +19,10 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -63,190 +67,103 @@
       }
       body {
         overflow-x: hidden;
+        /* Hide scrollbars while loader is active */
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
         font-family: "Space Grotesk", sans-serif;
       }
-      /* Loader Styles */
-      #loader-wrapper {
+      /* The main loader container */
+      #loader {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1000;
+        /* Fill the entire screen */
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        /* Smooth transition for background color changes */
+        transition: background-color 0.25s ease-in-out;
         overflow: hidden;
-        display: flex; /* Show loader initially */
+      }
+
+      /* Wrapper for the logo and text */
+      #loader-content {
+        position: absolute;
+        display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 1rem; /* Space between logo and text */
+
+        /* Text styling */
+        font-size: 4.2rem; /* 67px - 20% bigger (was 3.5rem) */
+        font-weight: 900; /* Black - Was 800 */
+        color: #111827; /* Default text color (for white bg) */
+
+        /* Start invisible and centered */
+        opacity: 0;
+        /* This transform trick keeps the element centered on its
+          top/left coordinates. (e.g., top: 50%, left: 20% will
+          be centered *at* 20% from the left edge)
+        */
+        transform: translate(-50%, -50%) scale(0.9);
+
+        /* This is the core animation! */
+        /* New way: Separate properties for better JS control */
+        transition-property: transform, opacity, color, top, left;
+        transition-duration: 0.2s, 0.1s, 0.125s, 0.4s, 0.4s;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1), ease-in-out,
+          ease-in-out, cubic-bezier(0.4, 0, 0.2, 1),
+          cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* Prevents text wrapping */
+        white-space: nowrap;
       }
-      .panel {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+
+      /* The logo image */
+      #logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 9999px; /* Make it a circle */
+        object-fit: cover;
+        /* Add a subtle shadow */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
-      .content-block {
-        position: absolute;
+
+      /* The text itself needs a transition for its own opacity */
+      #loader-text {
+        transition: opacity 0.15s ease-in-out;
+      }
+
+      /* Position classes. We just add/remove these to move
+        the #loader-content wrapper around.
+      */
+      #loader-content.position-left {
+        top: 50%;
+        left: 20%;
+      }
+
+      #loader-content.position-top {
+        top: 20%;
+        left: 50%;
+      }
+
+      #loader-content.position-right {
+        top: 50%;
+        left: 80%;
+      }
+
+      #loader-content.position-bottom {
+        top: 80%;
+        left: 50%;
+      }
+
+      #loader-content.position-center {
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1010;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        opacity: 0;
-        padding: 2rem;
-        width: 90%;
-        max-width: 50ch;
-      }
-      .text-cluster {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      /* Panel Animations */
-      @keyframes slide-in-left {
-        0% {
-          transform: translateX(-100%);
-        }
-        20%,
-        80% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(100%);
-        }
-      }
-      @keyframes slide-in-right {
-        0% {
-          transform: translateX(100%);
-        }
-        20%,
-        80% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(-100%);
-        }
-      }
-      @keyframes slide-in-top {
-        0% {
-          transform: translateY(-100%);
-        }
-        20%,
-        80% {
-          transform: translateY(0);
-        }
-        100% {
-          transform: translateY(100%);
-        }
-      }
-      @keyframes slide-in-bottom {
-        0% {
-          transform: translateY(100%);
-        }
-        20%,
-        80% {
-          transform: translateY(0);
-        }
-        100% {
-          transform: translateY(-100%);
-        }
-      }
-      /* Content Animations */
-      @keyframes content-from-left {
-        0%,
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) translateX(-40px);
-        }
-        25%,
-        75% {
-          opacity: 1;
-          transform: translate(-50%, -50%) translateX(0);
-        }
-      }
-      @keyframes content-from-right {
-        0%,
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) translateX(40px);
-        }
-        25%,
-        75% {
-          opacity: 1;
-          transform: translate(-50%, -50%) translateX(0);
-        }
-      }
-      @keyframes content-from-top {
-        0%,
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) translateY(-40px);
-        }
-        25%,
-        75% {
-          opacity: 1;
-          transform: translate(-50%, -50%) translateY(0);
-        }
-      }
-      @keyframes content-from-bottom {
-        0%,
-        100% {
-          opacity: 0;
-          transform: translate(-50%, -50%) translateY(40px);
-        }
-        25%,
-        75% {
-          opacity: 1;
-          transform: translate(-50%, -50%) translateY(0);
-        }
-      }
-      #blue-panel-1 {
-        background-color: #007fff;
-        z-index: 1004;
-        animation: slide-in-left 1.5s cubic-bezier(0.7, 0, 0.3, 1) 0s forwards;
-      }
-      #content-blue-1 {
-        color: white;
-        animation: content-from-left 1.5s ease-in-out 0s forwards;
-      }
-      #white-panel {
-        background-color: #ffffff;
-        z-index: 1003;
-        animation: slide-in-top 1.5s cubic-bezier(0.7, 0, 0.3, 1) 1.5s forwards;
-      }
-      #content-white {
-        color: #111827;
-        animation: content-from-top 1.5s ease-in-out 1.5s forwards;
-      }
-      #black-panel {
-        background-color: #111827;
-        z-index: 1002;
-        animation: slide-in-right 1.5s cubic-bezier(0.7, 0, 0.3, 1) 3s forwards;
-      }
-      #content-black {
-        color: white;
-        animation: content-from-right 1.5s ease-in-out 3s forwards;
-      }
-      #blue-panel-2 {
-        background-color: #007fff;
-        z-index: 1001;
-        animation: slide-in-bottom 1.5s cubic-bezier(0.7, 0, 0.3, 1) 4.5s
-          forwards;
-      }
-      #content-blue-2 {
-        color: white;
-        animation: content-from-bottom 1.5s ease-in-out 4.5s forwards;
-      }
-      #loader-wrapper.hidden {
-        display: none;
       }
       #main-content {
         opacity: 0; /* Hide content initially */
         transition: opacity 0.5s ease-in-out;
+        position: relative;
+        z-index: 1;
       }
       #main-content.loaded {
         opacity: 1; /* Show content after loader */
@@ -453,31 +370,31 @@
       }
     </style>
   </head>
+
   <body class="bg-white text-stone-800 pt-10">
-    <div id="loader-wrapper">
-      <div id="blue-panel-1" class="panel"></div>
-      <div id="content-blue-1" class="content-block">
-        <div class="text-cluster">
-          <h2 class="text-6xl font-bold">Tech Talks</h2>
-        </div>
-      </div>
-      <div id="white-panel" class="panel"></div>
-      <div id="content-white" class="content-block">
-        <div class="text-cluster">
-          <h2 class="text-6xl font-bold">Startup Stories</h2>
-        </div>
-      </div>
-      <div id="black-panel" class="panel"></div>
-      <div id="content-black" class="content-block">
-        <div class="text-cluster">
-          <h2 class="text-6xl font-bold">Hackathons & Projects</h2>
-        </div>
-      </div>
-      <div id="blue-panel-2" class="panel"></div>
-      <div id="content-blue-2" class="content-block">
-        <div class="text-cluster">
-          <h1 class="text-7xl font-bold text-white">NeoSharX</h1>
-        </div>
+    <!-- The Loader HTML -->
+    <div id="loader">
+      <div id="loader-content">
+        <!--
+              *** IMAGE LOADING EXPLANATION ***
+              The Google Drive link below will likely NOT work. Google Drive
+              blocks "hotlinking" (using an image directly on another website).
+
+              To fix this, please:
+              1. Upload your logo to a public image host (like imgur.com or postimages.org).
+              2. Get the "Direct Link" (it should end in .png, .jpg, etc.).
+              3. Replace the 'src' link below with your new direct link.
+
+              The 'onerror' part is a fallback that shows the blue "N" if the
+              link fails to load, which is what is happening now.
+            -->
+        <img
+          id="logo"
+          src="https://drive.google.com/uc?id=1NK33iexraDnA6tAnhdEivZky4W5KuQyF"
+          onerror="this.src='https://placehold.co/50x50/3b82f6/ffffff?text=N'; this.onerror=null;"
+          alt="Neosharx Logo"
+        />
+        <span id="loader-text">Neosharx</span>
       </div>
     </div>
 
@@ -487,13 +404,14 @@
       <div class="font-sans">
         <section
           class="relative bg-[#007fff] text-white hero-section overflow-hidden"
+          style="color: white !important"
         >
           <div class="container mx-auto px-6 text-center relative z-10">
             <div class="reveal">
               <h1
                 class="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-4"
               >
-                Start. Build. Grow.
+                Connect. Build. Grow.
               </h1>
               <p class="max-w-2xl mx-auto text-lg md:text-xl mb-8 font-medium">
                 Whether you're starting out, or scaling to meet demand, connect
@@ -501,12 +419,43 @@
                 startup grow with NeoSharX.
               </p>
               <div class="h-4"></div>
-              <button
-                id="community-btn"
-                class="bg-white border-2 border-transparent text-[#007fff] font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-white hover:text-[#007fff] transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1"
-              >
-                Join Our Community
-              </button>
+              <div class="flex flex-col gap-6 justify-center items-center">
+                <button
+                  id="contact-btn"
+                  class="bg-white border-2 border-white text-[#007fff] font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-[#007fff] hover:text-white transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1"
+                >
+                  Contact Us
+                </button>
+                <div class="flex gap-4 md:flex-row flex-col">
+                  <a
+                    href="https://linkedin.com/company/neosharx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="bg-transparent border-2 border-white text-white p-4 rounded-full shadow-md hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:scale-110 active:bg-red-600"
+                    title="Follow us on LinkedIn"
+                  >
+                    <i class="fab fa-linkedin-in text-xl"></i>
+                  </a>
+                  <a
+                    href="https://instagram.com/neosharx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="bg-transparent border-2 border-white text-white p-4 rounded-full shadow-md hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:scale-110 active:bg-red-600"
+                    title="Follow us on Instagram"
+                  >
+                    <i class="fab fa-instagram text-xl"></i>
+                  </a>
+                  <a
+                    href="https://youtube.com/@neosharx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="bg-transparent border-2 border-white text-white p-4 rounded-full shadow-md hover:bg-red-500 hover:text-white hover:border-red-500 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1 hover:scale-110 active:bg-red-600"
+                    title="Subscribe to our YouTube channel"
+                  >
+                    <i class="fab fa-youtube text-xl"></i>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
           <div
@@ -518,7 +467,7 @@
             class="absolute top-4 right-4 md:top-10 md:right-20 w-[8.1rem] h-[8.1rem] md:w-[13.5rem] md:h-[13.5rem] rounded-lg overflow-hidden shadow-lg animate-float"
           >
             <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+              src="assets/Community.png"
               alt="Startup presentation"
               class="w-full h-full object-cover"
             />
@@ -533,7 +482,7 @@
             style="animation-delay: 0.5s"
           >
             <img
-              src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop"
+              src="assets/events.png"
               alt="People networking"
               class="w-full h-full object-cover"
             />
@@ -548,29 +497,266 @@
             style="animation-delay: 1s"
           >
             <img
-              src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop"
+              src="assets/Startups.png"
               alt="Team brainstorming"
               class="w-full h-full object-cover"
             />
           </div>
-          <svg
-            data-animation
-            data-speed="-0.2"
-            data-float-intensity="7"
-            data-rotate="-12"
-            data-seed="4"
-            class="absolute top-1/2 right-10 md:right-32 w-32 h-32 text-blue-400 animate-float"
-            style="animation-delay: 1.5s"
-            fill="none"
-            viewBox="0 0 100 100"
-            stroke="currentColor"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M20 80 Q 80 80, 80 20" />
-            <polyline points="70 20, 80 20, 80 30" />
-          </svg>
+        </section>
+
+        <!-- YouTube Videos Section -->
+        <section class="py-20 px-6 bg-gray-50">
+          <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4 text-primary">
+              Featured Videos
+            </h2>
+            <p
+              class="text-center text-lg text-stone-600 dark:text-stone-400 mb-12"
+            >
+              Watch our latest talks, tutorials, and startup stories
+            </p>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              id="youtube-videos-container"
+            >
+              <!-- Loading placeholder -->
+              <div class="col-span-full text-center py-8">
+                <div
+                  class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
+                ></div>
+                <p class="mt-2 text-gray-600">Loading videos...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Explore NeoSharX Section -->
+        <section class="py-16 bg-white">
+          <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">
+                Explore NeoSharX
+              </h2>
+              <p class="text-gray-600 text-lg">
+                Discover our comprehensive ecosystem designed to empower
+                innovation and growth
+              </p>
+            </div>
+
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <!-- Home Card -->
+              <a
+                href="#"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/Home.png"
+                    alt="Home - Welcome to NeoSharX"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Home</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Your gateway to innovation and community
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Talks Card -->
+              <a
+                href="talks-dynamic.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/Talks.png"
+                    alt="Talks - NeoSharX Talks"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Talks</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Expert insights and industry discussions
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Startup Stories Card -->
+              <a
+                href="startup.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/Startups.png"
+                    alt="Startup Stories - Real entrepreneur journeys"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      Startup Stories
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Real entrepreneur journeys and lessons learned
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Neo Stories Card -->
+              <a
+                href="neo-stories.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/neo stories.jpg"
+                    alt="Neo Stories - Innovation narratives"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      Neo Stories
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Innovation narratives and breakthrough moments
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Neo Projects Card -->
+              <a
+                href="neo-projects.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/Projects.jpg"
+                    alt="Neo Projects - Cutting-edge innovations"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      Neo Projects
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Cutting-edge innovations and tech solutions
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- SharXathon Card -->
+              <a
+                href="hackathon.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/SharXathons.png"
+                    alt="SharXathon - Competitive coding events"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      SharXathon
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Competitive coding events and hackathons
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- RoboSharX Card -->
+              <a
+                href="robosharx.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/RoboSharx.png"
+                    alt="RoboSharX - Robotics and AI"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">RoboSharX</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Robotics and AI innovations
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Tech News Card -->
+              <a
+                href="tech.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="assets/Tech News.png"
+                    alt="Tech News - What's up Tech"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      What's up Tech
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Latest technology news and trends
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
         </section>
 
         <!-- Community Modal -->
@@ -694,229 +880,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Explore NeoSharX Section -->
-        <section class="py-16 bg-white">
-          <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-              <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">
-                Explore NeoSharX
-              </h2>
-              <p class="text-gray-600 text-lg">
-                Discover our comprehensive ecosystem designed to empower
-                innovation and growth
-              </p>
-            </div>
-
-            <div
-              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            >
-              <!-- Home Card -->
-              <a
-                href="#"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
-                    alt="Home - Welcome to NeoSharX"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">Home</h3>
-                    <p class="text-white text-sm opacity-90">
-                      Your gateway to innovation and community
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- Talks Card -->
-              <a
-                href="talks-dynamic.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=800&auto=format&fit=crop"
-                    alt="Talks - NeoSharX Talks"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">Talks</h3>
-                    <p class="text-white text-sm opacity-90">
-                      Inspiring conversations with industry leaders
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- Startups Card -->
-              <a
-                href="startup.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
-                    alt="Startups - Startup Stories"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">Startups</h3>
-                    <p class="text-white text-sm opacity-90">
-                      Real stories from successful entrepreneurs
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- Neo Stories Card -->
-              <a
-                href="neo-dynamic.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop"
-                    alt="Neo Stories - Innovation Stories"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">
-                      Neo Stories
-                    </h3>
-                    <p class="text-white text-sm opacity-90">
-                      Narratives of innovation and breakthrough
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- Projects Card -->
-              <a
-                href="neo-projects.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
-                    alt="Projects - Neo Projects"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">Projects</h3>
-                    <p class="text-white text-sm opacity-90">
-                      Showcase of groundbreaking innovations
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- SharXathons Card -->
-              <a
-                href="hackathon.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
-                    alt="SharXathons - Hackathons"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">
-                      SharXathons
-                    </h3>
-                    <p class="text-white text-sm opacity-90">
-                      Competitive coding challenges and innovation
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- RoboSharX Card -->
-              <a
-                href="robotics-news.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=800&auto=format&fit=crop"
-                    alt="RoboSharX - Robotics"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">RoboSharX</h3>
-                    <p class="text-white text-sm opacity-90">
-                      Exploring the future of robotics and AI
-                    </p>
-                  </div>
-                </div>
-              </a>
-
-              <!-- Tech News Card -->
-              <a
-                href="tech-news.html"
-                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
-              >
-                <div
-                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop"
-                    alt="Tech News - Latest Updates"
-                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
-                  ></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 class="text-white font-bold text-lg mb-1">Tech News</h3>
-                    <p class="text-white text-sm opacity-90">
-                      Stay updated with cutting-edge technology
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </section>
 
         <section
           class="relative bg-[#007fff] text-white py-24 md:py-40 overflow-hidden flex items-center min-h-[80vh]"
@@ -1255,11 +1218,11 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
-                  <img
-                    alt="NIT Trichy"
-                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
-                    src="https://upload.wikimedia.org/wikipedia/en/e/eb/NIT_Trichy_Logo.png"
-                  />
+                  <div
+                    class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
+                  >
+                    NIT Trichy
+                  </div>
                 </div>
                 <!-- IIM Ahmedabad -->
                 <div
@@ -1295,21 +1258,21 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
-                  <img
-                    alt="NIT Warangal"
-                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
-                    src="https://upload.wikimedia.org/wikipedia/en/f/f8/NIT_Warangal_logo.png"
-                  />
+                  <div
+                    class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
+                  >
+                    NIT Warangal
+                  </div>
                 </div>
                 <!-- IIT Roorkee -->
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
-                  <img
-                    alt="IIT Roorkee"
-                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
-                    src="https://upload.wikimedia.org/wikipedia/en/4/4c/Indian_Institute_of_Technology_Roorkee_logo.png"
-                  />
+                  <div
+                    class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
+                  >
+                    IIT Roorkee
+                  </div>
                 </div>
                 <!-- Delhi University -->
                 <div
@@ -1381,11 +1344,11 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
-                  <img
-                    alt="NIT Trichy"
-                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
-                    src="https://upload.wikimedia.org/wikipedia/en/e/eb/NIT_Trichy_Logo.png"
-                  />
+                  <div
+                    class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
+                  >
+                    NIT Trichy
+                  </div>
                 </div>
                 <!-- IIM Ahmedabad -->
                 <div
@@ -1421,21 +1384,21 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
-                  <img
-                    alt="NIT Warangal"
-                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
-                    src="https://upload.wikimedia.org/wikipedia/en/f/f8/NIT_Warangal_logo.png"
-                  />
+                  <div
+                    class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
+                  >
+                    NIT Warangal
+                  </div>
                 </div>
                 <!-- IIT Roorkee -->
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
-                  <img
-                    alt="IIT Roorkee"
-                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
-                    src="https://upload.wikimedia.org/wikipedia/en/4/4c/Indian_Institute_of_Technology_Roorkee_logo.png"
-                  />
+                  <div
+                    class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
+                  >
+                    IIT Roorkee
+                  </div>
                 </div>
                 <!-- Delhi University -->
                 <div
@@ -1715,30 +1678,6 @@
                 </div>
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- YouTube Videos Section -->
-        <section class="py-16 bg-gray-50">
-          <h2 class="text-4xl font-bold text-center mb-4 text-primary">
-            Featured Videos
-          </h2>
-          <p
-            class="text-center text-lg text-stone-600 dark:text-stone-400 mb-12"
-          >
-            Watch our latest talks, tutorials, and startup stories
-          </p>
-          <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            id="youtube-videos-container"
-          >
-            <!-- Loading placeholder -->
-            <div class="col-span-full text-center py-8">
-              <div
-                class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
-              ></div>
-              <p class="mt-2 text-gray-600">Loading videos...</p>
             </div>
           </div>
         </section>
@@ -2063,31 +2002,276 @@
 
         // --- LOAD NAVIGATION ---
         fetch("navigation.html")
-          .then((response) => response.text())
+          .then((res) => res.text())
           .then((html) => {
             document.getElementById("nav-container").innerHTML = html;
-            // Load global auth script after navigation is loaded
-            const script = document.createElement("script");
-            script.src = "global-auth.js";
-            document.head.appendChild(script);
+
+            // Initialize mobile menu after navigation is loaded
+            setTimeout(() => {
+              if (typeof initMobileMenu === "function") {
+                initMobileMenu();
+              } else {
+                // Fallback: try to initialize directly
+                const mobileMenuButton =
+                  document.getElementById("mobile-menu-button");
+                const mobileMenu = document.getElementById("mobile-menu");
+                const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+                if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                  let isMenuOpen = false;
+                  mobileMenuButton.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    if (isMenuOpen) {
+                      mobileMenu.style.maxHeight = "0px";
+                      mobileMenu.style.opacity = "0";
+                      hamburgerIcon.style.transform = "rotate(0deg)";
+                      const path = hamburgerIcon.querySelector("path");
+                      if (path)
+                        path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                      isMenuOpen = false;
+                    } else {
+                      mobileMenu.style.maxHeight =
+                        mobileMenu.scrollHeight + "px";
+                      mobileMenu.style.opacity = "1";
+                      hamburgerIcon.style.transform = "rotate(90deg)";
+                      const path = hamburgerIcon.querySelector("path");
+                      if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                      isMenuOpen = true;
+                    }
+                  });
+
+                  // Close menu when clicking outside
+                  document.addEventListener("click", function (event) {
+                    if (
+                      !mobileMenuButton.contains(event.target) &&
+                      !mobileMenu.contains(event.target) &&
+                      isMenuOpen
+                    ) {
+                      mobileMenu.style.maxHeight = "0px";
+                      mobileMenu.style.opacity = "0";
+                      hamburgerIcon.style.transform = "rotate(0deg)";
+                      const path = hamburgerIcon.querySelector("path");
+                      if (path)
+                        path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                      isMenuOpen = false;
+                    }
+                  });
+                }
+              }
+            }, 100);
+
+            // Load global-auth.js after navigation is loaded
+            const authScript = document.createElement("script");
+            authScript.src = "global-auth.js";
+            authScript.onload = () =>
+              console.log("Global auth loaded successfully");
+            authScript.onerror = () =>
+              console.error("Failed to load global-auth.js");
+            document.head.appendChild(authScript);
           })
           .catch((err) => console.error("Navigation load error:", err));
 
+        // --- LOADER ANIMATION SCRIPT ---
+        // Get references to the HTML elements
+        const loader = document.getElementById("loader");
+        const content = document.getElementById("loader-content");
+        const logo = document.getElementById("logo");
+        const text = document.getElementById("loader-text");
+
+        // Define the sequence of states for the animation
+        const states = [
+          {
+            bg: "#ffffff", // White
+            text: "Neosharx",
+            position: "position-left",
+            logoVisible: true,
+            textColor: "#111827", // Black
+          },
+          {
+            bg: "#3b82f6", // Blue
+            text: "Talks",
+            position: "position-top",
+            logoVisible: false,
+            textColor: "#ffffff", // White
+          },
+          {
+            bg: "#111827", // Black
+            text: "Startups",
+            position: "position-left",
+            logoVisible: false,
+            textColor: "#ffffff", // White
+          },
+          {
+            bg: "#ffffff", // White
+            text: "Neo stories",
+            position: "position-top",
+            logoVisible: false,
+            textColor: "#111827", // Black
+          },
+          {
+            bg: "#3b82f6", // Blue
+            text: "Projects",
+            position: "position-left",
+            logoVisible: false,
+            textColor: "#ffffff", // White
+          },
+          {
+            bg: "#ffffff", // White
+            text: "Neo stories",
+            position: "position-bottom",
+            logoVisible: false,
+            textColor: "#111827", // Black
+          },
+          {
+            bg: "#3b82f6", // Blue
+            text: "Projects",
+            position: "position-right",
+            logoVisible: false,
+            textColor: "#ffffff", // White
+          },
+          {
+            bg: "#111827", // Black
+            text: "Sharathons",
+            position: "position-top",
+            logoVisible: false,
+            textColor: "#ffffff", // White
+          },
+          {
+            bg: "#ffffff", // White
+            text: "Robosharx",
+            position: "position-left",
+            logoVisible: false,
+            textColor: "#111827", // Black
+          },
+          {
+            bg: "#3b82f6", // Blue
+            text: "Tech News",
+            position: "position-top",
+            logoVisible: false,
+            textColor: "#ffffff", // White
+          },
+        ];
+
+        let currentState = 0;
+
+        // Define animation timings (sped up for faster loader)
+        const FADE_IN_START = 50;
+        const MOVE_START = 300; // 250ms after interval starts
+        const MOVE_DURATION_CSS = 400; // This *must* match the CSS transition duration (0.4s)
+        const PAUSE_DURATION_CENTER = 350; // The 0.35s pause
+
+        // Calculate start time for fade-out
+        const FADE_OUT_START =
+          MOVE_START + MOVE_DURATION_CSS + PAUSE_DURATION_CENTER; // 300 + 400 + 350 = 1050ms
+
+        // Calculate total cycle time
+        const FADE_OUT_DURATION_CSS = 100; // From CSS (opacity 0.1s)
+        const TOTAL_CYCLE_TIME = FADE_OUT_START + FADE_OUT_DURATION_CSS; // 1050 + 100 = 1150ms
+
+        function runAnimationStep() {
+          const state = states[currentState];
+          const nextState = states[(currentState + 1) % states.length];
+
+          // 1. Set initial state (at position, hidden, correct text/logo/bg)
+
+          // --- FIX: Temporarily disable transitions to "snap" to position ---
+          content.style.transitionProperty = "none";
+
+          content.style.color = state.textColor;
+          text.textContent = state.text;
+          logo.style.display = state.logoVisible ? "flex" : "none";
+
+          content.classList.remove(
+            "position-left",
+            "position-top",
+            "position-right",
+            "position-bottom",
+            "position-center"
+          );
+          content.classList.add(state.position);
+
+          text.style.opacity = 0; // Text is hidden at the start
+          loader.style.backgroundColor = state.bg; // Set BG for this step
+
+          // Force the browser to apply the above styles *without* transition
+          void content.offsetWidth;
+
+          // --- FIX: Restore transitions *before* the first animation ---
+          content.style.transitionProperty =
+            "transform, opacity, color, top, left";
+          // --- END FIX ---
+
+          // 2. Fade IN at position
+          setTimeout(() => {
+            // --- FIX: Transitions are now re-enabled above ---
+            /*
+                content.style.transition = `
+                    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 0.2s ease-in-out,
+                    color 0.25s ease-in-out,
+                    top 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                    left 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+                `;
+                */
+            // --- END FIX ---
+
+            content.style.opacity = 1;
+            content.style.transform = "translate(-50%, -50%) scale(1)";
+          }, FADE_IN_START); // e.g., 100ms
+
+          // 3. Move to CENTER (and show text)
+          setTimeout(() => {
+            content.classList.remove(state.position);
+            content.classList.add("position-center");
+            text.style.opacity = 1; // Show text
+          }, MOVE_START); // e.g., 600ms
+
+          // 4. Fade OUT (after pause)
+          setTimeout(() => {
+            content.style.opacity = 0;
+            content.style.transform = "translate(-50%, -50%) scale(0.9)";
+            // Pre-load the *next* state's background color so it transitions during the fade-out
+            loader.style.backgroundColor = nextState.bg;
+          }, FADE_OUT_START); // e.g., 1800ms
+
+          // 5. Increment counter for the next cycle
+          currentState = (currentState + 1) % states.length;
+        }
+
         // --- LOADER SCRIPT ---
-        // Wait for all loader animations to complete (6 seconds total)
-        setTimeout(() => {
-          const loader = document.getElementById("loader-wrapper");
+        // Check if loader has been shown in this session
+        if (sessionStorage.getItem("loaderShown")) {
+          // Loader already shown, hide immediately and show content
+          const loader = document.getElementById("loader");
           const mainContent = document.getElementById("main-content");
-
-          // Hide loader
           loader.style.display = "none";
-
-          // Show main content with fade-in
           mainContent.classList.add("loaded");
-
-          // Initialize animations after content is visible
           initializeAnimations();
-        }, 6000); // 6 seconds for all loader panels
+        } else {
+          // Show loader for first time in this session
+          runAnimationStep(); // Run the first animation immediately
+
+          // Set the interval to run subsequent animations
+          setInterval(runAnimationStep, TOTAL_CYCLE_TIME); // e.g., 1150ms
+
+          // Hide loader after all animations complete (11.5 seconds for 10 states)
+          setTimeout(() => {
+            const loader = document.getElementById("loader");
+            const mainContent = document.getElementById("main-content");
+
+            // Hide loader
+            loader.style.display = "none";
+
+            // Show main content with fade-in
+            mainContent.classList.add("loaded");
+
+            // Mark loader as shown in session storage
+            sessionStorage.setItem("loaderShown", "true");
+
+            // Initialize animations after content is visible
+            initializeAnimations();
+          }, 11500); // 11.5 seconds for all loader animations
+        }
       });
 
       // --- ANIMATION INITIALIZATION ---
@@ -2598,6 +2782,21 @@
         });
       }
 
+      // --- CONTACT US BUTTON FUNCTIONALITY ---
+      const contactBtn = document.getElementById("contact-btn");
+      if (contactBtn) {
+        contactBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const footer = document.getElementById("footer");
+          if (footer) {
+            footer.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      }
+
       // Authentication logic - runs after navigation loads
       setTimeout(() => {
         updateAuthUI();
@@ -2646,7 +2845,7 @@
         }
       }
     </script>
-    <footer class="bg-black text-white">
+    <footer id="footer" class="bg-black text-white">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <!-- Social Media -->
@@ -2772,7 +2971,7 @@
                 <a
                   href="tel:+1234567890"
                   class="hover:text-white transition-colors"
-                  >+1 (234) 567-890</a
+                  >+91 7380405969</a
                 >
               </div>
             </div>

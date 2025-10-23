@@ -45,17 +45,6 @@
         }
       }
 
-      @keyframes blink {
-        0%,
-        50% {
-          opacity: 1;
-        }
-        51%,
-        100% {
-          opacity: 0;
-        }
-      }
-
       /* Featured Screen Slider */
       .featured-screens-container {
         position: relative;
@@ -167,7 +156,9 @@
       .view-btn:hover {
         background: #0066cc;
         transform: translateY(-1px);
-      } /* Slider controls */
+      }
+
+      /* Slider controls */
       .slider-controls {
         position: absolute;
         inset: auto 16px 16px 16px;
@@ -348,11 +339,11 @@
               Neo Projects
             </h1>
 
-            <!-- Animated Typing Taglines -->
+            <!-- Static Tagline -->
             <div
               style="
                 font-size: 2.3rem;
-                color: #007fff;
+                color: var(--black);
                 max-width: 800px;
                 margin: 0 auto;
                 font-weight: 500;
@@ -362,8 +353,7 @@
                 justify-content: center;
               "
             >
-              <span id="typingText"></span>
-              <span id="cursor" style="animation: blink 1s infinite">|</span>
+              Innovation starts here...
             </div>
           </div>
 
@@ -400,16 +390,8 @@
                   <!-- Single featured item will render here -->
                 </div>
                 <div class="slider-controls">
-                  <button
-                    id="prevFeatured"
-                    class="nav-btn"
-                    aria-label="Previous"
-                  >
-                    &lt;
-                  </button>
-                  <button id="nextFeatured" class="nav-btn" aria-label="Next">
-                    &gt;
-                  </button>
+                  <button id="prevFeatured">&lt;</button>
+                  <button id="nextFeatured">&gt;</button>
                 </div>
                 <div class="dots" id="featuredDots"></div>
               </div>
@@ -539,88 +521,6 @@
       let allProjects = [];
       let filteredProjects = [];
 
-      // Typing Animation
-      const taglines = [
-        "Innovation starts here...",
-        "Building the future, one project at a time...",
-        "Where ideas become reality...",
-        "Transforming visions into solutions...",
-        "Discover cutting-edge innovations...",
-        "Empowering creators and developers...",
-      ];
-
-      let currentTaglineIndex = 0;
-      let currentCharIndex = 0;
-      let isDeleting = false;
-      let typingSpeed = 100;
-
-      function typeTagline() {
-        const typingElement = document.getElementById("typingText");
-        const currentTagline = taglines[currentTaglineIndex];
-
-        if (!isDeleting) {
-          // Typing
-          typingElement.textContent = currentTagline.substring(
-            0,
-            currentCharIndex + 1
-          );
-          currentCharIndex++;
-
-          if (currentCharIndex === currentTagline.length) {
-            // Pause at the end before deleting
-            isDeleting = true;
-            setTimeout(typeTagline, 2000);
-            return;
-          }
-        } else {
-          // Deleting
-          typingElement.textContent = currentTagline.substring(
-            0,
-            currentCharIndex - 1
-          );
-          currentCharIndex--;
-
-          if (currentCharIndex === 0) {
-            isDeleting = false;
-            currentTaglineIndex = (currentTaglineIndex + 1) % taglines.length;
-            setTimeout(typeTagline, 500);
-            return;
-          }
-        }
-
-        setTimeout(typeTagline, isDeleting ? 50 : typingSpeed);
-      }
-
-      // Start typing animation on load
-      window.addEventListener("load", () => {
-        setTimeout(typeTagline, 500);
-      });
-
-      async function loadProjects() {
-        const loadingState = document.getElementById("loadingState");
-        const errorState = document.getElementById("errorState");
-        const emptyState = document.getElementById("emptyState");
-        const projectsGrid = document.getElementById("projectsGrid");
-
-        try {
-          const response = await fetch(`${API_BASE_URL}/neo-projects/`);
-          if (!response.ok) throw new Error("Failed to fetch projects");
-
-          allProjects = await response.json();
-          filteredProjects = [...allProjects];
-
-          // Load featured screens from projects that have them
-          loadFeaturedScreens(allProjects);
-
-          loadingState.classList.add("hidden");
-          renderProjects();
-        } catch (error) {
-          console.error("Error loading projects:", error);
-          loadingState.classList.add("hidden");
-          errorState.classList.remove("hidden");
-        }
-      }
-
       function loadFeaturedScreens(projects) {
         // Collect featured screens from all projects
         const allScreens = [];
@@ -744,6 +644,31 @@
         };
       }
 
+      async function loadProjects() {
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const emptyState = document.getElementById("emptyState");
+        const projectsGrid = document.getElementById("projectsGrid");
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/neo-projects/`);
+          if (!response.ok) throw new Error("Failed to fetch projects");
+
+          allProjects = await response.json();
+          filteredProjects = [...allProjects];
+
+          // Load featured screens from projects that have them
+          loadFeaturedScreens(allProjects);
+
+          loadingState.classList.add("hidden");
+          renderProjects();
+        } catch (error) {
+          console.error("Error loading projects:", error);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
       function renderProjects() {
         const projectsGrid = document.getElementById("projectsGrid");
         const emptyState = document.getElementById("emptyState");
@@ -857,10 +782,66 @@
         .then((res) => res.text())
         .then((html) => {
           document.getElementById("nav-container").innerHTML = html;
-          // Load global auth script after navigation is loaded
-          const script = document.createElement("script");
-          script.src = "global-auth.js";
-          document.head.appendChild(script);
+
+          // Initialize mobile menu after navigation is loaded
+          setTimeout(() => {
+            if (typeof initMobileMenu === "function") {
+              initMobileMenu();
+            } else {
+              // Fallback: try to initialize directly
+              const mobileMenuButton =
+                document.getElementById("mobile-menu-button");
+              const mobileMenu = document.getElementById("mobile-menu");
+              const hamburgerIcon = document.querySelector(".hamburger-icon");
+
+              if (mobileMenuButton && mobileMenu && hamburgerIcon) {
+                let isMenuOpen = false;
+                mobileMenuButton.addEventListener("click", function (e) {
+                  e.preventDefault();
+                  if (isMenuOpen) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  } else {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    mobileMenu.style.opacity = "1";
+                    hamburgerIcon.style.transform = "rotate(90deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M6 18L18 6M6 6l12 12");
+                    isMenuOpen = true;
+                  }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener("click", function (event) {
+                  if (
+                    !mobileMenuButton.contains(event.target) &&
+                    !mobileMenu.contains(event.target) &&
+                    isMenuOpen
+                  ) {
+                    mobileMenu.style.maxHeight = "0px";
+                    mobileMenu.style.opacity = "0";
+                    hamburgerIcon.style.transform = "rotate(0deg)";
+                    const path = hamburgerIcon.querySelector("path");
+                    if (path) path.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+                    isMenuOpen = false;
+                  }
+                });
+              }
+            }
+          }, 100);
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
         })
         .catch((err) => console.error("Navigation load error:", err));
 
