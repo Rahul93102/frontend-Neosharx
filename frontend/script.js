@@ -438,30 +438,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add keyboard navigation support
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        // Close mobile menu if open
-        const navLinks = document.querySelector('.nav-links');
-        const mobileToggle = document.querySelector('.mobile-menu-toggle');
-        
-        if (navLinks && navLinks.classList.contains('active')) {
-            navLinks.classList.remove('active');
-            mobileToggle.classList.remove('active');
-        }
-    }
-});
-
-// Add focus management for accessibility
-document.querySelectorAll('a, button, input, textarea').forEach(element => {
-    element.addEventListener('focus', function() {
-        this.style.outline = '2px solid #2563eb';
-        this.style.outlineOffset = '2px';
-    });
-    
-    element.addEventListener('blur', function() {
-        this.style.outline = 'none';
-    });
-});
-
 console.log('NeoSharX homepage loaded successfully! 🚀');
