@@ -23,44 +23,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#007fff",
-              "background-light": "#f5f7f8",
-              "background-dark": "#0f1923",
-            },
-            fontFamily: {
-              display: ["Space Grotesk"],
-              sans: ["Inter"],
-            },
-            borderRadius: {
-              DEFAULT: "0.25rem",
-              lg: "0.5rem",
-              xl: "0.75rem",
-              full: "9999px",
-            },
-            animation: {
-              scroll: "scroll 25s linear infinite",
-              marquee: "marquee 40s linear infinite",
-            },
-            keyframes: {
-              scroll: {
-                "0%": { transform: "translateX(0)" },
-                "100%": { transform: "translateX(-50%)" },
-              },
-              marquee: {
-                "0%": { transform: "translateX(0%)" },
-                "100%": { transform: "translateX(-100%)" },
-              },
-            },
-          },
-        },
-      };
-    </script>
     <style>
       html {
         scroll-behavior: smooth;
@@ -1933,7 +1895,7 @@
 
     <script>
       // API Configuration
-      const API_BASE_URL = "http://127.0.0.1:8001/api/auth";
+      const API_BASE_URL = "https://neosharx-backend-1.onrender.com/api/auth";
 
       // FIRST: Check for auth data from OAuth callback (passed via URL)
       (function () {
@@ -2529,7 +2491,7 @@
               const bgClass = type === "upcoming" ? "bg-[#007fff]" : "";
 
               // Admin edit URL
-              const adminEditUrl = `http://localhost:8001/admin/authentication/event/${event.id}/change/`;
+              const adminEditUrl = `https://neosharx-backend-1.onrender.com/admin/authentication/event/${event.id}/change/`;
               const eventDetailUrl = event.registration_url || "#";
 
               return `
@@ -2618,7 +2580,7 @@
                     : `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&modestbranding=1`;
 
                 // Admin edit URL
-                const adminEditUrl = `http://localhost:8001/admin/authentication/youtubevideo/${video.id}/change/`;
+                const adminEditUrl = `https://neosharx-backend-1.onrender.com/admin/authentication/youtubevideo/${video.id}/change/`;
                 const youtubeWatchUrl =
                   video.watch_url ||
                   `https://www.youtube.com/watch?v=${videoId}`;
