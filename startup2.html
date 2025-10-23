@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#067ff9",
+            "background-light": "#f5f7f8",
+            "background-dark": "#0f1923",
+          },
+          fontFamily: {
+            "display": ["Newsreader"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex flex-col min-h-screen">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2 text-gray-900 dark:text-white" href="#">
+<svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+<h2 class="text-xl font-bold">NeoSharX</h2>
+</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Xact Episodes</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Neo Stories</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Neo Projects</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">RoboSharX</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg">
+<span class="material-symbols-outlined pl-3 text-gray-500 dark:text-gray-400">search</span>
+<input class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent h-10 placeholder:text-gray-500 dark:placeholder:text-gray-400 px-2 text-sm" placeholder="Search" value=""/>
+</div>
+<button class="hidden sm:flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+<span>Post a story</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDqqYId23x8lSuzmsQgJOwMHaV6bxVrqzVrGy0asKqkH99nTJVXLnXU23PDF9gjrBK2fD-JaArCZ7XLI1sv57pMlLCwEsab_SItih72hDv0VpOZKD65GfwrrtFtNSfsyxWY-_kSQPQHYoj5xBEqJmzqWpyEWmbPc8vVJSIDV4tFBPryBK9Tw5cQrLOaAqeHHUYKy-JpUPb8MFc0qhXBsSoz2oeaxj-7ZwnCen49jugojPEx0thu1NStgayNK55YQ545ce3poX_Yg2M");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+<div class="lg:col-span-2">
+<article class="space-y-8">
+<div class="w-full aspect-[16/9] bg-center bg-no-repeat bg-cover rounded-xl overflow-hidden" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuABXA0ZE5GBV9V6eub5V7HPtVoHrqRXAv2QjWIAY51I4j3nV1aWFyyfe-ZGNR0QJnmI7X9x6tSd99Mh9g98xl2YtDDdVXB670oDeMAUGmawrHI5lWPEfZTZe8QRHM4tiJF9IuoIukADKKBKmKlO0VERSXRWXAC0996lSBUwHIti1wSkbEvD7jify1_vgM0o8gzy8-E2WK9NV38AwIW_HvGvAWzUYcTa3BHODCS4bPien_NVQTo2CGyvf3q7vFJyEzwanVaLq4rU8m4");'></div>
+<header>
+<h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">From Dorm Room to Boardroom: The Rise of InnovateTech</h1>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-400">By Ethan Carter | InnovateTech</p>
+</header>
+<div class="prose prose-lg dark:prose-invert max-w-none space-y-6 text-gray-700 dark:text-gray-300">
+<p>In this exclusive interview, we delve into the journey of Alex Turner, the visionary founder of InnovateTech, a company revolutionizing the tech industry with its innovative solutions. From humble beginnings in a college dorm room to leading a global enterprise, Alex shares the challenges, triumphs, and pivotal moments that shaped InnovateTech's remarkable ascent.</p>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">The Genesis of an Idea</h2>
+<p>Alex recounts the spark that ignited the idea for InnovateTech, a moment of inspiration during a late-night coding session. "I realized there was a gap in the market for user-friendly tech solutions," Alex explains. "I wanted to create something that not only met the needs of users but also simplified their lives."</p>
+<blockquote class="border-l-4 border-primary pl-4 italic text-gray-600 dark:text-gray-400">
+                    "We learned to pivot, to embrace failure as a learning opportunity, and to never lose sight of our vision."
+                </blockquote>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Navigating Early Challenges</h2>
+<p>The initial stages were fraught with challenges, from securing funding to building a team. Alex emphasizes the importance of resilience and adaptability. "There were times when we faced near-impossible hurdles," Alex admits. "But we learned to pivot, to embrace failure as a learning opportunity, and to never lose sight of our vision."</p>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Key Milestones and Breakthroughs</h2>
+<p>Alex highlights several key milestones that propelled InnovateTech forward, including the launch of their flagship product and a successful Series A funding round. "Each milestone was a testament to the hard work and dedication of our team," Alex reflects. "It validated our belief in the potential of InnovateTech and fueled our drive to innovate further."</p>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Looking Ahead</h2>
+<p>As InnovateTech continues to expand, Alex shares insights into the company's future plans and aspirations. "We're committed to pushing the boundaries of technology and creating solutions that have a positive impact on society," Alex states. "Our journey is far from over, and we're excited about the opportunities that lie ahead."</p>
+</div>
+</article>
+</div>
+<aside class="lg:col-span-1 lg:sticky lg:top-24 self-start">
+<div class="bg-gray-100 dark:bg-gray-800/50 p-6 rounded-xl">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Key Takeaways</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<div class="flex-shrink-0 size-8 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-sm text-gray-700 dark:text-gray-300">Embrace challenges as learning opportunities</p>
+</li>
+<li class="flex items-start gap-4">
+<div class="flex-shrink-0 size-8 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-sm text-gray-700 dark:text-gray-300">Stay adaptable and pivot when necessary</p>
+</li>
+<li class="flex items-start gap-4">
+<div class="flex-shrink-0 size-8 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-sm text-gray-700 dark:text-gray-300">Never lose sight of your vision</p>
+</li>
+<li class="flex items-start gap-4">
+<div class="flex-shrink-0 size-8 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check</span>
+</div>
+<p class="text-sm text-gray-700 dark:text-gray-300">Celebrate milestones and keep innovating</p>
+</li>
+</ul>
+</div>
+</aside>
+</div>
+<div class="mt-16 pt-12 border-t border-gray-200 dark:border-gray-800">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Related Stories</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<a class="group block" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-lg overflow-hidden mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-aYEYrbJfAaNDM1zMcfKnuGU4GTz-c5-xxH4o761RKd_OWROEVmtPBq4kmrypkn9nex636fVt-vPvFCOCnbxlBAtBROyvWVunr-adM-ZiqMYf9zyucqi9nU-F_xV2HF8amlN1u44YVY2NbEc4J66cnQo1WYzhFdetT845EBNGIfu-IA9h1-enmw_YNtACzP2wLuioO421mXd9x6uGoERUyB2aZKohLSh8rEyp1JGId9K769HUpfjsMdJc_nyw5qcJPsiHZb4dGcw");'></div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">The Journey of a Social Impact Startup</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Learn how a startup is making a difference in the world.</p>
+</a>
+<a class="group block" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-lg overflow-hidden mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDd5zfdVIHADBgtHrI6zukTrcf-oxLkPHQKJQk1iUYAhLUTpMeRhbAGljW7ELxjRQmWMQiZ0W108nTzdseo9Lm6IrXMDDth5sQ1XxqOUdidkZmPXqxphzQrNmDnPIqea80dq6KcGmTV8hYC7459VfrHd-Cpapn6uFj5a1mUuqGWSqwN098YnRxq82HmrDK9WXkHKa3tcJ-BanP-ZKHkIh6nHhbOCg3wVUTQUqTN6xpyUNLT2suQ2UewX_WxoPfhmP-yLHT0c3Oh6rw");'></div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">Building a Tech Empire from the Ground Up</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Discover the secrets behind a successful tech company.</p>
+</a>
+<a class="group block" href="#">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-lg overflow-hidden mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCUEoF8YoxWxw0DKeIJ3FBiuo2WZnsGbdSuOZnlihALFG1DnFolL6QZvVN-WuNso8KQfloSGi4CBUvjkZvYhw6hVeUEAapxPzhETt7mdSBQHiPC-_bluGw0r-WbSDstOIacDyIwjUlcuXI-BZnDZpkI0Hk8m0Z3zKdeEWHLnUyqYmPrq9Uuhn71EylZ3q29VMsbmog6iJKkeWl6ZKcTMWbxSngepdL7agiUkBU9Ju1bh47QPvKqh_TRWI6JaeM-oalurFpsA-IM7U4");'></div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">Revolutionizing Education with Technology</h3>
+<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Explore the innovative solutions transforming education.</p>
+</a>
+</div>
+</div>
+</main>
+<footer class="bg-gray-100 dark:bg-gray-900/50 mt-16">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+<p>© 2024 NeoSharX. All rights reserved.</p>
+</div>
+</footer>
+</div>
+
+</body></html>

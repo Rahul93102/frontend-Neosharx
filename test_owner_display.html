@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Owner Display</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 p-8">
+    <h1 class="text-2xl font-bold mb-8">Test Owner and Links Display</h1>
+
+    <div
+      id="owner-profile-section"
+      class="hidden bg-white rounded-2xl shadow-xl p-8 border border-gray-100 mb-8"
+    >
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <i class="fas fa-user-circle text-blue-600"></i>
+        Project Owner
+      </h2>
+      <div class="flex items-start gap-6">
+        <img
+          id="owner-avatar"
+          src=""
+          alt="Owner Avatar"
+          class="w-20 h-20 rounded-full border-4 border-blue-200"
+        />
+        <div class="flex-1">
+          <h3
+            id="owner-name"
+            class="text-2xl font-bold text-gray-900 mb-2"
+          ></h3>
+          <p id="owner-title" class="text-lg text-gray-600 mb-2"></p>
+          <p id="owner-company" class="text-gray-700 mb-4"></p>
+          <p id="owner-bio" class="text-gray-600 mb-4"></p>
+          <div id="owner-links" class="flex flex-wrap gap-3 mb-4"></div>
+          <div id="owner-skills" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="project-links-section"
+      class="hidden bg-white rounded-2xl shadow-xl p-8 border border-gray-100"
+    >
+      <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+        <i class="fas fa-link text-blue-600"></i>
+        Project Links
+      </h2>
+      <div id="project-links" class="grid md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <script>
+      // Test data from the API
+      const testOwner = {
+        id: 3,
+        name: "DataTech Solutions",
+        slug: "datatech-solutions",
+        bio: "Leading provider of data analytics and machine learning solutions for enterprise clients.",
+        avatar: "",
+        email: "team@datatech.com",
+        phone: "",
+        location: "",
+        linkedin_url: "https://linkedin.com/company/datatech",
+        github_url: "https://github.com/datatech",
+        twitter_url: "",
+        website_url: "",
+        title: "Data Science Team",
+        company: "DataTech Solutions",
+        experience_years: null,
+        skills: [
+          "Python",
+          "Scikit-learn",
+          "TensorFlow",
+          "PostgreSQL",
+          "Docker",
+        ],
+        interests: [
+          "Big Data",
+          "Analytics",
+          "Machine Learning",
+          "Cloud Computing",
+        ],
+        is_featured: false,
+        is_active: true,
+        created_at: "2025-10-18T05:41:26.285604Z",
+        updated_at: "2025-10-18T05:41:26.285733Z",
+        project_count: 1,
+        links: [
+          {
+            title: "LinkedIn",
+            url: "https://linkedin.com/company/datatech",
+            link_type: "linkedin",
+          },
+          {
+            title: "GitHub",
+            url: "https://github.com/datatech",
+            link_type: "github",
+          },
+        ],
+      };
+
+      const testLinks = [
+        {
+          id: 6,
+          project: 5,
+          project_title: "Learning Analytics Platform",
+          title: "Research Paper",
+          url: "https://datatech.com/research/ml-platform.pdf",
+          link_type: "documentation",
+          description: "Academic research paper on the platform",
+          is_active: true,
+          order: 1,
+          created_at: "2025-10-18T05:41:26.299702Z",
+          updated_at: "2025-10-18T05:41:26.299850Z",
+        },
+        {
+          id: 7,
+          project: 5,
+          project_title: "Learning Analytics Platform",
+          title: "Case Studies",
+          url: "https://datatech.com/case-studies",
+          link_type: "website",
+          description: "Real-world case studies and implementations",
+          is_active: true,
+          order: 2,
+          created_at: "2025-10-18T05:41:26.301488Z",
+          updated_at: "2025-10-18T05:41:26.301590Z",
+        },
+      ];
+
+      function displayOwner(owner) {
+        console.log("displayOwner called with:", owner);
+        const ownerSection = document.getElementById("owner-profile-section");
+        ownerSection.classList.remove("hidden");
+
+        // Set owner avatar
+        const avatar = document.getElementById("owner-avatar");
+        avatar.src =
+          owner.avatar || "https://i.pravatar.cc/150?img=" + (owner.id || 1);
+
+        // Set owner details
+        document.getElementById("owner-name").textContent =
+          owner.name || "Anonymous";
+        document.getElementById("owner-title").textContent = owner.title || "";
+        document.getElementById("owner-company").textContent =
+          owner.company || "";
+        document.getElementById("owner-bio").textContent = owner.bio || "";
+
+        // Display owner social links
+        const linksContainer = document.getElementById("owner-links");
+        const socialLinks = [];
+
+        if (owner.linkedin_url) {
+          socialLinks.push({
+            title: "LinkedIn",
+            url: owner.linkedin_url,
+            type: "linkedin",
+          });
+        }
+        if (owner.github_url) {
+          socialLinks.push({
+            title: "GitHub",
+            url: owner.github_url,
+            type: "github",
+          });
+        }
+        if (owner.twitter_url) {
+          socialLinks.push({
+            title: "Twitter",
+            url: owner.twitter_url,
+            type: "twitter",
+          });
+        }
+        if (owner.website_url) {
+          socialLinks.push({
+            title: "Website",
+            url: owner.website_url,
+            type: "website",
+          });
+        }
+
+        console.log("Social links found:", socialLinks);
+
+        if (socialLinks.length > 0) {
+          linksContainer.innerHTML = socialLinks
+            .map(function (link) {
+              const iconClass = getLinkIcon(link.type);
+              return (
+                '<a href="' +
+                link.url +
+                '" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors">' +
+                '<i class="' +
+                iconClass +
+                '"></i>' +
+                link.title +
+                "</a>"
+              );
+            })
+            .join("");
+        } else {
+          linksContainer.innerHTML = "";
+        }
+
+        // Display owner skills
+        const skillsContainer = document.getElementById("owner-skills");
+        if (owner.skills && owner.skills.length > 0) {
+          skillsContainer.innerHTML = owner.skills
+            .map(function (skill) {
+              return (
+                '<span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">' +
+                skill +
+                "</span>"
+              );
+            })
+            .join("");
+        } else {
+          skillsContainer.innerHTML = "";
+        }
+      }
+
+      function displayAdditionalLinks(links) {
+        console.log("displayAdditionalLinks called with:", links);
+        if (!links || links.length === 0) return;
+
+        const linksSection = document.getElementById("project-links-section");
+        linksSection.classList.remove("hidden");
+
+        const linksContainer = document.getElementById("project-links");
+        linksContainer.innerHTML = links
+          .map(function (link) {
+            const iconClass = getLinkIcon(link.link_type);
+            return (
+              '<a href="' +
+              link.url +
+              '" target="_blank" class="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors group">' +
+              '<i class="' +
+              iconClass +
+              ' text-blue-600 text-xl group-hover:scale-110 transition-transform"></i>' +
+              '<div class="flex-1">' +
+              '<h4 class="font-semibold text-gray-900">' +
+              link.title +
+              "</h4>" +
+              '<p class="text-sm text-gray-600">' +
+              (link.description || link.url) +
+              "</p>" +
+              "</div>" +
+              '<i class="fas fa-external-link-alt text-gray-400 group-hover:text-blue-600 transition-colors"></i>' +
+              "</a>"
+            );
+          })
+          .join("");
+      }
+
+      function getLinkIcon(linkType) {
+        const icons = {
+          linkedin: "fab fa-linkedin",
+          github: "fab fa-github",
+          twitter: "fab fa-twitter",
+          website: "fas fa-globe",
+          portfolio: "fas fa-briefcase",
+          blog: "fas fa-blog",
+          youtube: "fab fa-youtube",
+          discord: "fab fa-discord",
+          telegram: "fab fa-telegram",
+          email: "fas fa-envelope",
+          demo: "fas fa-play-circle",
+          api: "fas fa-code",
+          documentation: "fas fa-book",
+          social: "fas fa-users",
+          other: "fas fa-external-link-alt",
+        };
+        return icons[linkType] || "fas fa-external-link-alt";
+      }
+
+      // Test the functions
+      displayOwner(testOwner);
+      displayAdditionalLinks(testLinks);
+    </script>
+  </body>
+</html>

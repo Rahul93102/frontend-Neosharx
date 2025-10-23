@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Hackathon Mentors</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .judges-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+      .judge-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .judge-avatar {
+        flex-shrink: 0;
+      }
+      .judge-info {
+        flex: 1;
+      }
+      .judge-name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 0.25rem;
+      }
+      .judge-role {
+        color: #6b7280;
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+      }
+      .judge-company {
+        color: #374151;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+      .judge-bio {
+        color: #6b7280;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+      }
+      .mentor-links {
+        margin-top: 0.75rem;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 p-8">
+    <h1 class="text-2xl font-bold mb-8">Test Hackathon Mentors Display</h1>
+
+    <section class="content-section">
+      <h2 class="text-2xl font-bold mb-6">Judges & Mentors</h2>
+      <div id="mentorsGrid" class="judges-grid">
+        <!-- Mentors will be populated here -->
+      </div>
+    </section>
+
+    <script>
+      // Test data from the API
+      const hackathonData = {
+        mentors: [
+          {
+            id: 1,
+            name: "Sarah Chen",
+            slug: "sarah-chen",
+            avatar: "https://i.pravatar.cc/150?img=1",
+            title: "Senior Software Engineer",
+            company: "Google",
+            bio: "Senior Software Engineer at Google with 8+ years of experience in AI/ML and distributed systems.",
+            linkedin_url: "https://linkedin.com/in/sarahchen",
+            github_url: "https://github.com/sarahchen",
+            links: [
+              {
+                title: "Resume/CV",
+                url: "https://sarahchen.dev/resume.pdf",
+                link_type: "resume",
+                description: "My professional resume",
+                is_active: true,
+              },
+            ],
+          },
+          {
+            id: 2,
+            name: "Marcus Rodriguez",
+            slug: "marcus-rodriguez",
+            avatar: "https://i.pravatar.cc/150?img=2",
+            title: "Startup Mentor & Developer",
+            company: "TechStars",
+            bio: "Full-stack developer and startup mentor. Built 3 successful startups and mentored 50+ teams.",
+            linkedin_url: "https://linkedin.com/in/marcusrodriguez",
+            github_url: "https://github.com/marcusrodriguez",
+            links: [],
+          },
+        ],
+      };
+
+      // Render mentors
+      function renderMentors() {
+        const mentorsGrid = document.getElementById("mentorsGrid");
+        const mentors = hackathonData.mentors || [];
+
+        if (mentors.length === 0) {
+          mentorsGrid.innerHTML = `
+                    <div class="judge-card">
+                        <div class="judge-avatar">
+                            <span class="fas fa-user text-3xl text-blue-500"></span>
+                        </div>
+                        <div class="judge-info">
+                            <h3 class="judge-name">Mentors TBA</h3>
+                            <p class="judge-role">To be announced</p>
+                            <p class="judge-company">NeoSharX Team</p>
+                        </div>
+                    </div>
+                `;
+          return;
+        }
+
+        let html = "";
+        for (const mentor of mentors) {
+          const avatar =
+            mentor.avatar ||
+            "https://i.pravatar.cc/150?img=" + (mentor.id || 1);
+          const socialLinks = [];
+
+          if (mentor.linkedin_url)
+            socialLinks.push({ type: "linkedin", url: mentor.linkedin_url });
+          if (mentor.github_url)
+            socialLinks.push({ type: "github", url: mentor.github_url });
+          if (mentor.twitter_url)
+            socialLinks.push({ type: "twitter", url: mentor.twitter_url });
+          if (mentor.website_url)
+            socialLinks.push({ type: "website", url: mentor.website_url });
+
+          // Add additional links
+          if (mentor.links) {
+            mentor.links.forEach((link) => {
+              if (link.is_active) {
+                socialLinks.push({
+                  type: link.link_type,
+                  url: link.url,
+                  title: link.title,
+                });
+              }
+            });
+          }
+
+          const linksHtml =
+            socialLinks.length > 0
+              ? `
+                    <div class="mentor-links flex flex-wrap gap-2">
+                        ${socialLinks
+                          .map(
+                            (link) => `
+                            <a href="${
+                              link.url
+                            }" target="_blank" class="inline-flex items-center gap-1 px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors">
+                                <i class="${getLinkIcon(
+                                  link.type
+                                )} text-xs"></i>
+                                ${link.title || link.type}
+                            </a>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                `
+              : "";
+
+          html += `
+                    <div class="judge-card">
+                        <div class="judge-avatar">
+                            <img src="${avatar}" alt="${
+            mentor.name
+          }" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://i.pravatar.cc/150?img=${
+            mentor.id || 1
+          }'">
+                        </div>
+                        <div class="judge-info">
+                            <h3 class="judge-name">${mentor.name}</h3>
+                            <p class="judge-role">${
+                              mentor.title || "Mentor"
+                            }</p>
+                            <p class="judge-company">${mentor.company || ""}</p>
+                            ${
+                              mentor.bio
+                                ? `<p class="judge-bio">${mentor.bio}</p>`
+                                : ""
+                            }
+                            ${linksHtml}
+                        </div>
+                    </div>
+                `;
+        }
+        mentorsGrid.innerHTML = html;
+      }
+
+      // Get icon class for link type
+      function getLinkIcon(linkType) {
+        const icons = {
+          linkedin: "fab fa-linkedin",
+          github: "fab fa-github",
+          twitter: "fab fa-twitter",
+          website: "fas fa-globe",
+          portfolio: "fas fa-briefcase",
+          blog: "fas fa-blog",
+          youtube: "fab fa-youtube",
+          resume: "fas fa-file-pdf",
+          other: "fas fa-external-link-alt",
+        };
+        return icons[linkType] || "fas fa-external-link-alt";
+      }
+
+      // Test the function
+      renderMentors();
+    </script>
+  </body>
+</html>

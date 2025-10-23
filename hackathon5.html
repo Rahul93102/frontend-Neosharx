@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeoSharX SharXathon</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+            },
+            fontFamily: {
+              display: ["Space Grotesk"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-gray-200/50 bg-background-light/80 backdrop-blur-sm px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-gray-900">
+<img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain">
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="#">Xact Episodes</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="#">Neo Stories</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="#">Neo Projects</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="#">RoboSharX</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors">
+<span class="truncate">Join NeoSharX</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 sm:px-10 md:px-20 lg:px-40 py-12">
+<div class="mx-auto max-w-5xl">
+<div class="mb-8">
+<h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">SharXathon: Future Forward</h1>
+<p class="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
+              Join us for a 48-hour sprint of innovation and creativity, where you'll build the future of technology. Compete for prizes, network with industry leaders, and showcase your skills.
+            </p>
+</div>
+<div class="sticky top-[65px] z-40 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm -mx-4 sm:-mx-6 px-4 sm:px-6 mb-8">
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon.html">Overview</a>
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon6.html">Rules</a>
+<a class="whitespace-nowrap border-b-2 border-primary px-1 py-4 text-sm font-medium text-primary" href="hackathon5.html">Judges</a>
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon4.html">Winners</a>
+</nav>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 space-y-10">
+<section id="judges-list">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Meet the Judges</h2>
+<div class="space-y-8">
+<div class="flex flex-col sm:flex-row items-start gap-6 p-6 rounded-xl bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50">
+<img alt="Dr. Alex Turner" class="size-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSUvQkKO957vFND3eUqOWjHs4HQQCtTAURxM0AGAuZF9d5H43ARvW88I4-chN4U0gMBQHMKUctE0xV4PmOdqYd86VqzZ49R-GwuaiTj5eQjd3xT4OJMi3S0v-tqUP08INsOPYQIBGxh1Ih_nyhUY4HRLhs19NtGtOp9dWLH_N76YSZsecLch8w_p9ad23Z-XTjdsaqFDLn8rzC8EDWqmmyinwGW9Rxf1vvSSxpzh5v9yaX4yL3kbhpltNbM81yfrbmzd48diuvAGA"/>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Alex Turner</h3>
+<p class="text-sm font-medium text-primary mt-1">AI &amp; Machine Learning</p>
+<p class="mt-3 text-gray-600 dark:text-gray-400">Dr. Turner is a leading researcher in generative AI, with a focus on creating novel applications that push the boundaries of creativity and technology. He has published numerous papers and holds several patents in the field.</p>
+<div class="mt-4 flex items-center gap-4 text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-1.25 15.5v-4.5H8.25v-2.5h2.5V9.74c0-2.4 1.4-3.74 3.51-3.74c.99 0 1.99.07 1.99.07v2.23h-1.34c-1.16 0-1.38.55-1.38 1.35V11h2.7l-.35 2.5h-2.35v4.5h-2.75z"></path></svg>
+</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46 6c-.8.35-1.65.58-2.5.68c.9-.53 1.58-1.37 1.9-2.4c-.84.5-1.77.86-2.77 1.05C18.3 4.5 17.26 4 16.12 4c-2.36 0-4.28 1.92-4.28 4.28c0 .34.04.67.1.98C8.28 9.09 5.15 7.4 3.03 4.79c-.36.62-.56 1.34-.56 2.1c0 1.48.75 2.79 1.9 3.54c-.7-.02-1.36-.21-1.94-.53v.05c0 2.07 1.47 3.8 3.42 4.19c-.36.1-.73.15-1.12.15c-.27 0-.54-.03-.8-.08c.54 1.7 2.1 2.93 3.95 2.97C6.06 18.36 4.13 19 2 19c-.34 0-.67-.02-1-.06c1.88 1.2 4.12 1.9 6.56 1.9c7.87 0 12.17-6.52 12.17-12.17c0-.18 0-.37-.01-.55c.83-.6 1.56-1.35 2.14-2.22z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-start gap-6 p-6 rounded-xl bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50">
+<img alt="Dr. Evelyn Reed" class="size-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTi5xjfonGtWCbPU9_KMZwuZr7jcLWazVvAsXG2MVhMuYPn9yyWWzqhGKJTLmlgRQ5BUeUPgBSbENanLy09EsZOJNYxcim1_yK-JoyK1VrHqX6zj4Ek4Iz5AgCtHIj3eQfpEbmYAhSu39pnAr7JHMEpf7ohUZ2_weV1NrKn35FbhcBy-7E9ewuXcyLzcybboFwWSS-9BG5EYg0spWxyE2Mnoq_hS2_xC7YtzLtGoESHk0wj_xPqwzVuE3UuwP34KNc1ONQC2S6rVM"/>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Evelyn Reed</h3>
+<p class="text-sm font-medium text-primary mt-1">Cybersecurity &amp; Blockchain</p>
+<p class="mt-3 text-gray-600 dark:text-gray-400">With over 15 years in cybersecurity, Dr. Reed is an expert in decentralized systems and data privacy. She is a strong advocate for ethical technology and has advised several startups on secure architecture.</p>
+<div class="mt-4 flex items-center gap-4 text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-7 5.5c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5s-1.57-3.5-3.5-3.5zm-5.5 0c0 .83-.67 1.5-1.5 1.5S3.5 9.33 3.5 8.5S4.17 7 5 7s1.5.67 1.5 1.5z"></path></svg>
+</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.46 6c-.8.35-1.65.58-2.5.68c.9-.53 1.58-1.37 1.9-2.4c-.84.5-1.77.86-2.77 1.05C18.3 4.5 17.26 4 16.12 4c-2.36 0-4.28 1.92-4.28 4.28c0 .34.04.67.1.98C8.28 9.09 5.15 7.4 3.03 4.79c-.36.62-.56 1.34-.56 2.1c0 1.48.75 2.79 1.9 3.54c-.7-.02-1.36-.21-1.94-.53v.05c0 2.07 1.47 3.8 3.42 4.19c-.36.1-.73.15-1.12.15c-.27 0-.54-.03-.8-.08c.54 1.7 2.1 2.93 3.95 2.97C6.06 18.36 4.13 19 2 19c-.34 0-.67-.02-1-.06c1.88 1.2 4.12 1.9 6.56 1.9c7.87 0 12.17-6.52 12.17-12.17c0-.18 0-.37-.01-.55c.83-.6 1.56-1.35 2.14-2.22z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-start gap-6 p-6 rounded-xl bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50">
+<img alt="Dr. Samuel Hayes" class="size-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFilVqwCqdWMgAl00PJbMK3f15dT4agGEoZ_jq_7L_pH9H6tzHvgBc8yc0Uj_pwpxfO6iy7IwM_ZmlFunWvQorxClE4MdMHPOkmzo2RA3Jjrzln7Hi8YoqxGVLr4sUiveoVgC-ReAirtwsdLqMuYMaDD-nf4oUiXDuUoX89dlcDRbRL0coJHnzvI6lUkunECqwYO72oDe1k3I1S3Efkt1UNCxGdarfxHpHKeBSGnBqhuZD-XcRKCuhsZLDp_6TI-kb_r1v5mHIWpU"/>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Samuel Hayes</h3>
+<p class="text-sm font-medium text-primary mt-1">Software Architecture</p>
+<p class="mt-3 text-gray-600 dark:text-gray-400">Dr. Hayes is a veteran software architect with experience in building scalable, resilient systems for high-growth startups. He is passionate about mentoring the next generation of software engineers.</p>
+<div class="mt-4 flex items-center gap-4 text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-7 5.5c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5s-1.57-3.5-3.5-3.5zm-5.5 0c0 .83-.67 1.5-1.5 1.5S3.5 9.33 3.5 8.5S4.17 7 5 7s1.5.67 1.5 1.5z"></path></svg>
+</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-1.25 15.5v-4.5H8.25v-2.5h2.5V9.74c0-2.4 1.4-3.74 3.51-3.74c.99 0 1.99.07 1.99.07v2.23h-1.34c-1.16 0-1.38.55-1.38 1.35V11h2.7l-.35 2.5h-2.35v4.5h-2.75z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<aside class="lg:col-span-1 space-y-8">
+<section id="prizes">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Prizes</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p><b>1st Place:</b> $5,000 + Mentorship from Industry Experts</p>
+<p><b>2nd Place:</b> $3,000 + Access to Premium Resources</p>
+<p><b>3rd Place:</b> $2,000 + Networking Opportunities</p>
+</div>
+</section>
+<section id="criteria">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Judging Criteria</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p>Projects will be evaluated based on:</p>
+<ul class="list-disc pl-5">
+<li>Innovation (30%)</li>
+<li>Technical Implementation (30%)</li>
+<li>Impact and Relevance (20%)</li>
+<li>Presentation and Demo (20%)</li>
+</ul>
+</div>
+</section>
+</aside>
+</div>
+<section class="mt-16" id="winners">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Winners</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdtHBnFzVzANK1yIFHiqZ1-oQ4oF-9uhoVQbmjN61a4qx9OPZ2KmoZ8Ku7ARBE6aDDjGRoc_RuHH5BRyYOjENHZtLRDEgxghhqmxiqHSjuj9QI0CaGy3xgeyOxx7JDRv5kNhZuCuWkofwBjOQLH_AYgzAvciC2UuSRF10-XYXs6jZ_OZRFB64y3wLH6pKOVuW01KMlk-q04353OC7wZL-mkJMLHiF8y2GHvhD0bISRyHu8I12fC0OFmByqTh6XxLsHXMZQb-VzcjY");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">AquaSmart</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team EcoTech</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">A smart irrigation system using AI to optimize water usage in agriculture.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5jpRADoccXUWsZuqhRew3crp7qRuE6W-73fGpQfLDG9FKEttprkgmk_AwExauYhbmsbWY2l3F88lul4MHY1qBM6E9A4l-LZIPWMiiIydQ0pa0U6Hm1qpoBk6WyZCNj4jEKNPKWMd2iD7-L3oaNZFpqXZbAzvB33AE9VolxBP5B_R0ntznUGvGqoIlkvvrqLfsHPxJDfwdEmDPIa3qqp1eDE-q9Mxpmjwg5EvRpI2aBjAVfFlcAp7Bz_ZMmcIH4AWvjen2rX_xok8");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">GreenChain</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team BlockEarth</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">A platform connecting volunteers with environmental projects using blockchain for transparency.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAS0iyzptPTMFX5sO0clz2yL2u2xPyXSF0mw4jM6jy-dKR0s_dq0C1B7llaT4R6LajqcKg80bBRy64LdxiQULqanQ7rFKVj-apIEZf7Rs3T2MIIKipBHRm4h0szsQC4p6_ghf7nenY9BegJYEQrojEQpflHBeYiY06lCDryyNnF0FS7qv7GEzlkO7iQl8cE_vMbf1Mabee0owHMJRHmiOyYnxt7MvlCwx9-xyRxoN-0OPVbkLeloMJLNge0skhMMT8h-D7dKKr__qk");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">CarbonZero</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team ZeroEmissions</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">An app that tracks and reduces carbon footprint through gamified challenges.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

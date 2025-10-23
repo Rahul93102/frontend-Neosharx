@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NeoSharX - Startup Stories</title>
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+              "content-light": "#111418",
+              "content-dark": "#f5f7f8",
+              "subtle-light": "#5f758c",
+              "subtle-dark": "#a0aec0",
+            },
+            fontFamily: {
+              display: ["Newsreader"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "0.75rem",
+              xl: "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #067ff9;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Featured Screen Slider */
+      .featured-screens-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 32px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .featured-media {
+        background: #007fff;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 32px;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: #007fff;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        z-index: 10;
+      }
+
+      .featured-category {
+        color: #666;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .featured-title {
+        color: #000;
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .featured-intro {
+        color: #333;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .read-btn {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        background: #007fff;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+        align-self: flex-start;
+      }
+
+      .read-btn:hover {
+        background: #0066cc;
+      }
+
+      .slider-controls {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        justify-content: center;
+      }
+
+      .nav-btn {
+        background: #007fff;
+        color: #fff;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s;
+      }
+
+      .nav-btn:hover {
+        background: #0066cc;
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 16px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ccc;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .dot.active {
+        background: #007fff;
+      }
+
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark"
+  >
+    <div class="relative flex flex-col min-h-screen w-full">
+      <div id="nav-container"></div>
+
+      <header
+        style="
+          background: #007fff;
+          color: #fff;
+          text-align: center;
+          padding: 2rem 0;
+          font-size: 2rem;
+          font-weight: 700;
+          margin-bottom: 2rem;
+          border-radius: 0 0 1.5rem 1.5rem;
+          box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+        "
+      >
+        Startups
+      </header>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="max-w-4xl mx-auto mb-8">
+          <div class="text-center mb-8 mt-12">
+            <h1 class="text-5xl font-extrabold tracking-tighter mb-4">
+              Startup Stories
+            </h1>
+            <p
+              class="text-lg text-subtle-light dark:text-subtle-dark max-w-2xl mx-auto"
+            >
+              Dive into the journeys of founders and their innovative ventures.
+              Discover insights, challenges, and triumphs from the startup
+              ecosystem.
+            </p>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+            <select
+              id="industryFilter"
+              class="flex items-center gap-2 px-7 py-2 text-sm font-medium bg-background-light dark:bg-background-dark border border-subtle-light/20 dark:border-subtle-dark/20 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"
+            >
+              <option value="">All Industries</option>
+              <option value="technology">Technology</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="finance">Finance</option>
+              <option value="education">Education</option>
+              <option value="ai_ml">AI/ML</option>
+              <option value="saas">SaaS</option>
+              <option value="other">Other</option>
+            </select>
+
+            <select
+              id="stageFilter"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-background-light dark:bg-background-dark border border-subtle-light/20 dark:border-subtle-dark/20 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"
+            >
+              <option value="">Stage</option>
+              <option value="idea">Idea</option>
+              <option value="pre_seed">Pre-Seed</option>
+              <option value="seed">Seed</option>
+              <option value="series_a">Series A</option>
+              <option value="series_b">Series B</option>
+              <option value="growth">Growth</option>
+            </select>
+
+            <select
+              id="sortFilter"
+              class="flex items-center gap-2 px-8 py-2 text-sm font-medium bg-background-light dark:bg-background-dark border border-subtle-light/20 dark:border-subtle-dark/20 rounded-full hover:bg-primary/10 transition-colors cursor-pointer"
+            >
+              <option value="recent">Sort by: Recent</option>
+              <option value="popular">Most Popular</option>
+              <option value="alphabetical">Alphabetical</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Featured Screens Slider (Wider Container) -->
+        <div class="max-w-6xl mx-auto mb-12">
+          <div id="featuredScreensSection" class="hidden">
+            <div class="featured-screens-container">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 12px;
+                "
+              >
+                <span style="font-weight: 600; color: #000; font-size: 1rem"
+                  >Featured Highlight</span
+                >
+                <span
+                  style="color: #666; font-weight: 500; font-size: 0.9rem"
+                ></span>
+              </div>
+
+              <div id="featuredSlider" class="featured-slider">
+                <div
+                  id="featuredInner"
+                  class="featured-card"
+                  aria-live="polite"
+                >
+                  <!-- Single featured item will render here -->
+                </div>
+                <div class="slider-controls"></div>
+                <div class="dots" id="featuredDots"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Container (Back to max-w-4xl) -->
+        <div class="max-w-4xl mx-auto">
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p class="text-subtle-light dark:text-subtle-dark">
+              Loading stories...
+            </p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p class="text-red-500 text-lg mb-4">Failed to load stories</p>
+            <button
+              onclick="location.reload()"
+              class="bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+
+        <!-- More Stories Section -->
+        <h2 class="text-3xl font-bold tracking-tight text-center mb-10">
+          More Stories
+        </h2>
+        <div
+          id="moreStories"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <!-- Stories will be loaded here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-12">
+          <p class="text-xl text-subtle-light dark:text-subtle-dark">
+            No stories found
+          </p>
+          <p class="text-subtle-light dark:text-subtle-dark mt-2">
+            Try adjusting your filters
+          </p>
+        </div>
+      </main>
+      <!-- Comments Section -->
+      <!-- Neo Projects Section -->
+      <section class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Neo Projects
+            </h2>
+            <p
+              class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            >
+              Innovative projects and developments from our community - from web
+              apps to AI solutions
+            </p>
+          </div>
+
+          <!-- Featured Neo Projects -->
+          <div class="mb-12">
+            <h3
+              class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200"
+            >
+              Featured Projects
+            </h3>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              id="featured-neo-projects-container"
+            >
+              <!-- Loading placeholder -->
+              <div class="col-span-full text-center py-8">
+                <div
+                  class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
+                ></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">
+                  Loading featured projects...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- All Neo Projects -->
+          <div>
+            <h3
+              class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200"
+            >
+              More Projects
+            </h3>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              id="neo-projects-container"
+            >
+              <!-- Loading placeholder -->
+              <div class="col-span-full text-center py-8">
+                <div
+                  class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
+                ></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">
+                  Loading projects...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comments Section -->
+      <div
+        class="mt-12 pt-8 border-t border-subtle-light/20 dark:border-subtle-dark/20"
+      >
+        <div id="comments-container"></div>
+      </div>
+
+      <footer
+        class="bg-background-light dark:bg-background-dark border-t border-subtle-light/20 dark:border-subtle-dark/20"
+      >
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div
+            class="flex flex-col md:flex-row justify-between items-center gap-6"
+          >
+            <div class="flex items-center gap-2 text-primary">
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 48 48"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+              <h2 class="text-lg font-bold">NeoSharX</h2>
+            </div>
+            <div
+              class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+            >
+              <a
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"
+                href="#"
+                >About</a
+              >
+              <a
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"
+                href="#"
+                >Contact</a
+              >
+              <a
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"
+                href="#"
+                >Terms of Service</a
+              >
+              <a
+                class="text-sm text-subtle-light dark:text-subtle-dark hover:text-primary transition-colors"
+                href="#"
+                >Privacy Policy</a
+              >
+            </div>
+            <p class="text-sm text-subtle-light dark:text-subtle-dark">
+              © 2023 NeoSharX. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:8001";
+      let allStories = [];
+      let originalStories = [];
+      let allNeoProjects = [];
+      let originalNeoProjects = [];
+
+      // Fetch neo projects from backend
+      async function loadNeoProjects() {
+        try {
+          // Load featured neo projects
+          const featuredResponse = await fetch(
+            `${API_BASE_URL}/api/auth/neo-projects/featured/`
+          );
+          let featuredProjects = [];
+          if (featuredResponse.ok) {
+            featuredProjects = await featuredResponse.json();
+          }
+
+          // Load all neo projects
+          const allResponse = await fetch(
+            `${API_BASE_URL}/api/auth/neo-projects/`
+          );
+          if (!allResponse.ok) {
+            throw new Error("Failed to fetch neo projects");
+          }
+
+          allNeoProjects = await allResponse.json();
+          originalNeoProjects = [...allNeoProjects];
+
+          // Display featured projects
+          displayFeaturedNeoProjects(featuredProjects);
+
+          // Display more projects (excluding featured ones)
+          displayMoreNeoProjects();
+        } catch (error) {
+          console.error("Error loading neo projects:", error);
+          // Show error state for both containers
+          const featuredContainer = document.getElementById(
+            "featured-neo-projects-container"
+          );
+          const projectsContainer = document.getElementById(
+            "neo-projects-container"
+          );
+
+          if (featuredContainer) {
+            featuredContainer.innerHTML = `
+              <div class="col-span-full text-center py-8 text-red-600">
+                <p>Failed to load featured projects</p>
+              </div>
+            `;
+          }
+
+          if (projectsContainer) {
+            projectsContainer.innerHTML = `
+              <div class="col-span-full text-center py-8 text-red-600">
+                <p>Failed to load projects</p>
+              </div>
+            `;
+          }
+        }
+      }
+
+      function displayFeaturedNeoProjects(projects) {
+        const container = document.getElementById(
+          "featured-neo-projects-container"
+        );
+
+        if (!container) return;
+
+        if (projects.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-8 text-gray-600">
+              <p>No featured projects available</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = projects
+          .slice(0, 3)
+          .map(
+            (project) => `
+          <div class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="window.open('${
+            project.demo_url || project.github_url || "#"
+          }', '_blank')">
+            <div class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 overflow-hidden">
+              ${
+                project.featured_image
+                  ? `
+                <img src="${project.featured_image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              `
+                  : `
+                <div class="w-full h-full flex items-center justify-center">
+                  <div class="text-white text-4xl opacity-50">
+                    <span class="material-symbols-outlined">code</span>
+                  </div>
+                </div>
+              `
+              }
+              <div class="absolute top-3 right-3">
+                <span class="bg-primary text-white text-xs px-2 py-1 rounded-full font-medium">
+                  ${project.category.replace("_", " ").toUpperCase()}
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
+                ${project.title}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                ${project.description}
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded">
+                    ${project.difficulty_level}
+                  </span>
+                  <span class="text-xs bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 px-2 py-1 rounded">
+                    ${project.status.replace("_", " ")}
+                  </span>
+                </div>
+                ${
+                  project.github_url
+                    ? `
+                  <a href="${project.github_url}" target="_blank" class="text-primary hover:text-primary/80 transition-colors">
+                    <span class="material-symbols-outlined text-lg">open_in_new</span>
+                  </a>
+                `
+                    : ""
+                }
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      function displayMoreNeoProjects() {
+        const projects = allNeoProjects
+          .filter((project) => !project.is_featured)
+          .slice(0, 6);
+        const container = document.getElementById("neo-projects-container");
+
+        if (!container) return;
+
+        if (projects.length === 0) {
+          container.innerHTML = `
+            <div class="col-span-full text-center py-8 text-gray-600">
+              <p>No projects available</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = projects
+          .map(
+            (project) => `
+          <div class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="window.open('${
+            project.demo_url || project.github_url || "#"
+          }', '_blank')">
+            <div class="relative h-40 bg-gradient-to-br from-gray-400 to-gray-600 overflow-hidden">
+              ${
+                project.featured_image
+                  ? `
+                <img src="${project.featured_image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+              `
+                  : `
+                <div class="w-full h-full flex items-center justify-center">
+                  <div class="text-white text-3xl opacity-50">
+                    <span class="material-symbols-outlined">build</span>
+                  </div>
+                </div>
+              `
+              }
+              <div class="absolute top-2 right-2">
+                <span class="bg-primary text-white text-xs px-2 py-1 rounded-full font-medium">
+                  ${project.category.replace("_", " ").toUpperCase()}
+                </span>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                ${project.title}
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">
+                ${project.description}
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
+                  ${project.difficulty_level}
+                </span>
+                ${
+                  project.github_url
+                    ? `
+                  <a href="${project.github_url}" target="_blank" class="text-primary hover:text-primary/80 transition-colors">
+                    <span class="material-symbols-outlined text-base">code</span>
+                  </a>
+                `
+                    : ""
+                }
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      // Fetch startup stories from backend
+      async function loadStartupStories() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/auth/stories/`);
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch stories");
+          }
+
+          allStories = await response.json();
+          originalStories = [...allStories];
+
+          // Hide loading state
+          document.getElementById("loadingState").classList.add("hidden");
+
+          // Load featured screens
+          loadFeaturedScreens(allStories);
+
+          // Display stories (removed displayFeaturedStory)
+          displayMoreStories();
+        } catch (error) {
+          console.error("Error loading stories:", error);
+          document.getElementById("loadingState").classList.add("hidden");
+          document.getElementById("errorState").classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(items) {
+        const allScreens = [];
+        items.forEach((item) => {
+          if (
+            item.featured_screen &&
+            item.featured_screen.url &&
+            item.featured_screen.is_featured
+          ) {
+            allScreens.push({
+              url: item.featured_screen.url,
+              type: item.featured_screen.type || "image",
+              item: item,
+            });
+          }
+        });
+
+        if (allScreens.length === 0) return;
+
+        window._featuredState = {
+          items: allScreens,
+          index: 0,
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        setupFeaturedControls();
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.items || state.items.length === 0) return;
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+        const item = state.items[idx];
+        const data = item.item || {};
+
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1].split("?")[0]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured" loading="lazy" />`;
+        }
+
+        const title = data.heading || data.title || "Featured Content";
+        const intro = data.summary || data.description || "";
+        const category = data.industry || data.category || "Featured";
+        const slug = data.slug || "";
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-category">${category}</div>
+            <div class="featured-title">${title}</div>
+            <div class="featured-intro">${intro}</div>
+            <a href="story-detail.html?slug=${slug}" class="read-btn">
+              Read More
+              <span>→</span>
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = "";
+        state.items.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const prev = document.getElementById("prevFeatured");
+        const next = document.getElementById("nextFeatured");
+
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
+      }
+
+      function displayMoreStories() {
+        const stories = allStories
+          .filter((story) => !story.is_featured)
+          .slice(0, 6);
+        const container = document.getElementById("moreStories");
+
+        if (stories.length === 0) {
+          document.getElementById("emptyState").classList.remove("hidden");
+          container.innerHTML = "";
+          return;
+        }
+
+        document.getElementById("emptyState").classList.add("hidden");
+
+        container.innerHTML = stories
+          .map(
+            (story) => `
+                <div class="group flex flex-col gap-4 bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer" onclick="window.location.href='story-detail.html?slug=${
+                  story.slug
+                }'">
+                    <div class="w-full aspect-video bg-cover bg-center" style='background-image: url("${
+                      story.featured_image ||
+                      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800"
+                    }");'></div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-lg font-bold mb-2">${story.heading}</h3>
+                        <p class="text-sm text-subtle-light dark:text-subtle-dark flex-grow line-clamp-3">${
+                          story.summary
+                        }</p>
+                        <a class="text-sm font-bold text-primary mt-4 self-start hover:underline" href="story-detail.html?slug=${
+                          story.slug
+                        }">Read More →</a>
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      function filterStories() {
+        const industry = document.getElementById("industryFilter").value;
+        const stage = document.getElementById("stageFilter").value;
+        const sort = document.getElementById("sortFilter").value;
+
+        let filteredStories = [...originalStories];
+
+        // Apply filters
+        if (industry) {
+          filteredStories = filteredStories.filter(
+            (story) => story.industry === industry
+          );
+        }
+
+        if (stage) {
+          filteredStories = filteredStories.filter(
+            (story) => story.stage === stage
+          );
+        }
+
+        // Apply sorting
+        if (sort === "popular") {
+          filteredStories.sort((a, b) => b.views_count - a.views_count);
+        } else if (sort === "alphabetical") {
+          filteredStories.sort((a, b) => a.heading.localeCompare(b.heading));
+        } else {
+          filteredStories.sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          );
+        }
+
+        // Update stories
+        allStories = filteredStories;
+        loadFeaturedScreens(allStories);
+        displayMoreStories();
+      }
+
+      // Event listeners
+      document
+        .getElementById("industryFilter")
+        .addEventListener("change", filterStories);
+      document
+        .getElementById("stageFilter")
+        .addEventListener("change", filterStories);
+      document
+        .getElementById("sortFilter")
+        .addEventListener("change", filterStories);
+
+      // Load stories on page load
+      loadStartupStories();
+      loadNeoProjects();
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+
+          // Load global-auth.js after navigation is loaded
+          const authScript = document.createElement("script");
+          authScript.src = "global-auth.js";
+          authScript.onload = () =>
+            console.log("Global auth loaded successfully");
+          authScript.onerror = () =>
+            console.error("Failed to load global-auth.js");
+          document.head.appendChild(authScript);
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+    </script>
+    <script>
+      (function () {
+        const taglines = [
+          "From garage ideas to market products...",
+          "Pivots, growth and founder lessons...",
+          "Early-stage stories that matter...",
+        ];
+        let ti = 0,
+          ci = 0,
+          del = false;
+        function step() {
+          const el = document.getElementById("typingText");
+          if (!el) return;
+          const txt = taglines[ti];
+          if (!del) {
+            el.textContent = txt.slice(0, ci + 1);
+            ci++;
+            if (ci === txt.length) {
+              del = true;
+              setTimeout(step, 2000);
+              return;
+            }
+          } else {
+            el.textContent = txt.slice(0, ci - 1);
+            ci--;
+            if (ci === 0) {
+              del = false;
+              ti = (ti + 1) % taglines.length;
+              setTimeout(step, 500);
+              return;
+            }
+          }
+          setTimeout(step, del ? 50 : 100);
+        }
+        window.addEventListener("load", () => setTimeout(step, 500));
+      })();
+    </script>
+
+    <!-- Authentication Logic -->
+    <script>
+      // Authentication logic - runs after navigation loads
+      setTimeout(() => {
+        updateAuthUI();
+      }, 500);
+
+      function updateAuthUI() {
+        const authToken = localStorage.getItem("authToken");
+        const currentUser = JSON.parse(
+          localStorage.getItem("currentUser") || "{}"
+        );
+        const communityBtn = document.querySelector('a[href*="signup"]');
+
+        if (authToken && currentUser.email) {
+          // User is logged in - show logout button
+          if (communityBtn) {
+            communityBtn.innerHTML = `
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                Logout
+              </span>
+            `;
+            communityBtn.className =
+              "ml-3 px-4 py-1.5 bg-blue-600 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105";
+            communityBtn.href = "#";
+            communityBtn.onclick = (e) => {
+              e.preventDefault();
+              if (confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("currentUser");
+                localStorage.removeItem("userPreferences");
+                window.location.reload();
+              }
+            };
+          }
+        } else {
+          // User is logged out - show login button
+          if (communityBtn) {
+            communityBtn.innerHTML = "Login";
+            communityBtn.className =
+              "ml-3 px-4 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105";
+            communityBtn.href = "signup.html";
+            communityBtn.onclick = null;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

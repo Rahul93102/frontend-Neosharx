@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>RoboSharX - Robotics News & Insights</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+    <style>
+      /* Color palette: black, gray, white only */
+      :root {
+        --black: #000000;
+        --gray-dark: #333333;
+        --gray-medium: #666666;
+        --gray-light: #999999;
+        --gray-lighter: #cccccc;
+        --gray-bg: #f5f5f5;
+        --white: #ffffff;
+      }
+
+      body {
+        font-family: "Space Grotesk", sans-serif;
+        background: var(--gray-bg);
+        color: var(--black);
+      }
+
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #666;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+      }
+            <h1
+              style="
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 12px;
+              "
+            >
+              RoboSharX
+            </h1>
+            <div style="font-size:1.0rem; color:#007fff; min-height:40px; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <span id="typingText"></span>
+              <span id="cursor" style="animation: blink 1s infinite">|</span>
+            </div>
+            <p style="color:var(--gray-medium); max-width:640px; margin:0 auto;">Robotics news, research and maker projects. Stay updated with robotics trends and community builds.</p>
+        border: 1px solid var(--gray-lighter);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .featured-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: stretch;
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      /* Wrapper to center featured card and set width to 50% of viewport on desktop */
+      .featured-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+      }
+
+      @media (min-width: 900px) {
+        .featured-wrapper .featured-card {
+          width: 50vw; /* 2/4 of the center */
+          margin: 0 auto;
+          grid-template-columns: 1fr 1fr; /* image + content */
+        }
+      }
+
+      @media (max-width: 899px) {
+        .featured-wrapper .featured-card {
+          width: calc(100% - 32px);
+          grid-template-columns: 1fr; /* stack on mobile */
+        }
+      }
+
+      .featured-media {
+        background: #000;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .featured-media img,
+      .featured-media iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .featured-content {
+        padding: 32px;
+        color: var(--black);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .featured-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .featured-category {
+        color: var(--gray-medium);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+      }
+
+      .featured-title {
+        color: var(--black);
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .featured-summary {
+        color: var(--gray-dark);
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .meta-row {
+        display: flex;
+        gap: 16px;
+        color: var(--gray-medium);
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        align-items: center;
+      }
+
+      .read-btn {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        background: #007fff;
+        color: var(--white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+
+      .read-btn:hover {
+        background: #0066cc;
+      }
+
+      /* Slider controls */
+      .slider-controls {
+        position: absolute;
+        inset: auto 16px 16px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        z-index: 40;
+      }
+
+      .nav-btn {
+        background: rgba(0, 127, 255, 0.7);
+        color: var(--white);
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .nav-btn:hover {
+        background: rgba(0, 102, 204, 0.9);
+      }
+
+      .dots {
+        display: flex;
+        gap: 6px;
+        margin-top: 12px;
+        justify-content: center;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: var(--gray-lighter);
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .dot.active {
+        background: var(--gray-dark);
+      }
+
+      /* News cards */
+      .news-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--gray-lighter);
+        transition: all 0.3s;
+        display: flex;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .news-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .news-card-image {
+        width: 150px;
+        height: 100px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--gray-lighter);
+      }
+
+      .news-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .news-card:hover .news-card-image img {
+        transform: scale(1.05);
+      }
+
+      .news-card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .news-category {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--gray-bg);
+        color: var(--gray-medium);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 999px;
+        margin-bottom: 8px;
+        width: fit-content;
+        letter-spacing: 0.5px;
+      }
+
+      .news-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+        line-height: 1.4;
+      }
+
+      .news-summary {
+        color: var(--gray-dark);
+        font-weight: 400;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        flex: 1;
+      }
+
+      .news-meta {
+        display: flex;
+        gap: 12px;
+        color: var(--gray-medium);
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      /* Search bar */
+      .search-container {
+        position: relative;
+        margin-bottom: 32px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 14px 14px 14px 48px;
+        border: 2px solid var(--gray-lighter);
+        border-radius: 12px;
+        background: var(--white);
+        color: var(--black);
+        font-size: 1rem;
+        font-weight: 500;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+
+      .search-input:focus {
+        border-color: var(--gray-medium);
+      }
+
+      .search-input::placeholder {
+        color: var(--gray-light);
+        font-weight: 400;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--black);
+        width: 20px;
+        height: 20px;
+      }
+
+      .news-featured-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--black);
+        color: var(--white);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .featured-card {
+          grid-template-columns: 1fr;
+        }
+        .featured-media {
+          min-height: 240px;
+        }
+        .featured-content {
+          padding: 20px;
+        }
+        .featured-title {
+          font-size: 1.5rem;
+        }
+        .news-card {
+          flex-direction: column;
+        }
+        .news-card-image {
+          width: 100%;
+          height: 180px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex min-h-screen w-full flex-col">
+      <div id="nav-container"></div>
+
+      <main class="container mx-auto flex-1 px-4 py-8">
+        <div class="mx-auto max-w-5xl">
+          <!-- Header -->
+          <div class="text-center mb-10">
+            <h1
+              style="
+                font-size: 3rem;
+                font-weight: 700;
+                color: var(--black);
+                margin-bottom: 16px;
+              "
+            >
+              Robotics News & Insights
+            </h1>
+            <p
+              style="
+                font-size: 1.1rem;
+                color: var(--gray-dark);
+                font-weight: 400;
+              "
+            >
+              Your daily dose of AI, automation, and the future of robotics.
+            </p>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loadingState" class="text-center py-12">
+            <div class="loading-spinner mx-auto mb-4"></div>
+            <p style="color: var(--gray-medium)">Loading robotics news...</p>
+          </div>
+
+          <!-- Error State -->
+          <div id="errorState" class="hidden text-center py-12">
+            <p style="color: #c00; font-size: 1.1rem; margin-bottom: 16px">
+              Failed to load robotics news
+            </p>
+            <button
+              onclick="loadRoboticsNews()"
+              style="
+                background: var(--black);
+                color: var(--white);
+                padding: 12px 24px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+              "
+            >
+              Retry
+            </button>
+          </div>
+
+          <!-- Main Content -->
+          <div id="mainContent" class="hidden">
+            <!-- Featured Screens Slider -->
+            <div id="featuredScreensSection" class="hidden">
+              <div class="featured-screens-container">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 12px;
+                  "
+                >
+                  <span
+                    style="
+                      font-weight: 600;
+                      color: var(--black);
+                      font-size: 1rem;
+                    "
+                    >Featured Highlight</span
+                  >
+                  <span
+                    style="
+                      color: var(--gray-medium);
+                      font-weight: 500;
+                      font-size: 0.9rem;
+                    "
+                    ></span
+                  >
+                </div>
+
+                <div id="featuredSlider" class="featured-slider">
+                  <div
+                    id="featuredInner"
+                    class="featured-card"
+                    aria-live="polite"
+                  >
+                    <!-- Single featured item will render here -->
+                  </div>
+                  <div class="slider-controls">
+                  </div>
+                  <div class="dots" id="featuredDots"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Bar -->
+
+            <!-- All News Section -->
+            <section>
+              <h2
+                style="
+                  font-size: 1.75rem;
+                  font-weight: 600;
+                  margin-bottom: 20px;
+                  color: var(--black);
+                "
+              >
+                From the Blog
+              </h2>
+              <div
+                style="display: flex; flex-direction: column; gap: 16px"
+                id="allNews"
+              ></div>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <footer
+        style="
+          background: var(--white);
+          border-top: 1px solid var(--gray-lighter);
+          padding: 24px 0;
+        "
+      >
+        <div
+          class="container mx-auto px-4 text-center"
+          style="color: var(--gray-medium); font-size: 0.9rem"
+        >
+          <p>© 2025 NeoSharX. All Rights Reserved.</p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:8000/api/auth";
+      let allNews = [];
+
+      async function loadRoboticsNews() {
+        const loadingState = document.getElementById("loadingState");
+        const errorState = document.getElementById("errorState");
+        const mainContent = document.getElementById("mainContent");
+
+        try {
+          loadingState.classList.remove("hidden");
+          errorState.classList.add("hidden");
+          mainContent.classList.add("hidden");
+
+          const response = await fetch(`${API_BASE_URL}/robotics-news/`);
+          if (!response.ok) throw new Error("Failed to fetch robotics news");
+
+          const data = await response.json();
+          allNews =
+            data.results ||
+            data.news ||
+            data.articles ||
+            (Array.isArray(data) ? data : []);
+
+          // Load featured screens from news that have them
+          loadFeaturedScreens(allNews);
+
+          loadingState.classList.add("hidden");
+          mainContent.classList.remove("hidden");
+          displayNews(allNews);
+
+          // Initialize comments
+          // Comment system removed from listing page
+        } catch (error) {
+          console.error("Error loading robotics news:", error);
+          loadingState.classList.add("hidden");
+          errorState.classList.remove("hidden");
+        }
+      }
+
+      function loadFeaturedScreens(news) {
+        // Collect featured screens from all news
+        const allScreens = [];
+        news.forEach((article) => {
+          if (
+            article.featured_screen &&
+            article.featured_screen.url &&
+            article.featured_screen.is_featured
+          ) {
+            allScreens.push({
+              url: article.featured_screen.url,
+              type: article.featured_screen.type || "image",
+              article: article,
+            });
+          }
+        });
+
+        if (allScreens.length === 0) return;
+
+        // State for slider
+        window._featuredState = {
+          items: allScreens,
+          index: 0,
+        };
+
+        const section = document.getElementById("featuredScreensSection");
+        section.classList.remove("hidden");
+
+        renderFeaturedItem();
+        setupFeaturedControls();
+      }
+
+      function renderFeaturedItem() {
+        const state = window._featuredState;
+        if (!state || !state.items || state.items.length === 0) return;
+
+        const idx = Math.max(0, Math.min(state.index, state.items.length - 1));
+        const item = state.items[idx];
+        const article = item.article || {};
+
+        const inner = document.getElementById("featuredInner");
+        const dots = document.getElementById("featuredDots");
+
+        // Build media HTML
+        let mediaHtml = "";
+        if (item.type === "video") {
+          let embed = item.url;
+          if (embed.includes("youtube.com/watch")) {
+            const v = new URL(embed).searchParams.get("v");
+            if (v) embed = `https://www.youtube.com/embed/${v}`;
+          } else if (embed.includes("youtu.be/")) {
+            const parts = embed.split("youtu.be/");
+            embed = `https://www.youtube.com/embed/${parts[1]}`;
+          }
+          mediaHtml = `<iframe src="${embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          mediaHtml = `<img src="${item.url}" alt="Featured screen" loading="lazy" />`;
+        }
+
+        inner.innerHTML = `
+          <div class="featured-media">
+            <div class="featured-badge">Featured</div>
+            ${mediaHtml}
+          </div>
+          <div class="featured-content">
+            <div class="featured-category">${
+              article.category || "Robotics News"
+            }</div>
+            <div class="featured-title">${
+              article.title || "Featured Article"
+            }</div>
+            <div class="featured-summary">${article.summary || ""}</div>
+            <div class="meta-row">
+              <div>${article.author_name || "NeoSharX"}</div>
+              ${
+                article.reading_time
+                  ? `<div>${article.reading_time} min read</div>`
+                  : ""
+              }
+            </div>
+            <a href="${
+              article.slug ? `robotics-detail.html?slug=${article.slug}` : "#"
+            }" class="read-btn">
+              Read Article
+              <span>→</span>
+            </a>
+          </div>
+        `;
+
+        // Render dots
+        dots.innerHTML = "";
+        state.items.forEach((i, k) => {
+          const d = document.createElement("div");
+          d.className = "dot" + (k === idx ? " active" : "");
+          d.addEventListener("click", () => {
+            state.index = k;
+            renderFeaturedItem();
+          });
+          dots.appendChild(d);
+        });
+      }
+
+      function setupFeaturedControls() {
+        const prev = document.getElementById("prevFeatured");
+        const next = document.getElementById("nextFeatured");
+
+        prev.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index - 1 + s.items.length) % s.items.length;
+          renderFeaturedItem();
+        };
+
+        next.onclick = () => {
+          const s = window._featuredState;
+          if (!s || !s.items) return;
+          s.index = (s.index + 1) % s.items.length;
+          renderFeaturedItem();
+        };
+      }
+
+      function displayNews(news) {
+        if (news.length === 0) {
+          document.getElementById("allNews").innerHTML =
+            '<div style="text-align:center; padding:48px 0; color:var(--gray-medium);">No news found</div>';
+          return;
+        }
+
+        // Display all news items (no separate featured section)
+        document.getElementById("allNews").innerHTML = news
+          .map((article) => {
+            const hasFeaturedScreen =
+              article.featured_screen &&
+              article.featured_screen.url &&
+              article.featured_screen.is_featured;
+            return `
+              <a class="news-card" href="robotics-detail.html?slug=${
+                article.slug || ""
+              }" style="text-decoration:none;">
+                <div class="news-card-image" style="position:relative;">
+                  ${
+                    hasFeaturedScreen
+                      ? '<div class="news-featured-badge">Featured</div>'
+                      : ""
+                  }
+                  <img src="${
+                    article.featured_image ||
+                    "https://via.placeholder.com/200x150?text=Robotics"
+                  }" alt="${article.title || "Article"}">
+                </div>
+                <div class="news-card-content">
+                  ${
+                    article.category
+                      ? `<div class="news-category">${article.category}</div>`
+                      : ""
+                  }
+                  <h3 class="news-title">${
+                    article.title || "Robotics Article"
+                  }</h3>
+                  <p class="news-summary">${
+                    article.summary || article.description || ""
+                  }</p>
+                  <div class="news-meta">
+                    <span>${article.author_name || "NeoSharX"}</span>
+                    <span>•</span>
+                    <span>${formatDate(
+                      article.published_at || article.created_at
+                    )}</span>
+                  </div>
+                </div>
+              </a>
+            `;
+          })
+          .join("");
+      }
+
+      function searchNews() {
+        const searchTerm = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+
+        if (!searchTerm) {
+          displayNews(allNews);
+          return;
+        }
+
+        const filtered = allNews.filter(
+          (article) =>
+            (article.title &&
+              article.title.toLowerCase().includes(searchTerm)) ||
+            (article.summary &&
+              article.summary.toLowerCase().includes(searchTerm)) ||
+            (article.description &&
+              article.description.toLowerCase().includes(searchTerm)) ||
+            (article.author_name &&
+              article.author_name.toLowerCase().includes(searchTerm))
+        );
+
+        displayNews(filtered);
+      }
+
+      function formatDate(dateString) {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return "Today";
+        if (diffDays === 1) return "1 day ago";
+        if (diffDays < 7) return `${diffDays} days ago`;
+
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      // Load navigation
+      fetch("navigation.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("nav-container").innerHTML = html;
+        })
+        .catch((err) => console.error("Navigation load error:", err));
+
+      // Load robotics news on page load
+      document.addEventListener("DOMContentLoaded", loadRoboticsNews);
+    </script>
+    <script>
+      (function () {
+        const taglines = [
+          "Robots, builds and practical insights...",
+          "Maker projects and research updates...",
+          "Community robotics and hands-on guides...",
+        ];
+        let ti = 0,
+          ci = 0,
+          del = false;
+        function step() {
+          const el = document.getElementById("typingText");
+          if (!el) return;
+          const txt = taglines[ti];
+          if (!del) {
+            el.textContent = txt.slice(0, ci + 1);
+            ci++;
+            if (ci === txt.length) {
+              del = true;
+              setTimeout(step, 2000);
+              return;
+            }
+          } else {
+            el.textContent = txt.slice(0, ci - 1);
+            ci--;
+            if (ci === 0) {
+              del = false;
+              ti = (ti + 1) % taglines.length;
+              setTimeout(step, 500);
+              return;
+            }
+          }
+          setTimeout(step, del ? 50 : 100);
+        }
+        window.addEventListener("load", () => setTimeout(step, 500));
+      })();
+    </script>
+  </body>
+</html>

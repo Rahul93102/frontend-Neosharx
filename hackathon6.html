@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeoSharX SharXathon</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#067ff9",
+              "background-light": "#f5f7f8",
+              "background-dark": "#0f1923",
+            },
+            fontFamily: {
+              display: ["Space Grotesk"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-gray-200/50 dark:border-gray-700/50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-gray-900 dark:text-white">
+<img src="logo27.png" alt="NeoSharX Logo" class="h-6 object-contain">
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Xact Episodes</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="startup.html">Startup Stories</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Neo Stories</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Neo Projects</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="hackathon.html">SharXathon</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">RoboSharX</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="tech.html">What's up Tech</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<svg class="text-gray-400 dark:text-gray-500" fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+</svg>
+</div>
+<input class="form-input w-full min-w-40 max-w-64 rounded-lg border-gray-300 dark:border-gray-700 bg-background-light dark:bg-gray-800 focus:ring-primary focus:border-primary pl-10 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="Search" type="search"/>
+</div>
+<button class="hidden sm:flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors">
+<span class="truncate">Join NeoSharX</span>
+</button>
+<div class="size-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGqWUyJOJPXUPRbj11utK7GpEz3dNu70uKFjJoaLMhQSBJnEj8cgG2G7pi426Lqn8V_b0sK6wqsAcos4qGfkLdOxIacWQJ5dLtxj9ph4eCujp6xj2dL7VdBWQGieGMu4ZATT1riUgYmS6fGsDPtPc8fNjAyzZMbXJ3rfq7aP5kiQ6NAIXWuczJuZJfuoqcPkj_Ljw8yvvY9qgIZYAL2slozkcaZUzrQtWr5wJHSD7toQruYlesQZO802sfAxGAbWcLfw6o-N9j6fI");'></div>
+</div>
+</header>
+<main class="flex-1 px-4 sm:px-10 md:px-20 lg:px-40 py-12">
+<div class="mx-auto max-w-5xl">
+<div class="mb-8">
+<h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900 dark:text-white">SharXathon: Future Forward</h1>
+<p class="mt-2 text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
+              Join us for a 48-hour sprint of innovation and creativity, where you'll build the future of technology. Compete for prizes, network with industry leaders, and showcase your skills.
+            </p>
+</div>
+<div class="sticky top-[65px] z-40 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm -mx-4 sm:-mx-6 px-4 sm:px-6 mb-8">
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon.html">Overview</a>
+<a class="whitespace-nowrap border-b-2 border-primary px-1 py-4 text-sm font-medium text-primary" href="hackathon6.html">Rules</a>
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon5.html">Judges</a>
+<a class="whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200" href="hackathon4.html">Winners</a>
+</nav>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 space-y-10">
+<section id="rules">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">SharXathon Rules</h2>
+<div class="space-y-6 text-gray-600 dark:text-gray-400 prose prose-lg dark:prose-invert max-w-none">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">1. Eligibility</h3>
+<p>Participants must be 18 years or older. All skill levels are welcome. You can participate individually or in teams of up to 4 members.</p>
+</div>
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">2. Project Submission</h3>
+<p>All projects must be submitted by the specified deadline. Submissions should include a link to a public code repository (e.g., GitHub) and a short video demo (max 3 minutes).</p>
+</div>
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">3. Code of Conduct</h3>
+<p>All participants must adhere to our code of conduct. We are committed to providing a safe and inclusive environment for everyone. Harassment or discrimination of any kind will not be tolerated.</p>
+</div>
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">4. Originality</h3>
+<p>All work must be original and created during the SharXathon. Use of third-party libraries and frameworks is permitted, but the core idea and implementation must be your own.</p>
+</div>
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">5. Intellectual Property</h3>
+<p>Teams retain full ownership of their projects and intellectual property. By submitting, you grant us permission to showcase your project for promotional purposes.</p>
+</div>
+</div>
+</section>
+</div>
+<aside class="lg:col-span-1 space-y-8">
+<section id="prizes">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Prizes</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p><b>1st Place:</b> $5,000 + Mentorship from Industry Experts</p>
+<p><b>2nd Place:</b> $3,000 + Access to Premium Resources</p>
+<p><b>3rd Place:</b> $2,000 + Networking Opportunities</p>
+</div>
+</section>
+<section id="criteria">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Judging Criteria</h2>
+<div class="prose prose-base dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 space-y-2">
+<p>Projects will be evaluated based on:</p>
+<ul class="list-disc pl-5">
+<li>Innovation (30%)</li>
+<li>Technical Implementation (30%)</li>
+<li>Impact and Relevance (20%)</li>
+<li>Presentation and Demo (20%)</li>
+</ul>
+</div>
+</section>
+</aside>
+</div>
+<section class="mt-16" id="winners">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Winners</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdtHBnFzVzANK1yIFHiqZ1-oQ4oF-9uhoVQbmjN61a4qx9OPZ2KmoZ8Ku7ARBE6aDDjGRoc_RuHH5BRyYOjENHZtLRDEgxghhqmxiqHSjuj9QI0CaGy3xgeyOxx7JDRv5kNhZuCuWkofwBjOQLH_AYgzAvciC2UuSRF10-XYXs6jZ_OZRFB64y3wLH6pKOVuW01KMlk-q04353OC7wZL-mkJMLHiF8y2GHvhD0bISRyHu8I12fC0OFmByqTh6XxLsHXMZQb-VzcjY");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">AquaSmart</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team EcoTech</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">A smart irrigation system using AI to optimize water usage in agriculture.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5jpRADoccXUWsZuqhRew3crp7qRuE6W-73fGpQfLDG9FKEttprkgmk_AwExauYhbmsbWY2l3F88lul4MHY1qBM6E9A4l-LZIPWMiiIydQ0pa0U6Hm1qpoBk6WyZCNj4jEKNPKWMd2iD7-L3oaNZFpqXZbAzvB33AE9VolxBP5B_R0ntznUGvGqoIlkvvrqLfsHPxJDfwdEmDPIa3qqp1eDE-q9Mxpmjwg5EvRpI2aBjAVfFlcAp7Bz_ZMmcIH4AWvjen2rX_xok8");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">GreenChain</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team BlockEarth</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">A platform connecting volunteers with environmental projects using blockchain for transparency.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-lg bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 shadow-sm transition-all hover:shadow-lg dark:hover:border-gray-600">
+<div class="aspect-video bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAS0iyzptPTMFX5sO0clz2yL2u2xPyXSF0mw4jM6jy-dKR0s_dq0C1B7llaT4R6LajqcKg80bBRy64LdxiQULqanQ7rFKVj-apIEZf7Rs3T2MIIKipBHRm4h0szsQC4p6_ghf7nenY9BegJYEQrojEQpflHBeYiY06lCDryyNnF0FS7qv7GEzlkO7iQl8cE_vMbf1Mabee0owHMJRHmiOyYnxt7MvlCwx9-xyRxoN-0OPVbkLeloMJLNge0skhMMT8h-D7dKKr__qk");'></div>
+<div class="flex flex-1 flex-col p-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">CarbonZero</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Team ZeroEmissions</p>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-2 flex-1">An app that tracks and reduces carbon footprint through gamified challenges.</p>
+<button class="mt-4 w-full flex items-center justify-center rounded-lg h-9 px-4 bg-primary/10 dark:bg-primary/20 text-primary text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                           View Project
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

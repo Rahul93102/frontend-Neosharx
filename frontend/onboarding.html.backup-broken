@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to NeoSharX - Tell us about yourself</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .onboarding-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-header p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .question-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .question-section h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-card {
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: white;
+        }
+
+        .option-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .option-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .option-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .option-card .label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .continue-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .skip-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .skip-link:hover {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .onboarding-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <!-- Load Navigation -->
+    <script>
+        // Load navigation component
+        fetch('navigation.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navigation-container').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading navigation:', error);
+            });
+    </script>
+
+    <script>
+
+        <form id="onboardingForm">
+            <!-- Question 1: What are you looking for? -->
+            <div class="question-section">
+                <h3>🔍 What are you looking for?</h3>
+                <div class="options-grid" id="interestsGrid">
+                    <div class="option-card" data-value="neo-stories">
+                        <span class="icon">📚</span>
+                        <div class="label">Neo Stories</div>
+                    </div>
+                    <div class="option-card" data-value="projects">
+                        <span class="icon">🚀</span>
+                        <div class="label">Projects</div>
+                    </div>
+                    <div class="option-card" data-value="tech-news">
+                        <span class="icon">📰</span>
+                        <div class="label">Tech News</div>
+                    </div>
+                    <div class="option-card" data-value="robotics-news">
+                        <span class="icon">🤖</span>
+                        <div class="label">Robotics News</div>
+                    </div>
+                    <div class="option-card" data-value="sharxthon">
+                        <span class="icon">🏆</span>
+                        <div class="label">SharXathon</div>
+                    </div>
+                    <div class="option-card" data-value="talks">
+                        <span class="icon">🎙️</span>
+                        <div class="label">Talks & Events</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2: Who are you? -->
+            <div class="question-section">
+                <h3>👤 Who are you?</h3>
+                <div class="options-grid" id="userTypeGrid">
+                    <div class="option-card" data-value="student">
+                        <span class="icon">🎓</span>
+                        <div class="label">Student</div>
+                    </div>
+                    <div class="option-card" data-value="working-professional">
+                        <span class="icon">💼</span>
+                        <div class="label">Working Professional</div>
+                    </div>
+                    <div class="option-card" data-value="startup-founder">
+                        <span class="icon">🚀</span>
+                        <div class="label">Startup Founder</div>
+                    </div>
+                    <div class="option-card" data-value="tech-enthusiast">
+                        <span class="icon">⚡</span>
+                        <div class="label">Tech Enthusiast</div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="continue-btn" id="continueBtn" disabled>
+                Continue to NeoSharX →
+            </button>
+
+            <a href="index.html" class="skip-link">Skip for now</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const interestsGrid = document.getElementById('interestsGrid');
+            const userTypeGrid = document.getElementById('userTypeGrid');
+            const continueBtn = document.getElementById('continueBtn');
+            const form = document.getElementById('onboardingForm');
+
+            let selectedInterests = [];
+            let selectedUserType = null;
+
+            // Handle interest selection (multiple selection allowed)
+            interestsGrid.addEventListener('click', function(e) {
+                const card = e.target.closest('.option-card');
+                if (!card) return;
+
+                const value = card.dataset.value;
+                card.classList.toggle('selected');
+
+                if (card.classList.contains('selected')) {
+                    selectedInterests.push(value);
+                } else {
+                    selectedInterests = selectedInterests.filter(item => item !== value);
+                }
+
+                updateContinueButton();
+            });
+
+            // Handle user type selection (single selection)
+            userTypeGrid.addEventListener('click', function(e) {
+                const card = e.target.closest('.option-card');
+                if (!card) return;
+
+                const value = card.dataset.value;
+
+                // Remove selected class from all cards
+                userTypeGrid.querySelectorAll('.option-card').forEach(c => {
+                    c.classList.remove('selected');
+                });
+
+                // Add selected class to clicked card
+                card.classList.add('selected');
+                selectedUserType = value;
+
+                updateContinueButton();
+            });
+
+            function updateContinueButton() {
+                const isValid = selectedInterests.length > 0 && selectedUserType;
+                continueBtn.disabled = !isValid;
+            }
+
+            // Handle form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                if (selectedInterests.length === 0 || !selectedUserType) {
+                    return;
+                }
+
+                // Get current user data
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                const authToken = localStorage.getItem('authToken');
+
+                // Store user preferences in localStorage
+                const userPreferences = {
+                    interests: selectedInterests,
+                    userType: selectedUserType,
+                    onboardingCompleted: true,
+                    timestamp: new Date().toISOString()
+                };
+
+                localStorage.setItem('userPreferences', JSON.stringify(userPreferences));
+
+                // Show loading state
+                continueBtn.textContent = 'Saving your preferences...';
+                continueBtn.disabled = true;
+
+                try {
+                    // Send preferences to backend for each interest
+                    const savePromises = selectedInterests.map(interest =>
+                        fetch('http://localhost:8001/api/auth/user-preferences/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Token ${authToken}`
+                            },
+                            body: JSON.stringify({
+                                user_type: selectedUserType,
+                                interest: interest,
+                                email: currentUser.email || '',
+                                provider: currentUser.login_method || 'google'
+                            })
+                        })
+                    );
+
+                    // Wait for all preferences to be saved
+                    await Promise.all(savePromises);
+
+                    // Show success message
+                    continueBtn.textContent = 'Preferences saved! Redirecting...';
+
+                    // Redirect to index.html after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html?welcome=true';
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Error saving preferences:', error);
+                    // Still redirect even if backend save fails
+                    continueBtn.textContent = 'Setting up your experience...';
+                    setTimeout(() => {
+                        window.location.href = 'index.html?welcome=true';
+                    }, 1500);
+                }
+            });
+
+            // Check if user is authenticated (with small delay for callback processing)
+            setTimeout(() => {
+                const authToken = localStorage.getItem('authToken');
+                const currentUser = localStorage.getItem('currentUser');
+
+                console.log('Onboarding auth check:');
+                console.log('authToken:', authToken ? 'EXISTS' : 'MISSING');
+                console.log('currentUser:', currentUser ? 'EXISTS' : 'MISSING');
+
+                if (!authToken || !currentUser) {
+                    console.log('No authentication found, redirecting to login');
+                    // Show error message before redirecting
+                    alert('Authentication required. Redirecting to login...');
+                    // Redirect to login if not authenticated
+                    window.location.href = 'login.html';
+                    return;
+                }
+                console.log('User authenticated, showing onboarding');
+            }, 100);
+        });
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">/Users/vishaljha/neosharx/onboarding.html

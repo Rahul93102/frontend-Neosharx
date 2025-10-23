@@ -67,6 +67,189 @@
       }
       body {
         overflow-x: hidden;
+<<<<<<< HEAD
+        font-family: "Space Grotesk", sans-serif;
+      }
+      /* Loader Styles */
+      #loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        overflow: hidden;
+        display: none; /* Hide loader permanently */
+      }
+      .panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .content-block {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1010;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        opacity: 0;
+        padding: 2rem;
+        width: 90%;
+        max-width: 50ch;
+      }
+      .text-cluster {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      /* Panel Animations */
+      @keyframes slide-in-left {
+        0% {
+          transform: translateX(-100%);
+        }
+        20%,
+        80% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      @keyframes slide-in-right {
+        0% {
+          transform: translateX(100%);
+        }
+        20%,
+        80% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+      @keyframes slide-in-top {
+        0% {
+          transform: translateY(-100%);
+        }
+        20%,
+        80% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(100%);
+        }
+      }
+      @keyframes slide-in-bottom {
+        0% {
+          transform: translateY(100%);
+        }
+        20%,
+        80% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-100%);
+        }
+      }
+      /* Content Animations */
+      @keyframes content-from-left {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) translateX(-40px);
+        }
+        25%,
+        75% {
+          opacity: 1;
+          transform: translate(-50%, -50%) translateX(0);
+        }
+      }
+      @keyframes content-from-right {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) translateX(40px);
+        }
+        25%,
+        75% {
+          opacity: 1;
+          transform: translate(-50%, -50%) translateX(0);
+        }
+      }
+      @keyframes content-from-top {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) translateY(-40px);
+        }
+        25%,
+        75% {
+          opacity: 1;
+          transform: translate(-50%, -50%) translateY(0);
+        }
+      }
+      @keyframes content-from-bottom {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) translateY(40px);
+        }
+        25%,
+        75% {
+          opacity: 1;
+          transform: translate(-50%, -50%) translateY(0);
+        }
+      }
+      #blue-panel-1 {
+        background-color: #007fff;
+        z-index: 1004;
+        animation: slide-in-left 1.5s cubic-bezier(0.7, 0, 0.3, 1) 0s forwards;
+      }
+      #content-blue-1 {
+        color: white;
+        animation: content-from-left 1.5s ease-in-out 0s forwards;
+      }
+      #white-panel {
+        background-color: #ffffff;
+        z-index: 1003;
+        animation: slide-in-top 1.5s cubic-bezier(0.7, 0, 0.3, 1) 1.5s forwards;
+      }
+      #content-white {
+        color: #111827;
+        animation: content-from-top 1.5s ease-in-out 1.5s forwards;
+      }
+      #black-panel {
+        background-color: #111827;
+        z-index: 1002;
+        animation: slide-in-right 1.5s cubic-bezier(0.7, 0, 0.3, 1) 3s forwards;
+      }
+      #content-black {
+        color: white;
+        animation: content-from-right 1.5s ease-in-out 3s forwards;
+      }
+      #blue-panel-2 {
+        background-color: #007fff;
+        z-index: 1001;
+        animation: slide-in-bottom 1.5s cubic-bezier(0.7, 0, 0.3, 1) 4.5s
+          forwards;
+      }
+      #content-blue-2 {
+        color: white;
+        animation: content-from-bottom 1.5s ease-in-out 4.5s forwards;
+      }
+      #loader-wrapper.hidden {
+        display: none;
+      }
+      #main-content {
+        opacity: 1; /* Show content immediately */
+=======
         /* Hide scrollbars while loader is active */
         overflow: hidden;
         margin: 0;
@@ -167,6 +350,7 @@
       }
       #main-content.loaded {
         opacity: 1; /* Show content after loader */
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
       }
       @keyframes fade-in-main {
         from {
@@ -370,6 +554,33 @@
       }
     </style>
   </head>
+<<<<<<< HEAD
+  <body class="bg-white text-stone-800 pt-10">
+    <div id="loader-wrapper">
+      <div id="blue-panel-1" class="panel"></div>
+      <div id="content-blue-1" class="content-block">
+        <div class="text-cluster">
+          <h2 class="text-6xl font-bold">Tech Talks</h2>
+        </div>
+      </div>
+      <div id="white-panel" class="panel"></div>
+      <div id="content-white" class="content-block">
+        <div class="text-cluster">
+          <h2 class="text-6xl font-bold">Startup Stories</h2>
+        </div>
+      </div>
+      <div id="black-panel" class="panel"></div>
+      <div id="content-black" class="content-block">
+        <div class="text-cluster">
+          <h2 class="text-6xl font-bold">Hackathons & Projects</h2>
+        </div>
+      </div>
+      <div id="blue-panel-2" class="panel"></div>
+      <div id="content-blue-2" class="content-block">
+        <div class="text-cluster">
+          <h1 class="text-7xl font-bold text-white">NeoSharX</h1>
+        </div>
+=======
 
   <body class="bg-white text-stone-800 pt-10">
     <!-- The Loader HTML -->
@@ -381,6 +592,7 @@
           alt="Neosharx Logo"
         />
         <span id="loader-text">Neosharx</span>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
       </div>
     </div>
 
@@ -390,20 +602,42 @@
       <div class="font-sans">
         <section
           class="relative bg-[#007fff] text-white hero-section overflow-hidden"
+<<<<<<< HEAD
+=======
           style="color: white !important"
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
         >
           <div class="container mx-auto px-6 text-center relative z-10">
             <div class="reveal">
               <h1
                 class="text-5xl md:text-7xl font-black tracking-tight leading-tight mb-4"
               >
+<<<<<<< HEAD
+                Start. Build. Grow.
+=======
                 Connect. Build. Grow.
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               </h1>
               <p class="max-w-2xl mx-auto text-lg md:text-xl mb-8 font-medium">
                 Whether you're starting out, or scaling to meet demand, connect
                 with the right people, products, and best practices to help your
                 startup grow with NeoSharX.
               </p>
+<<<<<<< HEAD
+              <a
+                href="#latest-startups"
+                class="bg-white text-[#007fff] font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-100 transition-all duration-100 ease-in-out hover:shadow-xl hover:-translate-y-1"
+              >
+                Get started
+              </a>
+              <div class="h-4"></div>
+              <button
+                id="community-btn"
+                class=".bg-white text-[#007fff] font-semibold px-8 py-3 rounded-lg shadow-md transition-all duration-300 ease-in-out"
+              >
+                Join Our Community
+              </button>
+=======
               <div class="h-4"></div>
               <div class="flex flex-col gap-6 justify-center items-center">
                 <button
@@ -442,6 +676,7 @@
                   </a>
                 </div>
               </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
             </div>
           </div>
           <div
@@ -453,7 +688,11 @@
             class="absolute top-4 right-4 md:top-10 md:right-20 w-[8.1rem] h-[8.1rem] md:w-[13.5rem] md:h-[13.5rem] rounded-lg overflow-hidden shadow-lg animate-float"
           >
             <img
+<<<<<<< HEAD
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+=======
               src="assets/Community.png"
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               alt="Startup presentation"
               class="w-full h-full object-cover"
             />
@@ -468,7 +707,11 @@
             style="animation-delay: 0.5s"
           >
             <img
+<<<<<<< HEAD
+              src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1932&auto=format&fit=crop"
+=======
               src="assets/events.png"
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               alt="People networking"
               class="w-full h-full object-cover"
             />
@@ -483,11 +726,35 @@
             style="animation-delay: 1s"
           >
             <img
+<<<<<<< HEAD
+              src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop"
+=======
               src="assets/Startups.png"
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               alt="Team brainstorming"
               class="w-full h-full object-cover"
             />
           </div>
+<<<<<<< HEAD
+          <svg
+            data-animation
+            data-speed="-0.2"
+            data-float-intensity="7"
+            data-rotate="-12"
+            data-seed="4"
+            class="absolute top-1/2 right-10 md:right-32 w-32 h-32 text-blue-400 animate-float"
+            style="animation-delay: 1.5s"
+            fill="none"
+            viewBox="0 0 100 100"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 80 Q 80 80, 80 20" />
+            <polyline points="70 20, 80 20, 80 30" />
+          </svg>
+=======
         </section>
 
         <!-- YouTube Videos Section -->
@@ -743,6 +1010,7 @@
               </a>
             </div>
           </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
         </section>
 
         <!-- Community Modal -->
@@ -867,6 +1135,295 @@
           </div>
         </div>
 
+<<<<<<< HEAD
+        <section id="latest-startups" class="bg-gray-100 py-20 md:py-28">
+          <div class="container mx-auto px-6">
+            <div class="reveal">
+              <h2
+                class="text-center text-gray-500 font-bold tracking-widest uppercase mb-12"
+              >
+                The Latest from NeoSharX
+              </h2>
+            </div>
+            <div
+              class="bg-gray-900 p-4 md:p-6 rounded-2xl shadow-2xl max-w-5xl mx-auto flex flex-col md:flex-row items-stretch gap-4 md:gap-8"
+            >
+              <div
+                class="w-full md:w-1/2 text-white p-8 md:p-12 rounded-xl flex flex-col justify-center text-center md:text-left slide-in-left-elem"
+              >
+                <p
+                  class="font-semibold text-sm text-gray-400 tracking-wider uppercase mb-2"
+                >
+                  AI Program
+                </p>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                  Startup School: GenAI Media
+                </h3>
+                <p class="text-lg text-gray-100 mb-6 font-medium">
+                  Build intelligent multi-modal apps
+                </p>
+                <a
+                  href="#"
+                  class="font-semibold text-blue-400 hover:underline self-center md:self-start"
+                  >Register now →</a
+                >
+              </div>
+              <div
+                class="w-full md:w-1/2 grid grid-cols-2 gap-4 slide-in-right-elem"
+              >
+                <div class="img-container rounded-xl overflow-hidden shadow-lg">
+                  <img
+                    src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1974&auto=format&fit=crop&grayscale=1"
+                    alt="Team meeting"
+                    class="w-full h-full object-cover img-zoom"
+                  />
+                </div>
+                <div class="img-container rounded-xl overflow-hidden shadow-lg">
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop&grayscale=1"
+                    alt="Colleagues collaborating"
+                    class="w-full h-full object-cover img-zoom"
+                  />
+                </div>
+                <div
+                  class="img-container col-span-2 rounded-xl overflow-hidden shadow-lg"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop&grayscale=1"
+                    alt="Group discussion"
+                    class="w-full h-48 object-cover img-zoom"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Explore NeoSharX Section -->
+        <section class="py-16 bg-white">
+          <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">
+                Explore NeoSharX
+              </h2>
+              <p class="text-gray-600 text-lg">
+                Discover our comprehensive ecosystem designed to empower
+                innovation and growth
+              </p>
+            </div>
+
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <!-- Home Card -->
+              <a
+                href="#"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                    alt="Home - Welcome to NeoSharX"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Home</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Your gateway to innovation and community
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Talks Card -->
+              <a
+                href="frontend/talks-dynamic.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=800&auto=format&fit=crop"
+                    alt="Talks - NeoSharX Talks"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Talks</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Inspiring conversations with industry leaders
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Startups Card -->
+              <a
+                href="frontend/startup.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                    alt="Startups - Startup Stories"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Startups</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Real stories from successful entrepreneurs
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Neo Stories Card -->
+              <a
+                href="frontend/neo-dynamic.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop"
+                    alt="Neo Stories - Innovation Stories"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      Neo Stories
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Narratives of innovation and breakthrough
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Projects Card -->
+              <a
+                href="frontend/neo-projects.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
+                    alt="Projects - Neo Projects"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Projects</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Showcase of groundbreaking innovations
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- SharXathons Card -->
+              <a
+                href="frontend/hackathon.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop"
+                    alt="SharXathons - Hackathons"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">
+                      SharXathons
+                    </h3>
+                    <p class="text-white text-sm opacity-90">
+                      Competitive coding challenges and innovation
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- RoboSharX Card -->
+              <a
+                href="frontend/robosharx.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=800&auto=format&fit=crop"
+                    alt="RoboSharX - Robotics"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">RoboSharX</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Exploring the future of robotics and AI
+                    </p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Tech News Card -->
+              <a
+                href="frontend/tech-news.html"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
+              >
+                <div
+                  class="relative h-48 bg-gradient-to-br from-gray-900 to-black"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop"
+                    alt="Tech News - Latest Updates"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <div
+                    class="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"
+                  ></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 class="text-white font-bold text-lg mb-1">Tech News</h3>
+                    <p class="text-white text-sm opacity-90">
+                      Stay updated with cutting-edge technology
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+=======
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
         <section
           class="relative bg-[#007fff] text-white py-24 md:py-40 overflow-hidden flex items-center min-h-[80vh]"
         >
@@ -881,7 +1438,10 @@
               innovation and collaboration.
             </p>
             <button
+<<<<<<< HEAD
+=======
               id="aboutUsBtn"
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               class="bg-white text-[#007fff] font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-gray-100 transition-all duration-100 ease-in-out hover:shadow-xl hover:-translate-y-1"
             >
               About us
@@ -1185,6 +1745,19 @@
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
                   <img
+<<<<<<< HEAD
+                    alt="IIT Madras"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/6/69/IIT_Madras_Logo.svg"
+                  />
+                </div>
+
+                <div
+                  class="college-slide p-6 bg-white rounded-xl shadow-md group"
+                >
+                  <img
+=======
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                     alt="IIT Kanpur"
                     class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
                     src="https://upload.wikimedia.org/wikipedia/en/7/7f/Indian_Institute_of_Technology_Kanpur_Logo.svg"
@@ -1204,11 +1777,19 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
+<<<<<<< HEAD
+                  <img
+                    alt="NIT Trichy"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/e/eb/NIT_Trichy_Logo.png"
+                  />
+=======
                   <div
                     class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
                   >
                     NIT Trichy
                   </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 </div>
                 <!-- IIM Ahmedabad -->
                 <div
@@ -1244,21 +1825,37 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
+<<<<<<< HEAD
+                  <img
+                    alt="NIT Warangal"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/f/f8/NIT_Warangal_logo.png"
+                  />
+=======
                   <div
                     class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
                   >
                     NIT Warangal
                   </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 </div>
                 <!-- IIT Roorkee -->
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
+<<<<<<< HEAD
+                  <img
+                    alt="IIT Roorkee"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/4/4c/Indian_Institute_of_Technology_Roorkee_logo.png"
+                  />
+=======
                   <div
                     class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
                   >
                     IIT Roorkee
                   </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 </div>
                 <!-- Delhi University -->
                 <div
@@ -1330,11 +1927,19 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
+<<<<<<< HEAD
+                  <img
+                    alt="NIT Trichy"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/e/eb/NIT_Trichy_Logo.png"
+                  />
+=======
                   <div
                     class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
                   >
                     NIT Trichy
                   </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 </div>
                 <!-- IIM Ahmedabad -->
                 <div
@@ -1370,21 +1975,37 @@
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
+<<<<<<< HEAD
+                  <img
+                    alt="NIT Warangal"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/f/f8/NIT_Warangal_logo.png"
+                  />
+=======
                   <div
                     class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
                   >
                     NIT Warangal
                   </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 </div>
                 <!-- IIT Roorkee -->
                 <div
                   class="college-slide p-6 bg-white rounded-xl shadow-md group"
                 >
+<<<<<<< HEAD
+                  <img
+                    alt="IIT Roorkee"
+                    class="h-12 w-auto filter grayscale transition-all duration-100 group-hover:filter-none"
+                    src="https://upload.wikimedia.org/wikipedia/en/4/4c/Indian_Institute_of_Technology_Roorkee_logo.png"
+                  />
+=======
                   <div
                     class="h-12 w-auto flex items-center justify-center text-gray-500 font-semibold text-sm"
                   >
                     IIT Roorkee
                   </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 </div>
                 <!-- Delhi University -->
                 <div
@@ -1458,6 +2079,9 @@
                 </div>
                 <div
                   class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2"
+<<<<<<< HEAD
+                ></div>
+=======
                 >
                   <button
                     class="carousel-prev bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
@@ -1494,6 +2118,7 @@
                     </svg>
                   </button>
                 </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
             </div>
@@ -1546,6 +2171,9 @@
                 </div>
                 <div
                   class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2"
+<<<<<<< HEAD
+                ></div>
+=======
                 >
                   <button
                     class="carousel-prev bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
@@ -1582,6 +2210,7 @@
                     </svg>
                   </button>
                 </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
             </div>
@@ -1626,6 +2255,9 @@
                 </div>
                 <div
                   class="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-2"
+<<<<<<< HEAD
+                ></div>
+=======
                 >
                   <button
                     class="carousel-prev bg-white/50 dark:bg-black/50 rounded-full p-1 text-stone-800 dark:text-stone-200 hover:bg-white dark:hover:bg-black"
@@ -1662,11 +2294,52 @@
                     </svg>
                   </button>
                 </div>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               </div>
               <div class="pagination flex justify-center space-x-2"></div>
             </div>
           </div>
         </section>
+<<<<<<< HEAD
+
+        <!-- YouTube Videos Section -->
+        <section class="py-16 bg-gray-50">
+          <h2 class="text-4xl font-bold text-center mb-4 text-primary">
+            Featured Videos
+          </h2>
+          <p
+            class="text-center text-lg text-stone-600 dark:text-stone-400 mb-12"
+          >
+            Watch our latest talks, tutorials, and startup stories
+          </p>
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            id="youtube-videos-container"
+          >
+            <!-- Loading placeholder -->
+            <div class="col-span-full text-center py-8">
+              <div
+                class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"
+              ></div>
+              <p class="mt-2 text-gray-600">Loading videos...</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // API Configuration
+      const API_BASE_URL = "http://127.0.0.1:8000/api/auth";
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- LOAD NAVIGATION ---
+        fetch("navigation.html")
+          .then((response) => response.text())
+          .then((html) => {
+            document.getElementById("nav-container").innerHTML = html;
+
+=======
       </main>
     </div>
 
@@ -2046,6 +2719,7 @@
               }
             }, 100);
 
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
             // Load global-auth.js after navigation is loaded
             const authScript = document.createElement("script");
             authScript.src = "global-auth.js";
@@ -2057,6 +2731,267 @@
           })
           .catch((err) => console.error("Navigation load error:", err));
 
+<<<<<<< HEAD
+        // --- SIMPLE LOADER SCRIPT ---
+        // Loader removed - content shows normally
+      });
+
+      // --- ANIMATION ON SCROLL ---
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      document
+        .querySelectorAll(".reveal, .slide-in-left-elem, .slide-in-right-elem")
+        .forEach((el) => {
+          observer.observe(el);
+        });
+
+      // --- COUNTER SCRIPT ---
+      const counters = document.querySelectorAll(".counter");
+      const speed = 200; // The lower the #, the faster the count
+      counters.forEach((counter) => {
+        const updateCount = () => {
+          const target = +counter.getAttribute("data-target");
+          const count = +counter.innerText.replace("+", "");
+          const inc = target / speed;
+          if (count < target) {
+            counter.innerText =
+              Math.ceil(count + inc) +
+              (counter.innerText.includes("+") ? "+" : "");
+            setTimeout(updateCount, 15);
+          } else {
+            counter.innerText =
+              target.toLocaleString() +
+              (counter.innerText.includes("+") ? "+" : "");
+          }
+        };
+        // Start counting when the element is visible
+        const counterObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                updateCount();
+                counterObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+        counterObserver.observe(counter);
+      });
+
+      // --- DECORATIVE IMAGES MOUSE MOVE EFFECT ---
+      const animatedElements = document.querySelectorAll("[data-animation]");
+      window.addEventListener("mousemove", (e) => {
+        const { clientX, clientY } = e;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        animatedElements.forEach((el) => {
+          const speed = parseFloat(el.dataset.speed) || 0;
+          const rotate = parseFloat(el.dataset.rotate) || 0;
+          const x = (clientX - centerX) * speed;
+          const y = (clientY - centerY) * speed;
+          const rotation = (clientX - centerX) * speed * (rotate / 10);
+
+          el.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+        });
+      });
+
+      // --- EVENT CAROUSELS SCRIPT ---
+      function setupCarousel(carouselSection) {
+        const scrollContainer =
+          carouselSection.querySelector(".scroll-container");
+        const prevButton = carouselSection.querySelector(".carousel-prev");
+        const nextButton = carouselSection.querySelector(".carousel-next");
+        const items = carouselSection.querySelectorAll(".carousel-item");
+        const paginationContainer =
+          carouselSection.querySelector(".pagination");
+        let currentIndex = 0;
+
+        // Create pagination dots
+        items.forEach((_, index) => {
+          const dot = document.createElement("button");
+          dot.classList.add("dot", "w-3", "h-3", "rounded-full");
+          dot.classList.toggle("bg-primary", index === 0);
+          dot.classList.toggle("bg-gray-100", index !== 0);
+          dot.addEventListener("click", () => {
+            scrollToItem(index);
+          });
+          paginationContainer.appendChild(dot);
+        });
+
+        const dots = paginationContainer.querySelectorAll(".dot");
+
+        function updateUI() {
+          // Update dots
+          dots.forEach((dot, index) => {
+            dot.classList.toggle("bg-primary", index === currentIndex);
+            dot.classList.toggle("bg-gray-100", index !== currentIndex);
+          });
+          // Update buttons
+          prevButton.disabled = currentIndex === 0;
+          prevButton.classList.toggle("opacity-50", currentIndex === 0);
+          nextButton.disabled = currentIndex === items.length - 1;
+          nextButton.classList.toggle(
+            "opacity-50",
+            currentIndex === items.length - 1
+          );
+        }
+
+        function scrollToItem(index) {
+          const itemWidth = items[0].offsetWidth;
+          const scrollLeft = index * (itemWidth + 24); // 24 is space-x-6
+          scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+          currentIndex = index;
+          updateUI();
+        }
+
+        nextButton.addEventListener("click", () => {
+          if (currentIndex < items.length - 1) {
+            scrollToItem(currentIndex + 1);
+          }
+        });
+
+        prevButton.addEventListener("click", () => {
+          if (currentIndex > 0) {
+            scrollToItem(currentIndex - 1);
+          }
+        });
+
+        // Mouse drag scrolling
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        scrollContainer.addEventListener("mousedown", (e) => {
+          isDown = true;
+          scrollContainer.classList.add("grabbing");
+          startX = e.pageX - scrollContainer.offsetLeft;
+          scrollLeft = scrollContainer.scrollLeft;
+        });
+        scrollContainer.addEventListener("mouseleave", () => {
+          isDown = false;
+          scrollContainer.classList.remove("grabbing");
+        });
+        scrollContainer.addEventListener("mouseup", () => {
+          isDown = false;
+          scrollContainer.classList.remove("grabbing");
+        });
+        scrollContainer.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - scrollContainer.offsetLeft;
+          const walk = (x - startX) * 2; //scroll-fast
+          scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        updateUI(); // Initial setup
+      }
+
+      // Initialize all carousels on the page
+      document
+        .querySelectorAll("#events-carousel-section > div")
+        .forEach(setupCarousel);
+
+      // --- FETCH EVENTS FROM BACKEND ---
+      async function fetchEvents() {
+        try {
+          console.log("Fetching events from backend...");
+
+          // Fetch all event types
+          const [pastRes, recentRes, upcomingRes] = await Promise.all([
+            fetch(`${API_BASE_URL}/events/type/past/`),
+            fetch(`${API_BASE_URL}/events/type/recent/`),
+            fetch(`${API_BASE_URL}/events/type/upcoming/`),
+          ]);
+
+          console.log(
+            "Response status:",
+            pastRes.status,
+            recentRes.status,
+            upcomingRes.status
+          );
+
+          const pastData = await pastRes.json();
+          const recentData = await recentRes.json();
+          const upcomingData = await upcomingRes.json();
+
+          console.log("Past events:", pastData);
+          console.log("Recent events:", recentData);
+          console.log("Upcoming events:", upcomingData);
+
+          // Extract results array from response
+          const pastEvents = pastData.results || [];
+          const recentEvents = recentData.results || [];
+          const upcomingEvents = upcomingData.results || [];
+
+          // Update carousels with fetched data
+          if (pastEvents.length > 0) {
+            console.log("Updating past events carousel");
+            updateEventCarousel(
+              "#events-carousel-section > div:nth-child(1) .scroll-container",
+              pastEvents,
+              "past"
+            );
+          }
+          if (recentEvents.length > 0) {
+            console.log("Updating recent events carousel");
+            updateEventCarousel(
+              "#events-carousel-section > div:nth-child(2) .scroll-container",
+              recentEvents,
+              "recent"
+            );
+          }
+          if (upcomingEvents.length > 0) {
+            console.log("Updating upcoming events carousel");
+            updateEventCarousel(
+              "#events-carousel-section > div:nth-child(3) .scroll-container",
+              upcomingEvents,
+              "upcoming"
+            );
+          }
+
+          // Reinitialize carousels after updating
+          document
+            .querySelectorAll("#events-carousel-section > div")
+            .forEach(setupCarousel);
+
+          console.log("Events loaded successfully!");
+        } catch (error) {
+          console.error("Error fetching events:", error);
+          console.error("Error details:", error.message);
+        }
+      }
+
+      function updateEventCarousel(selector, events, type) {
+        const container = document.querySelector(selector);
+        if (!container) return;
+
+        container.innerHTML = events
+          .map((event) => {
+            const buttonText =
+              type === "past"
+                ? "Watch Highlights"
+                : type === "recent"
+                ? "View Photos / Replay"
+                : "Register Now";
+            const grayscale = type === "past" ? "filter grayscale" : "";
+            const bgClass = type === "upcoming" ? "bg-[#007fff]" : "";
+
+            // Admin edit URL
+            const adminEditUrl = `http://localhost:8000/admin/authentication/event/${event.id}/change/`;
+            const eventDetailUrl = event.registration_url || "#";
+
+            return `
+=======
         // --- LOADER ANIMATION SCRIPT ---
         // Get references to the HTML elements
         const loader = document.getElementById("loader");
@@ -2519,6 +3454,7 @@
               const eventDetailUrl = event.registration_url || "#";
 
               return `
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
               <div class="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden group relative shadow-lg ${bgClass} cursor-pointer"
                    onclick="window.open('${eventDetailUrl}', '_blank')">
                 ${
@@ -2556,6 +3492,34 @@
                 </div>
               </div>
             `;
+<<<<<<< HEAD
+          })
+          .join("");
+      }
+
+      // --- FETCH YOUTUBE VIDEOS FROM BACKEND ---
+      async function fetchYouTubeVideos() {
+        try {
+          console.log("Fetching YouTube videos from backend...");
+
+          const response = await fetch(`${API_BASE_URL}/youtube-videos/`);
+          console.log("YouTube videos response status:", response.status);
+
+          const data = await response.json();
+          console.log("YouTube videos data:", data);
+
+          const videos = data.videos || [];
+
+          const container = document.getElementById("youtube-videos-container");
+          if (!container) {
+            console.error("YouTube videos container not found!");
+            return;
+          }
+
+          if (videos.length === 0) {
+            console.log("No videos available");
+            container.innerHTML = `
+=======
             })
             .join("");
         }
@@ -2584,10 +3548,34 @@
             if (videos.length === 0) {
               console.log("No videos available");
               container.innerHTML = `
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 <div class="col-span-full text-center py-8 text-gray-600">
                   <p>No videos available at the moment.</p>
                 </div>
               `;
+<<<<<<< HEAD
+            return;
+          }
+
+          console.log(`Displaying ${videos.length} videos`);
+
+          // Display videos in uniform rectangular cards
+          container.innerHTML = videos
+            .map((video) => {
+              // Extract video ID from URL or use provided video_id
+              const videoId = video.video_id;
+              const embedUrl =
+                video.video_type === "short"
+                  ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1`
+                  : `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&modestbranding=1`;
+
+              // Admin edit URL
+              const adminEditUrl = `http://localhost:8000/admin/authentication/youtubevideo/${video.id}/change/`;
+              const youtubeWatchUrl =
+                video.watch_url || `https://www.youtube.com/watch?v=${videoId}`;
+
+              return `
+=======
               return;
             }
 
@@ -2610,6 +3598,7 @@
                   `https://www.youtube.com/watch?v=${videoId}`;
 
                 return `
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-100 group relative cursor-pointer"
                      onclick="window.open('${youtubeWatchUrl}', '_blank')">
                   <!-- Edit Button (Admin Only) -->
@@ -2691,6 +3680,18 @@
                   </div>
                 </div>
               `;
+<<<<<<< HEAD
+            })
+            .join("");
+
+          console.log("YouTube videos loaded successfully!");
+        } catch (error) {
+          console.error("Error fetching YouTube videos:", error);
+          console.error("Error details:", error.message);
+          const container = document.getElementById("youtube-videos-container");
+          if (container) {
+            container.innerHTML = `
+=======
               })
               .join("");
 
@@ -2703,11 +3704,23 @@
             );
             if (container) {
               container.innerHTML = `
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
                 <div class="col-span-full text-center py-8 text-red-600">
                   <p>Error loading videos. Please try again later.</p>
                   <p class="text-sm mt-2">Error: ${error.message}</p>
                 </div>
               `;
+<<<<<<< HEAD
+          }
+        }
+      }
+
+      // Load data from backend
+      console.log("Initializing backend connections...");
+      console.log("API Base URL:", API_BASE_URL);
+      fetchEvents();
+      fetchYouTubeVideos();
+=======
             }
           }
         }
@@ -2718,6 +3731,7 @@
         fetchEvents();
         fetchYouTubeVideos();
       }
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
 
       // --- COMMUNITY MODAL FUNCTIONALITY ---
       const communityBtn = document.getElementById("community-btn");
@@ -2768,6 +3782,8 @@
         });
       }
 
+<<<<<<< HEAD
+=======
       // --- CONTACT US BUTTON FUNCTIONALITY ---
       const contactBtn = document.getElementById("contact-btn");
       if (contactBtn) {
@@ -2783,6 +3799,7 @@
         });
       }
 
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
       // Authentication logic - runs after navigation loads
       setTimeout(() => {
         updateAuthUI();
@@ -2831,6 +3848,8 @@
         }
       }
     </script>
+<<<<<<< HEAD
+=======
     <footer id="footer" class="bg-black text-white">
       <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -2994,5 +4013,6 @@
         </div>
       </div>
     </footer>
+>>>>>>> 087f5a66c67587b0a8935ba22610dd80601dfc3b
   </body>
 </html>
