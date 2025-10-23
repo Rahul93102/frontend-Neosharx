@@ -1,0 +1,16 @@
+# Dependencies
+/node_modules
+
+# Build folder
+/dist
+/build
+
+# Mac junk
+.DS_Store
+
+# Backup files (I see .bak files in your list)
+*.bak
+
+# Environment variables
+.env
+.env.local
