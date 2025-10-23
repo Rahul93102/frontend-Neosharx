@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="./dist/output.css" rel="stylesheet" />
     <script>
       tailwind.config = {
         darkMode: "class",
@@ -310,8 +310,7 @@
             </div>
           </div>
         </div>
-
-ple        <!-- Content Container (Back to max-w-4xl) -->
+        <!-- Content Container (Back to max-w-4xl) -->
         <div class="max-w-4xl mx-auto">
           <!-- Loading State -->
           <div id="loadingState" class="text-center py-12">
@@ -360,7 +359,7 @@ ple        <!-- Content Container (Back to max-w-4xl) -->
     </div>
 
     <script>
-      const API_BASE_URL = "http://localhost:8001";
+      const API_BASE_URL = "https://neosharx-backend-1.onrender.com";
       let allStories = [];
       let originalStories = [];
 
