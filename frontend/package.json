@@ -16,7 +16,12 @@
     "serve": "python3 -m http.server 8000",
     "test": "echo \"No tests specified\" && exit 0"
   },
-  "keywords": ["neosharx", "frontend", "web", "application"],
+  "keywords": [
+    "neosharx",
+    "frontend",
+    "web",
+    "application"
+  ],
   "author": "NeoSharX Team",
   "license": "MIT",
   "devDependencies": {

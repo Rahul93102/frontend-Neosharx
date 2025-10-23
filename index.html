@@ -1895,7 +1895,7 @@
 
     <script>
       // API Configuration
-      const API_BASE_URL = "http://127.0.0.1:8001/api/auth";
+      const API_BASE_URL = "https://neosharx-backend.onrender.com/api/auth";
 
       // FIRST: Check for auth data from OAuth callback (passed via URL)
       (function () {
@@ -2491,7 +2491,7 @@
               const bgClass = type === "upcoming" ? "bg-[#007fff]" : "";
 
               // Admin edit URL
-              const adminEditUrl = `http://localhost:8001/admin/authentication/event/${event.id}/change/`;
+              const adminEditUrl = `https://neosharx-backend.onrender.com/admin/authentication/event/${event.id}/change/`;
               const eventDetailUrl = event.registration_url || "#";
 
               return `
@@ -2580,7 +2580,7 @@
                     : `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&modestbranding=1`;
 
                 // Admin edit URL
-                const adminEditUrl = `http://localhost:8001/admin/authentication/youtubevideo/${video.id}/change/`;
+                const adminEditUrl = `https://neosharx-backend.onrender.com/admin/authentication/youtubevideo/${video.id}/change/`;
                 const youtubeWatchUrl =
                   video.watch_url ||
                   `https://www.youtube.com/watch?v=${videoId}`;

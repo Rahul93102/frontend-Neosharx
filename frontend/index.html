@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NeoSharX - Innovation Unleashed</title>
-    <link href="./dist/output.css" rel="stylesheet" />
+    <link href="/dist/output.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
@@ -1963,7 +1963,7 @@
         });
 
         // --- LOAD NAVIGATION ---
-        fetch("navigation.html")
+        fetch("/navigation.html")
           .then((res) => res.text())
           .then((html) => {
             document.getElementById("nav-container").innerHTML = html;
@@ -2024,7 +2024,7 @@
 
             // Load global-auth.js after navigation is loaded
             const authScript = document.createElement("script");
-            authScript.src = "global-auth.js";
+            authScript.src = "/global-auth.js";
             authScript.onload = () =>
               console.log("Global auth loaded successfully");
             authScript.onerror = () =>
@@ -2410,11 +2410,35 @@
           try {
             console.log("Fetching events from backend...");
 
-            // Fetch all event types
+            // Fetch all event types with CORS headers
+            const fetchOptions = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              mode: "cors",
+            };
+
             const [pastRes, recentRes, upcomingRes] = await Promise.all([
-              fetch(`${API_BASE_URL}/events/type/past/`),
-              fetch(`${API_BASE_URL}/events/type/recent/`),
-              fetch(`${API_BASE_URL}/events/type/upcoming/`),
+              fetch(`${API_BASE_URL}/events/type/past/`, fetchOptions).catch(
+                (err) => {
+                  console.error("Error fetching past events:", err);
+                  return { ok: false, status: 0 };
+                }
+              ),
+              fetch(`${API_BASE_URL}/events/type/recent/`, fetchOptions).catch(
+                (err) => {
+                  console.error("Error fetching recent events:", err);
+                  return { ok: false, status: 0 };
+                }
+              ),
+              fetch(
+                `${API_BASE_URL}/events/type/upcoming/`,
+                fetchOptions
+              ).catch((err) => {
+                console.error("Error fetching upcoming events:", err);
+                return { ok: false, status: 0 };
+              }),
             ]);
 
             console.log(
@@ -2424,9 +2448,22 @@
               upcomingRes.status
             );
 
-            const pastData = await pastRes.json();
-            const recentData = await recentRes.json();
-            const upcomingData = await upcomingRes.json();
+            if (!pastRes.ok && !recentRes.ok && !upcomingRes.ok) {
+              console.warn(
+                "Could not fetch events from backend - backend may be down or CORS misconfigured"
+              );
+              return;
+            }
+
+            let pastData = {},
+              recentData = {},
+              upcomingData = {};
+
+            if (pastRes.ok) pastData = await pastRes.json().catch(() => ({}));
+            if (recentRes.ok)
+              recentData = await recentRes.json().catch(() => ({}));
+            if (upcomingRes.ok)
+              upcomingData = await upcomingRes.json().catch(() => ({}));
 
             console.log("Past events:", pastData);
             console.log("Recent events:", recentData);
@@ -2541,7 +2578,29 @@
           try {
             console.log("Fetching YouTube videos from backend...");
 
-            const response = await fetch(`${API_BASE_URL}/youtube-videos/`);
+            const fetchOptions = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              mode: "cors",
+            };
+
+            const response = await fetch(
+              `${API_BASE_URL}/youtube-videos/`,
+              fetchOptions
+            ).catch((err) => {
+              console.error("Fetch error:", err);
+              throw err;
+            });
+
+            if (!response.ok) {
+              console.warn(
+                `YouTube videos API returned status ${response.status}`
+              );
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             console.log("YouTube videos response status:", response.status);
 
             const data = await response.json();

@@ -5,6 +5,7 @@ A modern, responsive web application for the NeoSharX platform featuring tech ne
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js (v14 or higher)
 - npm (v6 or higher)
 - Python 3 (for local server)
@@ -12,21 +13,25 @@ A modern, responsive web application for the NeoSharX platform featuring tech ne
 ### Installation
 
 1. Clone the repository and navigate to the frontend directory:
+
 ```bash
 cd frontend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Build the CSS and assets:
+
 ```bash
 npm run build
 ```
 
 4. Start the development server:
+
 ```bash
 npm start
 ```
@@ -55,21 +60,22 @@ frontend/
 
 ## 📦 Build Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start dev server on port 8000 |
-| `npm run build` | Full production build (CSS + copy files) |
-| `npm run build-css-prod` | Minified CSS production build |
-| `npm run build-css` | Watch mode CSS building (dev) |
-| `npm run dev` | Build CSS and start server |
-| `npm run clean` | Remove dist/ folder |
-| `npm run serve` | Start HTTP server |
+| Command                  | Description                              |
+| ------------------------ | ---------------------------------------- |
+| `npm start`              | Start dev server on port 8000            |
+| `npm run build`          | Full production build (CSS + copy files) |
+| `npm run build-css-prod` | Minified CSS production build            |
+| `npm run build-css`      | Watch mode CSS building (dev)            |
+| `npm run dev`            | Build CSS and start server               |
+| `npm run clean`          | Remove dist/ folder                      |
+| `npm run serve`          | Start HTTP server                        |
 
 ## 🌐 Deployment
 
 ### Production Build
 
 1. Create a production build:
+
 ```bash
 npm run build
 ```
@@ -79,11 +85,13 @@ npm run build
 ### Deployment to Vercel
 
 1. Install Vercel CLI:
+
 ```bash
 npm install -g vercel
 ```
 
 2. Deploy:
+
 ```bash
 vercel
 ```
@@ -93,6 +101,7 @@ vercel
 ### Deployment Configuration
 
 The `vercel.json` file includes:
+
 - Build command: `npm run build`
 - Output directory: `dist`
 - CORS headers configuration
@@ -102,17 +111,20 @@ The `vercel.json` file includes:
 ### Environment Variables
 
 Set in your deployment platform:
+
 - `VITE_API_BASE_URL`: Backend API URL (default: `https://neosharx-backend-1.onrender.com/api/auth`)
 
 ## 🔒 CORS Configuration
 
 The frontend is configured to work with the NeoSharX backend. Ensure your backend has CORS enabled for:
+
 - Events API: `/api/auth/events/type/{past,recent,upcoming}/`
 - YouTube Videos API: `/api/auth/youtube-videos/`
 
 ### Deployment Options
 
 #### Static Hosting
+
 - **Vercel**: Connected to this GitHub repository (recommended)
 - **Netlify**: Drag and drop the `dist/` folder
 - **GitHub Pages**: Deploy static files from `dist/`
@@ -121,6 +133,7 @@ The frontend is configured to work with the NeoSharX backend. Ensure your backen
 - **AWS S3**: Upload the `dist/` folder and enable static website hosting
 
 #### Traditional Web Server
+
 - Upload the `dist/` folder contents to your web server's public directory
 - Ensure your server can serve static files
 - Configure proper MIME types for CSS and JS files
@@ -158,11 +171,14 @@ frontend/
 ## 🔧 Configuration
 
 ### Environment Variables
+
 The application uses the following API endpoints (configurable in JS files):
+
 - Backend API: `http://localhost:8001/api/`
 - Authentication: `http://localhost:8001/api/auth/`
 
 ### Tailwind CSS
+
 The project uses Tailwind CSS for styling. Configuration is in `tailwind.config.js`.
 
 ## 🌐 Features
